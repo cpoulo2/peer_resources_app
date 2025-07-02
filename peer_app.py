@@ -127,17 +127,18 @@ if 'df_filtered' in locals() and not df_filtered.empty:
 
    # Determine which values to display based on button state
    if st.session_state.show_per_pupil:
-       display_adequate = adequate_per_pupil
-       display_actual = actual_per_pupil
-       display_gap = gap_per_pupil
-       currency_format = "${:,.0f}"
-       chart_title_suffix = " (Per Pupil)"
+      display_adequate = adequate_per_pupil
+      display_actual = actual_per_pupil
+      display_gap = gap_per_pupil
+      currency_format = "${:,.0f}"
+      chart_title_suffix = " (Per Pupil)"
    else:
-       display_adequate = adequate_resources
-       display_actual = actual_resources
-       display_gap = adequate_resources - actual_resources
-       currency_format = "${:,.0f}"
-       chart_title_suffix = ""
+      display_adequate = adequate_resources
+      display_actual = actual_resources
+      display_gap = adequate_resources - actual_resources
+      currency_format = "${:,.0f}"
+      chart_title_suffix = ""
+
 # CSS styles for the columns
    st.markdown("""
    <style>
@@ -277,28 +278,115 @@ if 'df_filtered' in locals() and not df_filtered.empty:
 
    #st.plotly_chart(fig, use_container_width=True)
 
-    # Display the chart spanning col1 and col2
-#   col1_col2 = st.columns([2, 1])  # 2/3 width for chart, 1/3 for gap column
-#   with col1_col2[0]:
-#     st.plotly_chart(fig, use_container_width=True)
-
-   # Add per pupil button to change the chart.
-   # If clicked the data for the chart and adequacy-dollars will use per pupil values
-   # The button will then display View Total Funding
-
 # Create an expandable container to show adequacy gaps in terms of positions per school
 with st.expander("Adequacy Gaps by Position"):
-    st.text("Add a expandable container to show what that means in terms of particular resources per school")
+   
+   # Create a drop down menue that filters by resource types:
+   resource_filter = st.selectbox("Select Resource Type", options=[
+       "Core and Specialist Teachers",
+       "Special Education Teachers",
+       "Counselors",
+       "Nurses",
+       "Psychologists",
+       "Principals",
+       "Assistant Principals",
+       "EL Teachers"
+   ])   
+   
+   # Filter the dataframe based on the selected resource type
 
-st.text("Add another expandable box to show current local resources.")
+   df_resource = df_filtered[df_filtered["Resource"] == resource_filter]
+
+   # Get the adequacy gap per school for the selected resource type
+
+   adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
+   
+   st.text(f"This is the {resource_filter} and this is the adequacy gap per school: {adequacy_gap_per_school:.2f} positions per school.") 
 
 with st.expander("Revenue by source"):
-    st.text("Add a expandable container to show what that means in terms of particular resources per school")
-
-st.text("Add a dropdown to show demographics of the district")
-
+    
+   df_rev = df_filtered[df_filtered["Revenue Source"].isin(['Local Property Taxes', 
+                                                            'Other Local Funding',
+                                                            'Evidence-Based Funding', 
+                                                            'Other State Funding', 
+                                                            'Federal Funding'])]
+    
+    # Create a bar chart for revenue sources
+   fig_rev = px.bar(
+      df_rev, 
+      x='Revenue Source', 
+      y='Revenue Percentages',
+      color='Revenue Source',
+      color_discrete_sequence=px.colors.qualitative.Pastel,
+      labels={'Revenue Percentages': 'Percent of Total Revenue (%)', 'Revenue Source': ''},
+      text='Revenue Percentages',
+      title="Revenue Sources"
+   )
+      # Format the chart
+   fig_rev.update_traces(
+      # Format the text labels to show percentages
+      texttemplate='%{text:.0%}',
+      textposition='outside'
+   )
+   fig_rev.update_layout(
+      showlegend=False,
+      title_x=0.5,
+      title_font_size=20,
+      xaxis_title="",
+      yaxis_title="Percent of Total Revenue (%)",
+      yaxis=dict(tickformat='&,.0f'),
+      height=500,        
+      transition_duration=1000,
+      transition_easing="cubic-in-out"
+   )
+   st.plotly_chart(fig_rev, use_container_width=True)
+    
 with st.expander("Demographics"):
-    st.text("Add a expandable container to show what that means in terms of particular resources per school")
+
+   # Filter the dataframe for demographics
+   df_demo = df_filtered[df_filtered["Demographic Group"].isin(['White',
+                                                                'Black',
+                                                                'Latine',
+                                                                'Asian',
+                                                                'Native Hawaiian or Other Pacific Islander',
+                                                                'American Indian or Alaska Native', 
+                                                                'Two or more races',
+                                                                'Middle Eastern or North African', 
+                                                                'IEP', 
+                                                                'EL', 
+                                                                'Low Income'])]
+   
+   # Create a bar chart for demographics
+   fig_demo = px.bar(
+       df_demo, 
+       x='Demographic Group', 
+       y='Demographic Percentages',
+       color='Demographic Group',
+       color_discrete_sequence=px.colors.qualitative.Pastel,
+       labels={'Demographic Percentages': 'Percentage of Students (%)', 'Demographic Group': ''},
+       text='Demographic Percentages',
+       title="Student Demographics"
+   )
+    
+   # Format the chart
+   fig_demo.update_traces(
+       texttemplate='%{text:.0%}',
+       textposition='outside'
+   )
+   
+   fig_demo.update_layout(
+       showlegend=False,
+       title_x=0.5,
+       title_font_size=20,
+       xaxis_title="",
+       yaxis_title="Percentage of Students (%)",
+       yaxis=dict(tickformat='.0%'),
+       height=500,
+       transition_duration=1000,
+       transition_easing="cubic-in-out"
+   )
+   
+   st.plotly_chart(fig_demo, use_container_width=True)
 
 
 
