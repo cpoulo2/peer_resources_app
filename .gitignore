@@ -1,0 +1,18 @@
+# Data files
+app_data.csv
+*.csv
+*.xlsx
+*.parquet
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
