@@ -10,6 +10,8 @@
 # Web app {c}
 
     - Build out skeleton
+    - Build out dynamic text and charts
+       - 
     - Design
         - Colors
         - Margins

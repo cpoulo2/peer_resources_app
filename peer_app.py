@@ -13,7 +13,7 @@ st.set_page_config(page_title='Explore your district\'s resource needs', layout=
 def load_data():
     """Load the PEER app CSV"""
     try:
-        df = pd.read_csv(r"app_data.csv")
+        df = pd.read_csv(r"app_data.csv.gz")
         return df
     except FileNotFoundError:
         st.error("Data file not found. Please ensure the CSV file is in the correct location.")
@@ -99,7 +99,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="adequacy-explained-a">💰 Dollars and cents 🪙 of adequate funding</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="adequacy-explained-a">The<br>💰 Dollars and cents 🪙<br>of adequate funding</h1>', unsafe_allow_html=True)
 
 # Adequacy target and gap 
 
