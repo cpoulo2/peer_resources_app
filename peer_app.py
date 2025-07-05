@@ -379,7 +379,9 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    # Format the chart (keep existing formatting code)
    fig.update_traces(
        texttemplate='$%{text:,.0f}',
-       textposition='outside'
+       textposition='outside',
+       hovertemplate=None,  # ✅ Remove hover labels
+       hoverinfo='skip'     # ✅ Disable hover entirely
    )
 
    fig.update_layout(
@@ -438,7 +440,10 @@ with st.expander("Revenue by source"):
    fig_rev.update_traces(
       # Format the text labels to show percentages
       texttemplate='%{text:.0%}',
-      textposition='outside'
+      textposition='outside',
+      hovertemplate=None,  # ✅ Remove hover labels
+      hoverinfo='skip'     # ✅ Disable hover entirely
+   )
    )
    fig_rev.update_layout(
       showlegend=False,
@@ -446,8 +451,9 @@ with st.expander("Revenue by source"):
       title_font_size=20,
       xaxis_title="",
       yaxis_title="Percent of Total Revenue (%)",
-      yaxis=dict(tickformat='.0f'),
-      height=400,        
+      yaxis=dict(tickformat='.0%'),
+      height=400,
+      margin=dict(t=80),        
       transition_duration=500,
       transition_easing="cubic-in-out"
    )
@@ -470,7 +476,9 @@ with st.expander("Demographics"):
    # Format the chart
    fig_demo.update_traces(
        texttemplate='%{text:.0%}',
-       textposition='outside'
+       textposition='outside',
+       hovertemplate=None,  # ✅ Remove hover labels
+       hoverinfo='skip'     # ✅ Disable hover entirely
    )
    
    fig_demo.update_layout(
@@ -480,6 +488,7 @@ with st.expander("Demographics"):
        xaxis_title="",
        yaxis_title="Percentage of Students (%)",
        yaxis=dict(tickformat='.0%'),
+       margin=dict(t=80),
        height=500,
        transition_duration=1000,
        transition_easing="cubic-in-out"
