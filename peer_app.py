@@ -444,7 +444,7 @@ with st.expander("Revenue by source"):
       hovertemplate=None,  # ✅ Remove hover labels
       hoverinfo='skip'     # ✅ Disable hover entirely
    )
-   )
+   
    fig_rev.update_layout(
       showlegend=False,
       title_x=0.5,
