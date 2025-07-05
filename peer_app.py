@@ -445,13 +445,21 @@ with st.expander("Revenue by source"):
       hoverinfo='skip'     # ✅ Disable hover entirely
    )
    
+
+   # ✅ Calculate max value and set y-axis range
+   max_revenue = df_revenue['Revenue Percentages'].max()
+   y_rev_max = max_revenue * 1.1  # 10% higher than max value
+
    fig_rev.update_layout(
       showlegend=False,
       title_x=0.5,
       title_font_size=20,
       xaxis_title="",
       yaxis_title="Percent of Total Revenue (%)",
-      yaxis=dict(tickformat='.0%'),
+      yaxis=dict(
+          tickformat='.0%',
+          range=[0,y_rev_max]
+          ),
       height=400,
       margin=dict(t=80),        
       transition_duration=500,
@@ -481,13 +489,20 @@ with st.expander("Demographics"):
        hoverinfo='skip'     # ✅ Disable hover entirely
    )
    
+   # ✅ Calculate max value and set y-axis range
+   max_demographic = df_demographics['Demographic Percentages'].max()
+   y_demo_max = max_demographic * 1.1  # 10% higher than max value
+
    fig_demo.update_layout(
        showlegend=False,
        title_x=0.5,
        title_font_size=20,
        xaxis_title="",
        yaxis_title="Percentage of Students (%)",
-       yaxis=dict(tickformat='.0%'),
+       yaxis=dict(
+           tickformat='.0%',
+           range=[0,y_demo_max]
+          ),
        margin=dict(t=80),
        height=500,
        transition_duration=1000,
