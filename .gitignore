@@ -1,8 +1,5 @@
 # Data files
 app_data.csv
-*.csv
-*.xlsx
-*.parquet
 
 # Python cache
 __pycache__/
