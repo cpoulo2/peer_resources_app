@@ -11,22 +11,181 @@ st.set_page_config(page_title='Explore your district\'s resource needs', layout=
 # Load data
 @st.cache_data
 def load_data():
-    """Load the PEER app CSV"""
+    """Load the PEER app parquet file"""
     try:
-        df = pd.read_csv(r"app_data.csv.gz")
+        df = pd.read_parquet(r"app_data_wide.parquet")
         return df
     except FileNotFoundError:
-        st.error("Data file not found. Please ensure the CSV file is in the correct location.")
+        st.error("Data file not found. Please ensure the parquet file is in the correct location.")
+        return None
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
         return None
 
 # Load the data
 df = load_data()
 
-# Add per pupil button to toggle between total and per pupil funding
-# Initialize session state for button toggle
-if 'show_per_pupil' not in st.session_state:
-    st.session_state.show_per_pupil = False
+@st.cache_data
+def process_filtered_data(district_name):
+    """Cache filtered data processing"""
+    df_filtered = df[df['District Name (IRC)'] == district_name]
+    return df_filtered
 
+@st.cache_data  
+def calculate_funding_metrics(df_filtered):
+    
+    # Adequacy and actuals melt
+    
+    df_adequacy = pd.melt(
+        df_filtered,
+        id_vars=["RCDTS","District Name (IRC)","Total ASE"],  # ✅ Total ASE is here
+        value_vars=[
+            "Adequacy Target",
+            "Adequacy Target Per Student",
+            "Adequate Core and Specialist Teachers",
+            "Adequate Special Education Teachers",
+            "Adequate Counselors",
+            "Adequate Nurses",
+            "Adequate Psychologists",
+            "Adequate Principals",
+            "Adequate Assistant Principals",
+            "Adequate EL Teachers"
+            ],
+            var_name="Resource",
+            value_name="Adequate resources"
+            )
+    df_adequacy["Resource"] = df_adequacy["Resource"].str.replace("Adequate ", "", regex=False)
+    df_adequacy["Resource"] = df_adequacy["Resource"].str.replace("Adequacy Target", "Total Resources (Dollar Amount)", regex=False)
+    df_adequacy["Resource"] = df_adequacy["Resource"].str.replace("Adequate Target Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
+    
+    df_actual = pd.melt(
+        df_filtered,
+        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        value_vars=[
+            "Actual Resources",
+            "Actual Core and Specialist Teachers Count (EIS)",
+            "Actual Special Education Teachers Count (EIS)",
+            "Actual Counselors Count (IRC)",
+            "Actual Nurses Count (IRC)",
+            "Actual Psychologists Count (IRC)",
+            "Actual Principals Count (EIS)",
+            "Actual Assistant Principals Count (EIS)",
+            "Actual EL Teachers (EIS)"
+        ],
+        var_name="Resource",
+        value_name="Actual"
+        )
+    df_actual["Resource"] = df_actual["Resource"].str.replace("Actual ", "", regex=False)
+    df_actual["Resource"] = df_actual["Resource"].str.replace(" Count (EIS)", "", regex=False)
+    df_actual["Resource"] = df_actual["Resource"].str.replace(" (EIS)", "", regex=False)
+    df_actual["Resource"] = df_actual["Resource"].str.replace(" Count (IRC)", "", regex=False)
+    df_actual["Resource"] = df_actual["Resource"].str.replace("Resources", "Total Resources (Dollar Amount)", regex=False)
+    df_actual["Resource"] = df_actual["Resource"].str.replace("Resources Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
+    
+    df_gaps = pd.melt(
+        df_filtered,
+        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        value_vars=[
+             "Adequacy Funding Gap",
+            "Adequacy Funding Gap Per Student",
+            "Core and Specialist Teachers Gap (EIS)",
+            "Special Education Teachers Gap (EIS)",
+            "Counselors Gap (IRC)",
+            "Nurses Gap (IRC)",
+            "Psychologists Gap (IRC)",
+            "Principals Gap (EIS)",
+            "Assistant Principals Gap (EIS)",
+            "EL Teachers Gap (EIS)"
+        ],
+        var_name="Resource",
+        value_name="Gaps"
+        )
+    df_gaps["Resource"] = df_gaps["Resource"].str.replace("Adequacy Funding Gap", "Total Resources (Dollar Amount)", regex=False)
+    df_gaps["Resource"] = df_gaps["Resource"].str.replace("Adequacy Funding Gap Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
+    df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (EIS)", "", regex=False)
+    df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (IRC)", "", regex=False)
+    
+    df_gaps_perschool = pd.melt(
+        df_filtered,
+        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        value_vars=[
+             "Adequacy Funding Gap Per School",
+            "Core and Specialist Teachers Gap Per School",
+            "Special Education Teachers Gap Per School",
+            "Counselors Gap Per School",
+            "Nurses Gap Per School",
+            "Psychologists Gap Per School",
+            "Principals Gap Per School",
+            "Assistant Principals Gap Per School",
+            "EL Teachers Gap Per School"
+        ],
+        var_name="Resource",
+        value_name="Gaps Per School"
+        )
+    df_gaps_perschool["Resource"] = df_gaps_perschool["Resource"].str.replace(" Gap Per School", "", regex=False)
+
+    # Update merge keys to include Total ASE
+    df_merged = pd.merge(
+        df_adequacy,
+        df_actual,
+        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        how="left"
+    )
+
+    df_merged = pd.merge(
+        df_merged,
+        df_gaps,
+        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        how="left"
+    )
+
+    df_merged = pd.merge(
+        df_merged,
+        df_gaps_perschool,
+        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        how="left"
+    )
+
+    df_demographics = pd.melt(
+    df_filtered,
+    id_vars=["RCDTS", "District Name (IRC)", "Total ASE"],
+    value_vars=[
+        "White (%)", "Black (%)", "Latine (%)", "Asian (%)",
+        "Native Hawaiian or Other Pacific Islander (%)",
+        "American Indian or Alaska Native (%)","IEP (%)", "EL (%)", "Low Income (%)"
+    ],
+    var_name="Demographic Group",
+    value_name="Demographic Percentages"
+    )
+
+    df_demographics["Demographic Group"] = df_demographics["Demographic Group"].str.replace(" (%)", "", regex=False)
+
+    # Revenue melt
+    df_revenue = pd.melt(
+        df_filtered,
+        id_vars=["RCDTS"],
+        value_vars=[
+             "Local Property Taxes (%)", "Other Local Funding (%)", 
+            "Evidence-Based Funding (%)", "Other State Funding (%)", 
+            "Federal Funding (%)"
+        ],
+        var_name="Revenue Source",
+        value_name="Revenue Percentages"
+        )
+    
+    df_revenue["Revenue Source"] = df_revenue["Revenue Source"].str.replace(" (%)", "", regex=False)
+
+    """Cache funding calculations"""
+    resource_filter = "Total Resources (Dollar Amount)"
+    df_resource = df_merged[df_merged["Resource"] == resource_filter]
+    # Get the actual and adequate resources
+    actual_resources = df_resource["Actual"].iloc[0]
+    adequate_resources = df_resource["Adequate resources"].iloc[0]
+    ase = df_resource["Total ASE"].iloc[0]
+    
+    return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue
+
+# Move this to the top, after loading data
 st.markdown("""
 <style>
    .header-title {
@@ -37,30 +196,6 @@ st.markdown("""
       margin-bottom: 30px !important;    
       padding: 0
    }
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown('<h1 class="header-title">Select a district to look at school resources</h1>', unsafe_allow_html=True)
-
-# Only show the sidebar if data loaded successfully
-if df is not None:
-    
-    # Get unique districts and set default to "Statewide"
-    districts = df['District Name (IRC)'].unique()
-    default_index = 0
-    if "Statewide" in districts:
-        default_index = list(districts).index("Statewide")
-    
-    a = st.selectbox('Choose a district:', districts, index=default_index, help= "Select your district using the drop down or typing in the name.")
-
-    df_filtered = df[df['District Name (IRC)'] == a]
-
-# Adequacy level
-
-adequacy_level = df_filtered["Adequacy Level"].unique()[0]
-
-st.markdown("""
-<style>
    .adequacy-level {
       font-size: 24px !important;
       text-align: center !important;
@@ -68,8 +203,80 @@ st.markdown("""
       vertical-align: middle !important; 
       margin: 20px 0 !important;
    }
+   .adequacy-explained {
+      font-size: 18px !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      margin-bottom: 30px !important; 
+      font-style: italic !important;
+   }
+   .adequacy-explained-a {
+      font-size: 24px !important;
+      text-align: center !important;
+      font-weight: bold !important;
+      vertical-align: middle !important;    
+      padding: 0
+   }
+   .adequacy-dollars-title {
+      color: #333 !important;
+      text-align: center !important;
+      font-size: 18px !important;
+   }
+   .adequacy-dollars-amount {
+      color: #333 !important;
+      text-align: center !important;
+      font-size: 32px !important;
+      font-weight: bold !important;
+      margin-bottom: 5px !important;
+   }
+   .gap-positive {
+      color: #FF0000 !important;
+      text-align: center !important;
+      font-size: 32px !important;
+      font-weight: bold !important;
+      margin-bottom: 5px !important;
+   }        
+   .gap-negative {
+      color: #008000 !important;
+      text-align: center !important;
+      font-size: 32px !important;
+      font-weight: bold !important;
+      margin-bottom: 5px !important;
+   }
+   .stButton {
+      display: flex !important;
+      justify-content: center !important;
+   }
+   .stButton > button {
+      margin-bottom: 20px !important;
+   }   
 </style>
 """, unsafe_allow_html=True)
+
+# Add per pupil button to toggle between total and per pupil funding
+# Initialize session state for button toggle
+if 'show_per_pupil' not in st.session_state:
+    st.session_state.show_per_pupil = False
+
+st.markdown('<h1 class="header-title">Select a district to look at school resources</h1>', unsafe_allow_html=True)
+
+# Only show the sidebar if data loaded successfully
+if df is not None:
+    
+   # Get unique districts and set default to "Statewide"
+   districts = df['District Name (IRC)'].unique()
+   default_index = 0
+   if "Statewide" in districts:
+       default_index = list(districts).index("Statewide")
+    
+   a = st.selectbox('Choose a district:', districts, index=default_index, help= "Select your district using the drop down or typing in the name.")
+
+   # Use cached function instead of direct filtering
+   df_filtered = process_filtered_data(a)
+
+# Adequacy level
+
+adequacy_level = df_filtered["Adequacy Level"].unique()[0]
 
 if a == "Statewide":
     st.markdown(f'<h2 class="adequacy-level"><span style="font-size: 32px; font-weight: bold; color: #FF0000;">Illinois school districts</span> have <span style="font-size: 32px; font-weight: bold; color: #FF0000;">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
@@ -78,31 +285,7 @@ elif adequacy_level <= 1:
 else:
    st.markdown(f'<h2 class="adequacy-level"><span style="font-size: 32px; font-weight: bold; color: #008000;">{a}</span> has <span style="font-size: 32px; font-weight: bold; color: #008000;">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-   .adequacy-explained {
-      font-size: 18px !important;
-      text-align: center !important;
-      vertical-align: middle !important;
-      margin-bottom: 30px !important; 
-      font-style: italic !important;
-   }
-</style>
-""", unsafe_allow_html=True)
-
 st.markdown('<h2 class="adequacy-explained">[SHORTEN TEXT/ADD PHONE SPECIFIC CHANGE] Adequate funding is the total cost of resources necessary to educate students, this includes things like teachers, support staff, computer equipment, and professional development to improve teaching. This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-   .adequacy-explained-a {
-      font-size: 24px !important;
-      text-align: center !important;
-      font-weight: bold !important;
-      vertical-align: middle !important;    
-      padding: 0
-   }
-</style>
-""", unsafe_allow_html=True)
 
 st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and cents of adequate funding 🪙</h1>', unsafe_allow_html=True)
 
@@ -111,16 +294,9 @@ st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and cents of adeq
 # Create animated bar chart comparing actual vs adequate resources
 if 'df_filtered' in locals() and not df_filtered.empty:
    # First filter by the value "Total Resources (Dollar Amount)"
-   resource_filter = "Total Resources (Dollar Amount)"
-   df_resource = df_filtered[df_filtered["Resource"] == resource_filter]
-    
-   # Get the financial data for the chart
-   actual_resources = df_resource["Actual"].iloc[0]
-   adequate_resources = df_resource["Adequate resources"].iloc[0]
 
-   # Get ASE to create per pupil counts
-   ase = df_resource["Total ASE"].iloc[0]
-   
+   actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue = calculate_funding_metrics(df_filtered)
+   # Calculate per pupil values
    actual_per_pupil = actual_resources / ase if ase > 0 else 0
    adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
    gap_per_pupil = adequate_per_pupil - actual_per_pupil
@@ -138,25 +314,6 @@ if 'df_filtered' in locals() and not df_filtered.empty:
       display_gap = adequate_resources - actual_resources
       currency_format = "${:,.0f}"
       chart_title_suffix = ""
-
-# CSS styles for the columns
-   st.markdown("""
-   <style>
-      .adequacy-dollars-title {
-         color: #333 !important;
-         text-align: center !important;
-         font-size: 18px !important;
-      }
-      .adequacy-dollars-amount {
-         color: #333 !important;
-         text-align: center !important;
-         font-size: 32px !important;
-         font-weight: bold !important;
-         margin-bottom: 0px !important;
-      }
-   </style>
-   """, unsafe_allow_html=True)
-
 
    # Update the metrics with dynamic values - Create 5 columns to add + signs
    col1, plus1, col2, plus2, col3 = st.columns([3, 0.5, 3, 0.5, 3])
@@ -180,45 +337,6 @@ if 'df_filtered' in locals() and not df_filtered.empty:
        # Add some vertical spacing to align with the dollar amounts
        st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
        st.markdown('<h2 style="text-align: center; color: #FF0000; font-size: 64px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
-
-# CSS styles for the columns
-   st.markdown("""
-   <style>
-      .adequacy-dollars-title {
-         color: #333 !important;
-         text-align: center !important;
-         font-size: 18px !important;
-      }
-      .adequacy-dollars-amount {
-         color: #333 !important;
-         text-align: center !important;
-         font-size: 32px !important;
-         font-weight: bold !important;
-         margin-bottom: 5px !important;
-      }
-      .gap-positive {
-         color: #FF0000 !important;
-         text-align: center !important;
-         font-size: 32px !important;
-         font-weight: bold !important;
-         margin-bottom: 5px !important;
-      }        
-      .gap-negative {
-         color: #008000 !important;
-         text-align: center !important;
-         font-size: 32px !important;
-         font-weight: bold !important;
-         margin-bottom: 5px !important;
-      }
-      .stButton {
-         display: flex !important;
-         justify-content: center !important;
-      }
-      .stButton > button {
-         margin-bottom: 20px !important;
-      }   
-   </style>
-   """, unsafe_allow_html=True)
 
    # Col 3
    with col3:
@@ -271,8 +389,8 @@ if 'df_filtered' in locals() and not df_filtered.empty:
        xaxis_title="",
        yaxis_title=f"Funding Amount ($){chart_title_suffix}",
        yaxis=dict(tickformat='$,.0f'),
-       height=500,
-       transition_duration=1000,
+       height=400,
+       transition_duration=500,
        transition_easing="cubic-in-out"
    )
 
@@ -295,7 +413,7 @@ with st.expander("Adequacy Gaps by Position"):
    
    # Filter the dataframe based on the selected resource type
 
-   df_resource = df_filtered[df_filtered["Resource"] == resource_filter]
+   df_resource = df_merged[df_merged["Resource"] == resource_filter]
 
    # Get the adequacy gap per school for the selected resource type
 
@@ -305,15 +423,9 @@ with st.expander("Adequacy Gaps by Position"):
 
 with st.expander("Revenue by source"):
     
-   df_rev = df_filtered[df_filtered["Revenue Source"].isin(['Local Property Taxes', 
-                                                            'Other Local Funding',
-                                                            'Evidence-Based Funding', 
-                                                            'Other State Funding', 
-                                                            'Federal Funding'])]
-    
     # Create a bar chart for revenue sources
    fig_rev = px.bar(
-      df_rev, 
+      df_revenue, 
       x='Revenue Source', 
       y='Revenue Percentages',
       color='Revenue Source',
@@ -334,31 +446,18 @@ with st.expander("Revenue by source"):
       title_font_size=20,
       xaxis_title="",
       yaxis_title="Percent of Total Revenue (%)",
-      yaxis=dict(tickformat='&,.0f'),
-      height=500,        
-      transition_duration=1000,
+      yaxis=dict(tickformat='.0f'),
+      height=400,        
+      transition_duration=500,
       transition_easing="cubic-in-out"
    )
    st.plotly_chart(fig_rev, use_container_width=True)
     
 with st.expander("Demographics"):
-
-   # Filter the dataframe for demographics
-   df_demo = df_filtered[df_filtered["Demographic Group"].isin(['White',
-                                                                'Black',
-                                                                'Latine',
-                                                                'Asian',
-                                                                'Native Hawaiian or Other Pacific Islander',
-                                                                'American Indian or Alaska Native', 
-                                                                'Two or more races',
-                                                                'Middle Eastern or North African', 
-                                                                'IEP', 
-                                                                'EL', 
-                                                                'Low Income'])]
    
    # Create a bar chart for demographics
    fig_demo = px.bar(
-       df_demo, 
+       df_demographics, 
        x='Demographic Group', 
        y='Demographic Percentages',
        color='Demographic Group',
