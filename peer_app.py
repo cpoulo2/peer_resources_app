@@ -175,7 +175,6 @@ def calculate_funding_metrics(df_filtered):
     
     df_revenue["Revenue Source"] = df_revenue["Revenue Source"].str.replace(" (%)", "", regex=False)
 
-    """Cache funding calculations"""
     resource_filter = "Total Resources (Dollar Amount)"
     df_resource = df_merged[df_merged["Resource"] == resource_filter]
     # Get the actual and adequate resources
@@ -188,6 +187,7 @@ def calculate_funding_metrics(df_filtered):
 # Move this to the top, after loading data
 st.markdown("""
 <style>
+
    .header-title {
       font-size: 24px !important;
       text-align: center !important;
@@ -249,7 +249,48 @@ st.markdown("""
    }
    .stButton > button {
       margin-bottom: 20px !important;
-   }   
+   }
+
+   div[data-testid="stExpander"] summary {
+      background: linear-gradient(90deg, #f0f2f6, #e0e2e6) !important;
+      border-left: 4px solid #4169E1 !important;
+      border-radius: 8px !important;
+      padding: 15px !important;
+      margin: 10px 0 !important;
+      text-align: center !important;
+      border: none !important;
+      outline: none !important;
+   }  
+
+   div[data-testid="stExpander"] summary p {
+      color: #000000 !important;
+      font-weight: bold !important;
+      font-size: 20px !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      display: block !important;
+   }
+
+   /* ✅ Also target the span wrapper */
+   div[data-testid="stExpander"] summary span {
+      text-align: center !important;
+      width: 100% !important;
+      display: block !important;
+   }
+
+   /* ✅ Target the markdown container inside */
+   div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] {
+      text-align: center !important;
+      width: 100% !important;
+   }
+              
+   /* Optional: Style the expander content area */
+   div[data-testid="stExpanderDetails"] {
+      padding: 20px !important;
+      background-color: #fafafa !important;
+      border-radius: 0 0 8px 8px !important;
+   }           
 </style>
 """, unsafe_allow_html=True)
 
@@ -287,7 +328,7 @@ else:
 
 st.markdown('<h2 class="adequacy-explained">[SHORTEN TEXT/ADD PHONE SPECIFIC CHANGE] Adequate funding is the total cost of resources necessary to educate students, this includes things like teachers, support staff, computer equipment, and professional development to improve teaching. This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
 
-st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and cents of adequate funding 🪙</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and Cents of Adequate Funding 🪙</h1>', unsafe_allow_html=True)
 
 # Adequacy target and gap 
 
@@ -397,9 +438,10 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    )
 
    #st.plotly_chart(fig, use_container_width=True)
+   
 
 # Create an expandable container to show adequacy gaps in terms of positions per school
-with st.expander("Adequacy Gaps by Position"):
+with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
    
    # Create a drop down menue that filters by resource types:
    resource_filter = st.selectbox("Select Resource Type", options=[
