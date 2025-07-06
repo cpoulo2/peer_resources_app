@@ -258,10 +258,9 @@ st.markdown("""
       margin: 20px 0 !important;
    }
    .adequacy-explained {
-      font-size: 18px !important;
-      color: red;
+      font-size: 14px !important;
       font-family: Poppins !important;
-	  font-weight: 700;
+	  font-weight: normal;
       text-align: center !important;
       vertical-align: middle !important;
       margin-bottom: 30px !important; 
@@ -359,7 +358,7 @@ elif adequacy_level <= 1:
 else:
     st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 
-st.markdown('<h2 class="adequacy-explained">[SHORTEN TEXT/ADD PHONE SPECIFIC CHANGE] Adequate funding is the total cost of resources necessary to educate students, this includes things like teachers, support staff, computer equipment, and professional development to improve teaching. This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
+st.markdown('<h2 class="adequacy-explained">Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
 
 st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and Cents of Adequate Funding 🪙</h1>', unsafe_allow_html=True)
 
@@ -400,7 +399,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    with plus1:
        # Add some vertical spacing to align with the dollar amounts
        st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-       st.markdown('<h2 style="text-align: center; color: #FF0000; font-size: 64px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
+       st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
 
    with col2:
        title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
@@ -410,7 +409,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    with plus2:
        # Add some vertical spacing to align with the dollar amounts
        st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-       st.markdown('<h2 style="text-align: center; color: #FF0000; font-size: 64px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
+       st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
 
    # Col 3
    with col3:
