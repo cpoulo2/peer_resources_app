@@ -6,6 +6,32 @@ import numpy as np
 # Page config
 st.set_page_config(page_title='Explore your district\'s resource needs', layout='wide')
 
+""" For later design use
+
+
+Titles: Poppins bold
+Subtitles: Poppins medium
+Body: Montserrat regular
+Main color: #141554
+Other colors: #535482, #8c8dac, #20a3bc, #ffffff
+
+#141554 - Deep Navy Blue
+Very dark blue with purple undertones - professional, trustworthy, authoritative
+
+#535482 - Medium Purple-Gray
+Balanced purple-gray - sophisticated, calm, modern
+
+#8c8dac - Light Purple-Gray
+Soft lavender-gray - gentle, approachable, elegant
+
+#20a3bc - Bright Teal/Cyan
+Vibrant blue-green - energetic, fresh, attention-grabbing
+
+#ffffff - Pure White
+Clean white - clarity, simplicity, high contrast
+
+"""
+
 # Load in app data
 
 # Load data
@@ -188,23 +214,54 @@ def calculate_funding_metrics(df_filtered):
 st.markdown("""
 <style>
 
-   .header-title {
-      font-size: 24px !important;
-      text-align: center !important;
-      font-weight: bold !important;
-      vertical-align: middle !important;
-      margin-bottom: 30px !important;    
-      padding: 0
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Montserrat:wght@400;500&display=swap');
+            
+.stApp {
+    background-color: #ffffff;
+    color: #141554;
+}
+            
+.illinois-text {
+    color: #C4384D !important;  /* Deep navy for emphasis */
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.district-negative {
+    color: #C4384D !important;  /* Teal accent color */
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.district-positive { 
+    color: #20a3bc !important;  /* Teal accent color */
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+        
+            
+.header-title {
+    font-size: 24px !important;
+    font-family: Poppins;
+    text-align: center !important;
+    font-weight:bold;
+    vertical-align: middle !important;
+    margin-bottom: 30px !important;    
+    padding: 0
    }
    .adequacy-level {
       font-size: 24px !important;
+      font-family: Poppins;
       text-align: center !important;
-      font-weight: bold !important;
+      font-weight: normal;
       vertical-align: middle !important; 
       margin: 20px 0 !important;
    }
    .adequacy-explained {
       font-size: 18px !important;
+      color: red;
+      font-family: Poppins !important;
+	  font-weight: 700;
       text-align: center !important;
       vertical-align: middle !important;
       margin-bottom: 30px !important; 
@@ -212,35 +269,37 @@ st.markdown("""
    }
    .adequacy-explained-a {
       font-size: 24px !important;
+      font-family: Poppins;
+	  font-weight: normal;
       text-align: center !important;
-      font-weight: bold !important;
       vertical-align: middle !important;    
       padding: 0
    }
    .adequacy-dollars-title {
-      color: #333 !important;
       text-align: center !important;
       font-size: 18px !important;
+	  font-family: Poppins;
+	  font-weight: normal;
    }
    .adequacy-dollars-amount {
-      color: #333 !important;
       text-align: center !important;
-      font-size: 32px !important;
-      font-weight: bold !important;
+      font-size: 30px !important;
+      font-family: Poppins;
+      font-weight:normal;
       margin-bottom: 5px !important;
    }
    .gap-positive {
-      color: #FF0000 !important;
+      color: #C4384D !important;
       text-align: center !important;
       font-size: 32px !important;
-      font-weight: bold !important;
+      font-weight:;
       margin-bottom: 5px !important;
    }        
    .gap-negative {
-      color: #008000 !important;
+      color: #C4384D !important;
       text-align: center !important;
       font-size: 32px !important;
-      font-weight: bold !important;
+      font-weight:;
       margin-bottom: 5px !important;
    }
    .stButton {
@@ -251,48 +310,22 @@ st.markdown("""
       margin-bottom: 20px !important;
    }
 
-   div[data-testid="stExpander"] summary {
-      background: linear-gradient(90deg, #f0f2f6, #e0e2e6) !important;
-      border-left: 4px solid #4169E1 !important;
-      border-radius: 8px !important;
-      padding: 15px !important;
-      margin: 10px 0 !important;
-      text-align: center !important;
-      border: none !important;
-      outline: none !important;
-   }  
-
-   div[data-testid="stExpander"] summary p {
-      color: #000000 !important;
-      font-weight: bold !important;
-      font-size: 20px !important;
-      text-align: center !important;
-      margin: 0 !important;
-      width: 100% !important;
-      display: block !important;
-   }
-
-   /* ✅ Also target the span wrapper */
-   div[data-testid="stExpander"] summary span {
-      text-align: center !important;
-      width: 100% !important;
-      display: block !important;
-   }
-
-   /* ✅ Target the markdown container inside */
-   div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] {
-      text-align: center !important;
-      width: 100% !important;
-   }
-              
-   /* Optional: Style the expander content area */
-   div[data-testid="stExpanderDetails"] {
-      padding: 20px !important;
-      background-color: #fafafa !important;
-      border-radius: 0 0 8px 8px !important;
-   }           
+[data-testid="stExpander"] {   
+    text-align: center !important;
+    font-family: Poppins;
+    font-weight:bold;
+}
+            
+div[data-testid="stExpander"] summary p {
+    text-align: center !important;
+    font-family: Poppins;
+    font-weight:bold;               
+}
+            
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # Add per pupil button to toggle between total and per pupil funding
 # Initialize session state for button toggle
@@ -320,11 +353,11 @@ if df is not None:
 adequacy_level = df_filtered["Adequacy Level"].unique()[0]
 
 if a == "Statewide":
-    st.markdown(f'<h2 class="adequacy-level"><span style="font-size: 32px; font-weight: bold; color: #FF0000;">Illinois school districts</span> have <span style="font-size: 32px; font-weight: bold; color: #FF0000;">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 elif adequacy_level <= 1:
-   st.markdown(f'<h2 class="adequacy-level"><span style="font-size: 32px; font-weight: bold; color: #FF0000;">{a}</span> has <span style="font-size: 32px; font-weight: bold; color: #FF0000;">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{a}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 else:
-   st.markdown(f'<h2 class="adequacy-level"><span style="font-size: 32px; font-weight: bold; color: #008000;">{a}</span> has <span style="font-size: 32px; font-weight: bold; color: #008000;">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 
 st.markdown('<h2 class="adequacy-explained">[SHORTEN TEXT/ADD PHONE SPECIFIC CHANGE] Adequate funding is the total cost of resources necessary to educate students, this includes things like teachers, support staff, computer equipment, and professional development to improve teaching. This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
 
