@@ -359,13 +359,11 @@ div[data-testid="stElementContainer"] {
     div[data-testid="stExpanderDetails"] {
         background-color: #ffffff !important;
         color: #141554 !important;
-        opacity: 1 !important;
     }
     
     div[data-testid="stExpanderDetails"] * {
         background-color: #ffffff !important;
         color: #141554 !important;
-        opacity: 1 !important;
     }
     
     /* Fix selectbox on mobile */
