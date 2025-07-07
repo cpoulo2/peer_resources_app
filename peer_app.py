@@ -345,7 +345,62 @@ div[data-testid="stElementContainer"] {
             
 }
             
-
+/* ✅ Mobile-specific fixes */
+@media (max-width: 768px) {
+    /* Force white backgrounds on mobile */
+    div[data-testid="stExpander"] summary p,
+    div[data-testid="stExpander"] summary span,
+    div[data-testid="stExpander"] summary div {
+        background: transparent !important;
+        color: #ffffff !important;
+        opacity: 1 !important;
+    }
+    
+    div[data-testid="stExpanderDetails"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        opacity: 1 !important;
+    }
+    
+    div[data-testid="stExpanderDetails"] * {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        opacity: 1 !important;
+    }
+    
+    /* Fix selectbox on mobile */
+    .stSelectbox {
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox > label {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        opacity: 1 !important;
+        font-weight: 600 !important;
+    }
+    
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        border: 2px solid #141554 !important;
+    }
+    
+    /* Fix dropdown arrow and text */
+    .stSelectbox svg {
+        color: #141554 !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
