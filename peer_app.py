@@ -683,7 +683,7 @@ with st.expander("Revenue by source"):
           color='#141554'  # ✅ Force y-axis line color
       ),
    )
-
+   fig_rev.update_yaxes(title_font_color='#141554')
    st.plotly_chart(fig_rev, use_container_width=True)
     
 with st.expander("Demographics"):
@@ -738,7 +738,7 @@ with st.expander("Demographics"):
           color='#141554'  # ✅ Force y-axis line color
       )
    )
-   fig_demo.update_yaxes(title_font_color="red")
+   fig_demo.update_yaxes(title_font_color='#141554')
    
    st.plotly_chart(fig_demo, use_container_width=True)
 
