@@ -299,6 +299,7 @@ div[data-testid="stExpander"] {
     padding: 0 !important;
     margin: 15px 0 !important;
     overflow: hidden !important;  /* ✅ Prevents inner borders from showing */
+    background-color: #ffffff !important; /* ✅ Set background color */
 }
 
 div[data-testid="stExpander"] summary {
@@ -318,7 +319,7 @@ div[data-testid="stExpander"] summary p,
 div[data-testid="stExpander"] summary span,
 div[data-testid="stExpander"] summary div {
     
-    background: #ffffff !important;
+    background: transparent !important;
     color: #141554 !important;
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
@@ -336,7 +337,7 @@ div[data-testid="stExpanderDetails"] {
     padding: 20px !important;
     margin: 0 !important;
 }
-            }
+            
             
 div[data-testid="stElementContainer"] {
     background-color: #ffffff;
@@ -597,6 +598,7 @@ with st.expander("Demographics"):
 
    fig_demo.update_layout(
        showlegend=False,
+       title=""
        title_x=0.5,
        title_font_size=20,
        xaxis_title="",
@@ -608,7 +610,10 @@ with st.expander("Demographics"):
        margin=dict(t=80),
        height=500,
        transition_duration=1000,
-       transition_easing="cubic-in-out"
+       transition_easing="cubic-in-out",
+       plot_bgcolor='white',
+       paper_bgcolor='white',
+       font=dict(color='#141554')
    )
    
    st.plotly_chart(fig_demo, use_container_width=True)
