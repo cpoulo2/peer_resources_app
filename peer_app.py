@@ -365,7 +365,16 @@ div[data-testid="stElementContainer"] {
         background-color: #ffffff !important;
         color: #141554 !important;
     }
-    
+
+    /* ✅ Add chart visibility fixes */
+    div[data-testid="stPlotlyChart"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
     /* Fix selectbox on mobile */
     .stSelectbox {
         color: #141554 !important;
