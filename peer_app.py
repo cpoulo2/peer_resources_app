@@ -680,9 +680,10 @@ with st.expander("Revenue by source"):
           tickformat='.0%',
           range=[0,y_rev_max],
           tickfont=dict(color='#141554', size=12),  # ✅ Force y-axis text color
-          color='blue'  # ✅ Force y-axis line color
+          color='#141554'  # ✅ Force y-axis line color
       ),
    )
+
    st.plotly_chart(fig_rev, use_container_width=True)
     
 with st.expander("Demographics"):
@@ -728,7 +729,18 @@ with st.expander("Demographics"):
        transition_easing="cubic-in-out",
        plot_bgcolor='white',
        paper_bgcolor='white',
-       font=dict(color='#141554')
+       font=dict(color='#141554'),
+             xaxis=dict(
+          tickfont=dict(color='#141554', size=12),
+          color='#141554'
+      ),
+      yaxis=dict(
+          tickformat='.0%',
+          range=[0,y_rev_max],
+          tickfont=dict(color='#141554', size=12),  # ✅ Force y-axis text color
+          color='#141554'  # ✅ Force y-axis line color
+      ),
+   )
    )
    
    st.plotly_chart(fig_demo, use_container_width=True)
