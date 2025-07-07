@@ -314,6 +314,7 @@ div[data-testid="stExpander"] {
     margin: 15px 0 !important;
     overflow: hidden !important;  /* ✅ Prevents inner borders from showing */
     background-color: #ffffff !important; /* ✅ Set background color */
+    color: #141554 !important; /* ✅ Set text color */
 }
 
 div[data-testid="stExpander"] summary {
@@ -343,7 +344,6 @@ div[data-testid="stExpander"] summary div {
     padding: 0 !important;
     width: 100% !important;
     flex: 1 !important;
-    opacity: 1 !important;
 }
 
 div[data-testid="stExpanderDetails"] {
@@ -351,9 +351,19 @@ div[data-testid="stExpanderDetails"] {
     color: #141554 !important;
     padding: 20px !important;
     margin: 0 !important;
-    opacity: 1 !important;
 }
-            
+
+/* ✅ Force text elements to be fully visible */
+div[data-testid="stExpanderDetails"] p,
+div[data-testid="stExpanderDetails"] span,
+div[data-testid="stExpanderDetails"] label,
+div[data-testid="stExpanderDetails"] .stMarkdown,
+div[data-testid="stExpanderDetails"] .stText {
+    opacity: 1 !important;
+    color: #141554 !important;
+    background-color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+}             
             
 div[data-testid="stElementContainer"] {
     background-color: #ffffff;
