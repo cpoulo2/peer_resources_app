@@ -370,6 +370,7 @@ div[data-testid="stElementContainer"] {
     
     /* Fix selectbox on mobile */
     .stSelectbox {
+        color: #141554 !important;
         background-color: #ffffff !important;
     }
     
@@ -388,6 +389,7 @@ div[data-testid="stElementContainer"] {
     
     /* Fix dropdown arrow and text */
     .stSelectbox svg {
+        background-color: #ffffff !important;
         color: #141554 !important;
     }
     
