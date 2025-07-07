@@ -644,8 +644,8 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
    # Get the adequacy gap per school for the selected resource type
 
    adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
-   
-   st.text(f"This is the {resource_filter} and this is the adequacy gap per school: {adequacy_gap_per_school:.2f} positions per school.") 
+   resource_type = resource_filter.lower()
+   st.text(f"A fully funded EBF could mean an additional {adequacy_gap_per_school:.2f} {resource_type} per school.") 
 
 with st.expander("Revenue by source"):
     
