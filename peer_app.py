@@ -343,6 +343,7 @@ div[data-testid="stExpander"] summary div {
     padding: 0 !important;
     width: 100% !important;
     flex: 1 !important;
+    opacity: 1 !important;
 }
 
 div[data-testid="stExpanderDetails"] {
@@ -350,6 +351,7 @@ div[data-testid="stExpanderDetails"] {
     color: #141554 !important;
     padding: 20px !important;
     margin: 0 !important;
+    opacity: 1 !important;
 }
             
             
@@ -358,7 +360,36 @@ div[data-testid="stElementContainer"] {
     color: #141554;
             
 }
-            
+
+.stSelectbox {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.stSelectbox > label {
+    background-color: #ffffff !important;
+    color: #141554 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    opacity: 1 !important;  /* ✅ Force full opacity */
+}
+
+.stSelectbox > div > div {
+    background-color: #ffffff !important;
+    color: #141554 !important;
+    border: 2px solid #8c8dac !important;
+    border-radius: 6px !important;
+    opacity: 1 !important;  /* ✅ Force full opacity */
+}
+
+/* ✅ Text widget fixes */
+.stText {
+    background-color: #ffffff !important;
+    color: #141554 !important;
+    opacity: 1 !important;
+}
+                                    
 /* ✅ SIMPLIFIED Mobile-specific fixes */
 @media (max-width: 768px) {
     /* Ensure charts are visible on mobile */
