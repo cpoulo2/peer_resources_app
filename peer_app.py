@@ -674,7 +674,7 @@ with st.expander("Revenue by source"):
       font=dict(color='#141554'),
       xaxis=dict(
           tickfont=dict(color='#141554', size=12),
-          color='#141554', size=14
+          color='#141554'
       ),
       yaxis=dict(
           tickformat='.0%',
