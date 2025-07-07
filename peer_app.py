@@ -6,32 +6,6 @@ import numpy as np
 # Page config
 st.set_page_config(page_title='Explore your district\'s resource needs', layout='wide')
 
-""" For later design use
-
-
-Titles: Poppins bold
-Subtitles: Poppins medium
-Body: Montserrat regular
-Main color: #141554
-Other colors: #535482, #8c8dac, #20a3bc, #ffffff
-
-#141554 - Deep Navy Blue
-Very dark blue with purple undertones - professional, trustworthy, authoritative
-
-#535482 - Medium Purple-Gray
-Balanced purple-gray - sophisticated, calm, modern
-
-#8c8dac - Light Purple-Gray
-Soft lavender-gray - gentle, approachable, elegant
-
-#20a3bc - Bright Teal/Cyan
-Vibrant blue-green - energetic, fresh, attention-grabbing
-
-#ffffff - Pure White
-Clean white - clarity, simplicity, high contrast
-
-"""
-
 # Load in app data
 
 # Load data
@@ -288,7 +262,7 @@ st.markdown("""
       margin-bottom: 5px !important;
    }
    .gap-positive {
-      color: #C4384D !important;
+      color: #20a3bc !important;
       text-align: center !important;
       font-size: 32px !important;
       font-weight:;
@@ -357,18 +331,12 @@ div[data-testid="stExpander"] summary div {
 }
 
 div[data-testid="stExpanderDetails"] {
-    background: yellow !important;
+    background-color: #ffffff !important;
     color: #141554 !important;
     padding: 20px !important;
     margin: 0 !important;
 }
-            
-div[data-testid="stWidgetLabel"] {
-    background: yellow !important;
-    color: #141554 !important;
-    padding: 20px !important;
-    margin: 0 !important;
-}
+            }
             
 div[data-testid="stElementContainer"] {
     background-color: #ffffff;
@@ -387,6 +355,7 @@ div[data-testid="stElementContainer"] {
 if 'show_per_pupil' not in st.session_state:
     st.session_state.show_per_pupil = False
 
+st.image("peer_logo.png", width=300, use_container_width='auto')
 st.markdown('<h1 class="header-title">Select a district to look at school resources</h1>', unsafe_allow_html=True)
 
 # Only show the sidebar if data loaded successfully
@@ -428,7 +397,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    # Calculate per pupil values
    actual_per_pupil = actual_resources / ase if ase > 0 else 0
    adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
-   gap_per_pupil = adequate_per_pupil - actual_per_pupil
+   gap_per_pupil = actual_per_pupil - adequate_per_pupil
 
    # Determine which values to display based on button state
    if st.session_state.show_per_pupil:
@@ -440,7 +409,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    else:
       display_adequate = adequate_resources
       display_actual = actual_resources
-      display_gap = adequate_resources - actual_resources
+      display_gap = actual_resources - adequate_resources
       currency_format = "${:,.0f}"
       chart_title_suffix = ""
 
@@ -448,9 +417,10 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    col1, plus1, col2, plus2, col3 = st.columns([3, 0.5, 3, 0.5, 3])
 
    with col1:
-       title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+       title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
        st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
+       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
+
 
    with plus1:
        # Add some vertical spacing to align with the dollar amounts
@@ -458,9 +428,10 @@ if 'df_filtered' in locals() and not df_filtered.empty:
        st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
 
    with col2:
-       title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+       title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
        st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
+       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
+
 
    with plus2:
        # Add some vertical spacing to align with the dollar amounts
@@ -518,7 +489,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
        title_x=0.5,
        title_font_size=20,
        xaxis_title="",
-       yaxis_title=f"Funding Amount ($){chart_title_suffix}",
+#       yaxis_title=f"Funding Amount ($){chart_title_suffix}",
        yaxis=dict(tickformat='$,.0f'),
        height=400,
        transition_duration=500,
@@ -563,8 +534,7 @@ with st.expander("Revenue by source"):
       color='Revenue Source',
       color_discrete_sequence=px.colors.qualitative.Pastel,
       labels={'Revenue Percentages': 'Percent of Total Revenue (%)', 'Revenue Source': ''},
-      text='Revenue Percentages',
-      title="Revenue Sources"
+      text='Revenue Percentages'
    )
       # Format the chart
    fig_rev.update_traces(
@@ -581,9 +551,8 @@ with st.expander("Revenue by source"):
    y_rev_max = max_revenue * 1.1  # 10% higher than max value
 
    fig_rev.update_layout(
+      title="",
       showlegend=False,
-      title_x=0.5,
-      title_font_size=20,
       xaxis_title="",
       yaxis_title="Percent of Total Revenue (%)",
       yaxis=dict(
@@ -593,7 +562,10 @@ with st.expander("Revenue by source"):
       height=400,
       margin=dict(t=80),        
       transition_duration=500,
-      transition_easing="cubic-in-out"
+      transition_easing="cubic-in-out",
+      plot_bgcolor='white',
+      paper_bgcolor='white',
+      font=dict(color='#141554')
    )
    st.plotly_chart(fig_rev, use_container_width=True)
     
