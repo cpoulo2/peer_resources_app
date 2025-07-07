@@ -318,7 +318,8 @@ st.markdown("""
 div[data-testid="stExpander"] summary p {
     text-align: center !important;
     font-family: Poppins;
-    font-weight:bold;               
+    font-weight:bold;
+    b               
 }
             
 div[data-testid="stElementContainer"] {
@@ -326,8 +327,9 @@ div[data-testid="stElementContainer"] {
     color: #141554;            
 }
             
-.st-emotion-cache-13lcgu3 {
+.stButton > button {
     background-color: #ffffff;
+    border: 2px solid #141554;
 }                        
 </style>
 """, unsafe_allow_html=True)
