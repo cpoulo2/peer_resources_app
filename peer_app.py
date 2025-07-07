@@ -598,7 +598,7 @@ with st.expander("Demographics"):
 
    fig_demo.update_layout(
        showlegend=False,
-       title=""
+       title="",
        title_x=0.5,
        title_font_size=20,
        xaxis_title="",
