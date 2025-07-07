@@ -356,6 +356,8 @@ div[data-testid="stExpander"] summary div {
 }
 
 div[data-testid="stExpanderDetails"] {
+    background: blue !important;
+    color: #141554 !important;
     padding: 20px !important;
     margin: 0 !important;
 }
