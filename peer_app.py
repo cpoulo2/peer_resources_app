@@ -321,6 +321,12 @@ div[data-testid="stExpander"] summary p {
     font-weight:bold;               
 }
             
+div[data-testid="stElementContainer"] {
+    background-color: #ffffff;
+    color: #141554;            
+}
+            
+            
 </style>
 """, unsafe_allow_html=True)
 
