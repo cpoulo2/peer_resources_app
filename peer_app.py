@@ -187,31 +187,33 @@ def calculate_funding_metrics(df_filtered):
 # Move this to the top, after loading data
 st.markdown("""
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Montserrat:wght@400;500&display=swap');
-
+            
 .stApp {
-    background-color: #ffffff !important;
-    color: #141554 !important;
+    background-color: #ffffff;
+    color: #141554;
 }
-
+            
 .illinois-text {
-    color: #C4384D !important;
+    color: #C4384D !important;  /* Deep navy for emphasis */
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
 .district-negative {
-    color: #C4384D !important;
+    color: #C4384D !important;  /* Teal accent color */
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
 .district-positive { 
-    color: #20a3bc !important;
+    color: #20a3bc !important;  /* Teal accent color */
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
-
+        
+            
 .header-title {
     font-size: 24px !important;
     font-family: Poppins;
@@ -220,71 +222,64 @@ st.markdown("""
     vertical-align: middle !important;
     margin-bottom: 30px !important;    
     padding: 0
-}
-
-.adequacy-level {
-    font-size: 24px !important;
-    font-family: Poppins;
-    text-align: center !important;
-    font-weight: normal;
-    vertical-align: middle !important; 
-    margin: 20px 0 !important;
-}
-
-.adequacy-explained {
-    font-size: 14px !important;
-    font-family: Poppins !important;
-    font-weight: normal;
-    text-align: center !important;
-    vertical-align: middle !important;
-    margin-bottom: 30px !important; 
-    font-style: italic !important;
-}
-
-.adequacy-explained-a {
-    font-size: 24px !important;
-    font-family: Poppins;
-    font-weight: normal;
-    text-align: center !important;
-    vertical-align: middle !important;    
-    padding: 0
-}
-
-.adequacy-dollars-title {
-    text-align: center !important;
-    font-size: 18px !important;
-    font-family: Poppins;
-    font-weight: normal;
-}
-
-.adequacy-dollars-amount {
-    text-align: center !important;
-    font-size: 30px !important;
-    font-family: Poppins;
-    font-weight:normal;
-    margin-bottom: 5px !important;
-}
-
-.gap-positive {
-    color: #20a3bc !important;
-    text-align: center !important;
-    font-size: 32px !important;
-    margin-bottom: 5px !important;
-}        
-
-.gap-negative {
-    color: #C4384D !important;
-    text-align: center !important;
-    font-size: 32px !important;
-    margin-bottom: 5px !important;
-}
-
-/* Button styling */
+   }
+   .adequacy-level {
+      font-size: 24px !important;
+      font-family: Poppins;
+      text-align: center !important;
+      font-weight: normal;
+      vertical-align: middle !important; 
+      margin: 20px 0 !important;
+   }
+   .adequacy-explained {
+      font-size: 14px !important;
+      font-family: Poppins !important;
+	  font-weight: normal;
+      text-align: center !important;
+      vertical-align: middle !important;
+      margin-bottom: 30px !important; 
+      font-style: italic !important;
+   }
+   .adequacy-explained-a {
+      font-size: 24px !important;
+      font-family: Poppins;
+	  font-weight: normal;
+      text-align: center !important;
+      vertical-align: middle !important;    
+      padding: 0
+   }
+   .adequacy-dollars-title {
+      text-align: center !important;
+      font-size: 18px !important;
+	  font-family: Poppins;
+	  font-weight: normal;
+   }
+   .adequacy-dollars-amount {
+      text-align: center !important;
+      font-size: 30px !important;
+      font-family: Poppins;
+      font-weight:normal;
+      margin-bottom: 5px !important;
+   }
+   .gap-positive {
+      color: #20a3bc !important;
+      text-align: center !important;
+      font-size: 32px !important;
+      font-weight:;
+      margin-bottom: 5px !important;
+   }        
+   .gap-negative {
+      color: #C4384D !important;
+      text-align: center !important;
+      font-size: 32px !important;
+      font-weight:;
+      margin-bottom: 5px !important;
+   }
+/* ✅ Fix button container */
 .stButton {
     display: flex !important;
     justify-content: center !important;
 }
-
 .stButton > button {
     background-color: #ffffff !important;  
     color: #141554 !important;             
@@ -299,7 +294,7 @@ st.markdown("""
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
-/* Chart styling */
+/* ✅ FIXED: General Plotly chart styling (for all devices) */
 div[data-testid="stPlotlyChart"] {
     background-color: #ffffff !important;
     width: 100% !important;
@@ -312,37 +307,35 @@ div[data-testid="stPlotlyChart"] {
     width: 100% !important;
     height: auto !important;
 }
-
-/* Expander styling */
 div[data-testid="stExpander"] {
     border: 2px solid #141554 !important;
     border-radius: 8px !important;
     padding: 0 !important;
     margin: 15px 0 !important;
-    overflow: hidden !important;
-    background-color: #ffffff !important;
+    overflow: hidden !important;  /* ✅ Prevents inner borders from showing */
+    background-color: #ffffff !important; /* ✅ Set background color */
+    color: #141554 !important; /* ✅ Set text color */
 }
 
 div[data-testid="stExpander"] summary {
-    background: linear-gradient(135deg, #8c8dac 0%, #535482 100%) !important;
-    border-left: 4px solid #20a3bc !important;
-    color: #ffffff !important;
+    background: #ffffff !important;
+    color: #141554 !important;    
     text-align: center !important;
     padding: 15px !important;
     margin: 0 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    display: flex !important;           /* ✅ Use flexbox */
+    justify-content: center !important; /* ✅ Center content */
+    align-items: center !important;     /* ✅ Vertical center */
+    text-align: center !important;
     width: 100% !important;
-    border: none !important;
-    outline: none !important;
 }
 
 div[data-testid="stExpander"] summary p,
 div[data-testid="stExpander"] summary span,
 div[data-testid="stExpander"] summary div {
+    
     background: transparent !important;
-    color: #ffffff !important;
+    color: #141554 !important;
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
     font-size: 16px !important;
@@ -353,7 +346,6 @@ div[data-testid="stExpander"] summary div {
     flex: 1 !important;
 }
 
-/* ✅ FIXED: Expander content with proper text visibility */
 div[data-testid="stExpanderDetails"] {
     background-color: #ffffff !important;
     color: #141554 !important;
@@ -371,11 +363,17 @@ div[data-testid="stExpanderDetails"] .stText {
     color: #141554 !important;
     background-color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
+}             
+            
+div[data-testid="stElementContainer"] {
+    background-color: #ffffff;
+    color: #141554;
+            
 }
 
-/* Selectbox styling */
 .stSelectbox {
     background-color: #ffffff !important;
+    opacity: 1 !important;
 }
 
 .stSelectbox > label {
@@ -384,7 +382,7 @@ div[data-testid="stExpanderDetails"] .stText {
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
     font-size: 16px !important;
-    opacity: 1 !important;
+    opacity: 1 !important;  /* ✅ Force full opacity */
 }
 
 .stSelectbox > div > div {
@@ -392,17 +390,19 @@ div[data-testid="stExpanderDetails"] .stText {
     color: #141554 !important;
     border: 2px solid #8c8dac !important;
     border-radius: 6px !important;
+    opacity: 1 !important;  /* ✅ Force full opacity */
 }
 
-/* Text widget fixes */
+/* ✅ Text widget fixes */
 .stText {
     background-color: #ffffff !important;
     color: #141554 !important;
     opacity: 1 !important;
 }
-
-/* ✅ MINIMAL Mobile fixes - only for charts */
+                                    
+/* ✅ SIMPLIFIED Mobile-specific fixes */
 @media (max-width: 768px) {
+    /* Ensure charts are visible on mobile */
     div[data-testid="stPlotlyChart"] {
         display: block !important;
         visibility: visible !important;
@@ -410,8 +410,43 @@ div[data-testid="stExpanderDetails"] .stText {
         width: 100% !important;
         min-height: 350px !important;
     }
+    
+    /* Expander content on mobile */
+    div[data-testid="stExpanderDetails"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        padding: 15px !important;
+    }
+    
+    /* ✅ FIXED: Only target text elements, not ALL elements */
+    div[data-testid="stExpanderDetails"] p,
+    div[data-testid="stExpanderDetails"] span,
+    div[data-testid="stExpanderDetails"] div[data-testid="stMarkdownContainer"],
+    div[data-testid="stExpanderDetails"] label {
+        opacity: 1 !important;
+        color: #141554 !important;
+        background-color: #ffffff !important;
+    }
+    
+    /* ✅ Selectbox mobile fixes - specific targeting */
+    .stSelectbox > label {
+        color: #141554 !important;
+        font-weight: 600 !important;
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox > div > div {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        border: 2px solid #141554 !important;
+    }
+    
+    /* ✅ Fix selectbox dropdown options */
+    .stSelectbox [data-baseweb="select"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+    }
 }
-
 </style>
 """, unsafe_allow_html=True)
 
