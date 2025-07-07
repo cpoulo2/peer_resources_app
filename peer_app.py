@@ -326,7 +326,9 @@ div[data-testid="stElementContainer"] {
     color: #141554;            
 }
             
-            
+.st-emotion-cache-13lcgu3 {
+    background-color: #ffffff;
+}                        
 </style>
 """, unsafe_allow_html=True)
 
