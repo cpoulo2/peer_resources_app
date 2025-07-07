@@ -343,6 +343,7 @@ div[data-testid="stExpander"] summary {
 div[data-testid="stExpander"] summary p,
 div[data-testid="stExpander"] summary span,
 div[data-testid="stExpander"] summary div {
+    background: #ffffff !important;
     color: #141554 !important;
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
