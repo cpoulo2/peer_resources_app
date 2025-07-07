@@ -331,7 +331,6 @@ div[data-testid="stExpander"] summary {
     background: #ffffff !important;
     color: #141554 !important;    
     text-align: center !important;
-    border: none !important;
     padding: 15px !important;
     margin: 0 !important;
     display: flex !important;           /* ✅ Use flexbox */
@@ -356,7 +355,6 @@ div[data-testid="stExpander"] summary div {
 }
 
 div[data-testid="stExpanderDetails"] {
-    border: none !important;
     padding: 20px !important;
     margin: 0 !important;
 }
