@@ -738,6 +738,7 @@ with st.expander("Demographics"):
           color='#141554'  # ✅ Force y-axis line color
       )
    )
+   fig_demo.update_yaxes(title_font_color="red")
    
    st.plotly_chart(fig_demo, use_container_width=True)
 
