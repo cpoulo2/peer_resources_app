@@ -365,6 +365,7 @@ div[data-testid="stElementContainer"] {
     div[data-testid="stPlotlyChart"] {
         display: block !important;
         visibility: visible !important;
+        opacity: 1 !important;
         width: 100% !important;
         min-height: 350px !important;
     }
@@ -376,23 +377,42 @@ div[data-testid="stElementContainer"] {
         padding: 15px !important;
     }
     
-    /* Fix text opacity on mobile */
-    div[data-testid="stExpanderDetails"] * {
+    /* ✅ FIXED: Only target text elements, not ALL elements */
+    div[data-testid="stExpanderDetails"] p,
+    div[data-testid="stExpanderDetails"] span,
+    div[data-testid="stExpanderDetails"] div[data-testid="stMarkdownContainer"],
+    div[data-testid="stExpanderDetails"] label {
         opacity: 1 !important;
         color: #141554 !important;
+        background-color: #ffffff !important;
     }
     
-    /* Selectbox mobile fixes */
+    /* ✅ Selectbox mobile fixes - specific targeting */
     .stSelectbox > label {
         color: #141554 !important;
         opacity: 1 !important;
         font-weight: 600 !important;
+        background-color: #ffffff !important;
     }
     
     .stSelectbox > div > div {
         background-color: #ffffff !important;
         color: #141554 !important;
         border: 2px solid #141554 !important;
+        opacity: 1 !important;
+    }
+    
+    /* ✅ Fix selectbox dropdown options */
+    .stSelectbox [data-baseweb="select"] {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        opacity: 1 !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #141554 !important;
+        opacity: 1 !important;
     }
 }
 </style>
