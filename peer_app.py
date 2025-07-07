@@ -370,6 +370,14 @@ div[data-testid="stElementContainer"] {
     color: #141554;
             
 }
+            
+div[data-testid="stElementContainer"] *,
+div[data-testid="stExpanderDetails"] *,
+.stSelectbox *,
+.stText *,
+.stMarkdown * {
+    color: #141554 !important;
+}
 
 .stSelectbox {
     background-color: #ffffff !important;
