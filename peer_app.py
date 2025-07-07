@@ -195,20 +195,20 @@ st.markdown("""
     color: #141554;
 }
             
-.illinois-text {
-    color: #C4384D !important;  /* Deep navy for emphasis */
+.adequacy-level .illinois-text {
+    color: #C4384D !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
-.district-negative {
-    color: #C4384D !important;  /* Teal accent color */
+.adequacy-level .district-negative {
+    color: #C4384D !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
-.district-positive { 
-    color: #20a3bc !important;  /* Teal accent color */
+.adequacy-level .district-positive {
+    color: #20a3bc !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
