@@ -343,6 +343,7 @@ div[data-testid="stExpander"] summary {
 div[data-testid="stExpander"] summary p,
 div[data-testid="stExpander"] summary span,
 div[data-testid="stExpander"] summary div {
+    
     background: #ffffff !important;
     color: #141554 !important;
     font-family: 'Poppins', sans-serif !important;
@@ -356,7 +357,14 @@ div[data-testid="stExpander"] summary div {
 }
 
 div[data-testid="stExpanderDetails"] {
-    background: blue !important;
+    background: yellow !important;
+    color: #141554 !important;
+    padding: 20px !important;
+    margin: 0 !important;
+}
+            
+div[data-testid="stWidgetLabel"] {
+    background: yellow !important;
     color: #141554 !important;
     padding: 20px !important;
     margin: 0 !important;
