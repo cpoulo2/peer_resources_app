@@ -301,36 +301,73 @@ st.markdown("""
       font-weight:;
       margin-bottom: 5px !important;
    }
-   .stButton {
-      display: flex !important;
-      justify-content: center !important;
-   }
-   .stButton > button {
-      margin-bottom: 20px !important;
-   }
-
-[data-testid="stExpander"] {   
-    text-align: center !important;
-    font-family: Poppins;
-    font-weight:bold;
+/* ✅ Fix button container */
+.stButton {
+    display: flex !important;
+    justify-content: center !important;
 }
-            
-div[data-testid="stExpander"] summary p {
+.stButton > button {
+    background-color: #ffffff !important;  
+    color: #141554 !important;             
+    border: 2px solid #141554 !important;  
+    border-radius: 8px !important;
+    padding: 12px 24px !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    margin-bottom: 20px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+div[data-testid="stExpander"] {
+    border: 2px solid #141554 !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    margin: 15px 0 !important;
+    overflow: hidden !important;  /* ✅ Prevents inner borders from showing */
+}
+
+div[data-testid="stExpander"] summary {
+    background: #ffffff !important;
+    color: #141554 !important;    
     text-align: center !important;
-    font-family: Poppins;
-    font-weight:bold;
-    b               
+    border: none !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    display: flex !important;           /* ✅ Use flexbox */
+    justify-content: center !important; /* ✅ Center content */
+    align-items: center !important;     /* ✅ Vertical center */
+    text-align: center !important;
+    width: 100% !important;
+}
+
+div[data-testid="stExpander"] summary p,
+div[data-testid="stExpander"] summary span,
+div[data-testid="stExpander"] summary div {
+    color: #141554 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    flex: 1 !important;
+}
+
+div[data-testid="stExpanderDetails"] {
+    border: none !important;
+    padding: 20px !important;
+    margin: 0 !important;
 }
             
 div[data-testid="stElementContainer"] {
     background-color: #ffffff;
-    color: #141554;            
+    color: #141554;
+            
 }
             
-.stButton > button {
-    background-color: #ffffff;
-    border: 2px solid #141554;
-}                        
+
 </style>
 """, unsafe_allow_html=True)
 
