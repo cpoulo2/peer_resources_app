@@ -390,7 +390,6 @@ div[data-testid="stElementContainer"] {
     /* ✅ Selectbox mobile fixes - specific targeting */
     .stSelectbox > label {
         color: #141554 !important;
-        opacity: 1 !important;
         font-weight: 600 !important;
         background-color: #ffffff !important;
     }
@@ -399,20 +398,12 @@ div[data-testid="stElementContainer"] {
         background-color: #ffffff !important;
         color: #141554 !important;
         border: 2px solid #141554 !important;
-        opacity: 1 !important;
     }
     
     /* ✅ Fix selectbox dropdown options */
     .stSelectbox [data-baseweb="select"] {
         background-color: #ffffff !important;
         color: #141554 !important;
-        opacity: 1 !important;
-    }
-    
-    .stSelectbox [data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-        opacity: 1 !important;
     }
 }
 </style>
