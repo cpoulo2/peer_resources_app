@@ -372,7 +372,23 @@ div[data-testid="stElementContainer"] {
         width: 100% !important;
         height: auto !important;
         overflow: visible !important;
+        display: block !important;
+        visibility: visible !important;
     }
+
+    /* ✅ Force plotly container visibility */
+    .plotly {
+        width: 100% !important;
+        height: auto !important;
+        background-color: #ffffff !important;
+        visibility: visible !important;
+    }
+    
+    .plotly .main-svg {
+        background-color: #ffffff !important;
+        width: 100% !important;
+        height: auto !important;
+    }            
 
     /* Fix selectbox on mobile */
     .stSelectbox {
