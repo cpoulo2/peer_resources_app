@@ -719,10 +719,7 @@ with st.expander("Demographics"):
        title_font_size=20,
        xaxis_title="",
        yaxis_title="Percentage of Students (%)",
-       yaxis=dict(
-           tickformat='.0%',
-           range=[0,y_demo_max]
-          ),
+  
        margin=dict(t=80),
        height=500,
        transition_duration=1000,
@@ -730,7 +727,7 @@ with st.expander("Demographics"):
        plot_bgcolor='white',
        paper_bgcolor='white',
        font=dict(color='#141554'),
-             xaxis=dict(
+       xaxis=dict(
           tickfont=dict(color='#141554', size=12),
           color='#141554'
       ),
