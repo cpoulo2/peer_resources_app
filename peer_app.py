@@ -644,8 +644,19 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
    # Get the adequacy gap per school for the selected resource type
 
    adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
+   adequacy_gap = df_resource["Gaps"].iloc[0] if not df_resource.empty else 0
    resource_type = resource_filter.lower()
-   st.text(f"A fully funded EBF could mean an additional {adequacy_gap_per_school:.2f} {resource_type} per school.") 
+   if a == "Statewide":
+        if adequacy_gap >= 0:  # Positive gap (adequately staffed)
+            st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
+        else:  # Negative gap (understaffed)
+            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap):.0f} more {resource_type} in Illinois.")
+   else:  # Specific district selected
+       if adequacy_gap_per_school >= 0:  # Positive gap (adequately staffed)
+            st.text(f"According to the EBF formula, your school district is adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
+       else:  # Negative gap (understaffed)
+            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap_per_school):.2f} more {resource_type} per school in your district.")
+ 
 
 with st.expander("Revenue by source"):
     
