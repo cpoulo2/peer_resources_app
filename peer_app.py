@@ -375,7 +375,6 @@ div[data-testid="stElementContainer"] {
     .stSelectbox > label {
         background-color: #ffffff !important;
         color: #141554 !important;
-        opacity: 1 !important;
         font-weight: 600 !important;
     }
     
