@@ -293,6 +293,20 @@ st.markdown("""
     transition: all 0.3s ease !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
+
+/* ✅ FIXED: General Plotly chart styling (for all devices) */
+div[data-testid="stPlotlyChart"] {
+    background-color: #ffffff !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+}
+
+.plotly {
+    background-color: #ffffff !important;
+    width: 100% !important;
+    height: auto !important;
+}
 div[data-testid="stExpander"] {
     border: 2px solid #141554 !important;
     border-radius: 8px !important;
@@ -345,60 +359,34 @@ div[data-testid="stElementContainer"] {
             
 }
             
-/* ✅ Mobile-specific fixes */
+/* ✅ SIMPLIFIED Mobile-specific fixes */
 @media (max-width: 768px) {
-    /* Force white backgrounds on mobile */
-    div[data-testid="stExpander"] summary p,
-    div[data-testid="stExpander"] summary span,
-    div[data-testid="stExpander"] summary div {
-        background: transparent !important;
-        color: #141554 !important;
+    /* Ensure charts are visible on mobile */
+    div[data-testid="stPlotlyChart"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-height: 350px !important;
     }
     
+    /* Expander content on mobile */
     div[data-testid="stExpanderDetails"] {
         background-color: #ffffff !important;
         color: #141554 !important;
+        padding: 15px !important;
     }
     
+    /* Fix text opacity on mobile */
     div[data-testid="stExpanderDetails"] * {
-        background-color: #ffffff !important;
+        opacity: 1 !important;
         color: #141554 !important;
-    }
-
-    /* ✅ Add chart visibility fixes */
-    div[data-testid="stPlotlyChart"] {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        display: block !important;
-        visibility: visible !important;
-    }
-
-    /* ✅ Force plotly container visibility */
-    .plotly {
-        width: 100% !important;
-        height: auto !important;
-        background-color: #ffffff !important;
-        visibility: visible !important;
     }
     
-    .plotly .main-svg {
-        background-color: #ffffff !important;
-        width: 100% !important;
-        height: auto !important;
-    }            
-
-    /* Fix selectbox on mobile */
-    .stSelectbox {
-        color: #141554 !important;
-        background-color: #ffffff !important;
-    }
-    
+    /* Selectbox mobile fixes */
     .stSelectbox > label {
-        background-color: #ffffff !important;
         color: #141554 !important;
+        opacity: 1 !important;
         font-weight: 600 !important;
     }
     
@@ -406,22 +394,6 @@ div[data-testid="stElementContainer"] {
         background-color: #ffffff !important;
         color: #141554 !important;
         border: 2px solid #141554 !important;
-    }
-    
-    /* Fix dropdown arrow and text */
-    .stSelectbox svg {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-    }
-    
-    .stSelectbox [data-baseweb="select"] {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-    }
-    
-    .stSelectbox [data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #141554 !important;
     }
 }
 </style>
