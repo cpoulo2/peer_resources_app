@@ -407,6 +407,16 @@ div[data-testid="stExpanderDetails"] *,
     color: #141554 !important;
     opacity: 1 !important;
 }
+            
+/* ✅ Chart text halo effect */
+.plotly text {
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+        1px -1px 0 #ffffff,
+        -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff !important;
+    font-weight: 500 !important;
+}
                                     
 /* ✅ SIMPLIFIED Mobile-specific fixes */
 @media (max-width: 768px) {
