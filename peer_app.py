@@ -704,6 +704,7 @@ with st.expander("Demographics"):
    fig_demo.update_traces(
        texttemplate='%{text:.0%}',
        textposition='outside',
+       textfont=dict(size=12, color='#141554',family='Poppins'),  # ✅ Force text color
        hovertemplate=None,  # ✅ Remove hover labels
        hoverinfo='skip'     # ✅ Disable hover entirely
    )
