@@ -371,12 +371,43 @@ div[data-testid="stElementContainer"] {
             
 }
             
-div[data-testid="stElementContainer"] *,
-div[data-testid="stExpanderDetails"] *,
-.stSelectbox *,
-.stText *,
-.stMarkdown * {
+div[data-testid="stElementContainer"] p,
+div[data-testid="stElementContainer"] span,
+div[data-testid="stElementContainer"] div,
+div[data-testid="stElementContainer"] label,
+div[data-testid="stExpanderDetails"] p,
+div[data-testid="stExpanderDetails"] span,
+div[data-testid="stExpanderDetails"] div,
+div[data-testid="stExpanderDetails"] label,
+.stSelectbox p,
+.stSelectbox span,
+.stSelectbox div,
+.stText p,
+.stText span,
+.stMarkdown p,
+.stMarkdown span {
     color: #141554 !important;
+}
+
+/* ✅ ADD: Preserve your colored classes */
+.illinois-text {
+    color: #C4384D !important;
+}
+
+.district-negative {
+    color: #C4384D !important;
+}
+
+.district-positive {
+    color: #20a3bc !important;
+}
+
+.gap-positive {
+    color: #20a3bc !important;
+}
+
+.gap-negative {
+    color: #C4384D !important;
 }
 
 .stSelectbox {
