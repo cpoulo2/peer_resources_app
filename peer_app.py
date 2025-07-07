@@ -365,7 +365,6 @@ div[data-testid="stElementContainer"] {
     div[data-testid="stPlotlyChart"] {
         display: block !important;
         visibility: visible !important;
-        opacity: 1 !important;
         width: 100% !important;
         min-height: 350px !important;
     }
