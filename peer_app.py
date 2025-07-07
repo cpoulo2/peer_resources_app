@@ -455,6 +455,38 @@ div[data-testid="stExpanderDetails"] *,
         background-color: #ffffff !important;
         color: #141554 !important;
     }
+   /* ✅ ADD: Force colored text classes to maintain colors on mobile */
+    .illinois-text {
+        color: #C4384D !important;
+        font-weight: 700 !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    
+    .district-negative {
+        color: #C4384D !important;
+        font-weight: 700 !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    
+    .district-positive {
+        color: #20a3bc !important;
+        font-weight: 700 !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    
+    .gap-positive {
+        color: #20a3bc !important;
+        text-align: center !important;
+        font-size: 32px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .gap-negative {
+        color: #C4384D !important;
+        text-align: center !important;
+        font-size: 32px !important;
+        margin-bottom: 5px !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)

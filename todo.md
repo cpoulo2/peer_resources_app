@@ -22,6 +22,7 @@
     - Design
         - Colors
         - Margins
+        - Move per pupil button to middle.
     - Wording
     - Other
         - Change gaps so that current minus adequate
