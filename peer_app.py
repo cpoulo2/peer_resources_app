@@ -389,27 +389,6 @@ div[data-testid="stExpanderDetails"] label,
     color: #141554 !important;
 }
 
-/* ✅ ADD: Preserve your colored classes */
-.illinois-text {
-    color: #C4384D !important;
-}
-
-.district-negative {
-    color: #C4384D !important;
-}
-
-.district-positive {
-    color: #20a3bc !important;
-}
-
-.gap-positive {
-    color: #20a3bc !important;
-}
-
-.gap-negative {
-    color: #C4384D !important;
-}
-
 .stSelectbox {
     background-color: #ffffff !important;
     opacity: 1 !important;
