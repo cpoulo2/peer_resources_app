@@ -680,7 +680,7 @@ with st.expander("Revenue by source"):
           tickformat='.0%',
           range=[0,y_rev_max],
           tickfont=dict(color='#141554', size=12),  # ✅ Force y-axis text color
-          color='#141554'  # ✅ Force y-axis line color
+          color='blue'  # ✅ Force y-axis line color
       ),
    )
    st.plotly_chart(fig_rev, use_container_width=True)
