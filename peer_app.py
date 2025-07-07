@@ -387,7 +387,7 @@ div[data-testid="stExpanderDetails"] label,
 .stText span,
 .stMarkdown p,
 .stMarkdown span {
-    color: red !important;
+    color: #141554 !important;
 }
 
 .stSelectbox {
