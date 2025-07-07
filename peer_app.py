@@ -352,7 +352,7 @@ div[data-testid="stElementContainer"] {
     div[data-testid="stExpander"] summary span,
     div[data-testid="stExpander"] summary div {
         background: transparent !important;
-        color: #141554 !important; !important;
+        color: #141554 !important;
         opacity: 1 !important;
     }
     
