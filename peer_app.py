@@ -188,32 +188,34 @@ def calculate_funding_metrics(df_filtered):
 st.markdown("""
 <style>
 
+/* ✅ Download fonts, load font weights, enable font fallback */            
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Montserrat:wght@400;500&display=swap');
-            
+
+/* ✅ Set global background and font color */                        
 .stApp {
     background-color: #ffffff;
     color: #141554;
 }
-            
+
+/* ✅ Specify style for the following classes */                        
 .adequacy-level .illinois-text {
     color: #C4384D !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
-
+            
 .adequacy-level .district-negative {
     color: #C4384D !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
-
+            
 .adequacy-level .district-positive {
     color: #20a3bc !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
-        
-            
+                        
 .header-title {
     font-size: 24px !important;
     font-family: Poppins;
@@ -223,63 +225,71 @@ st.markdown("""
     margin-bottom: 30px !important;    
     padding: 0
    }
-   .adequacy-level {
-      font-size: 24px !important;
-      font-family: Poppins;
-      text-align: center !important;
-      font-weight: normal;
-      vertical-align: middle !important; 
-      margin: 20px 0 !important;
-   }
-   .adequacy-explained {
-      font-size: 14px !important;
-      font-family: Poppins !important;
-	  font-weight: normal;
-      text-align: center !important;
-      vertical-align: middle !important;
-      margin-bottom: 30px !important; 
-      font-style: italic !important;
-   }
-   .adequacy-explained-a {
-      font-size: 24px !important;
-      font-family: Poppins;
-	  font-weight: normal;
-      text-align: center !important;
-      vertical-align: middle !important;    
-      padding: 0
-   }
-   .adequacy-dollars-title {
-      text-align: center !important;
-      font-size: 18px !important;
-	  font-family: Poppins;
-	  font-weight: normal;
-   }
-   .adequacy-dollars-amount {
-      text-align: center !important;
-      font-size: 30px !important;
-      font-family: Poppins;
-      font-weight:normal;
-      margin-bottom: 5px !important;
-   }
-   .gap-positive {
-      color: #20a3bc !important;
-      text-align: center !important;
-      font-size: 32px !important;
-      font-weight:;
-      margin-bottom: 5px !important;
-   }        
-   .gap-negative {
-      color: #C4384D !important;
-      text-align: center !important;
-      font-size: 32px !important;
-      font-weight:;
-      margin-bottom: 5px !important;
-   }
-/* ✅ Fix button container */
+            
+
+.adequacy-level {
+   font-size: 24px !important;
+   font-family: Poppins;
+   text-align: center !important;
+   font-weight: normal;
+   vertical-align: middle !important; 
+   margin: 20px 0 !important;
+}
+         
+.adequacy-explained {
+   font-size: 14px !important;
+   font-family: Poppins !important;
+   font-weight: normal;
+   text-align: center !important;
+   vertical-align: middle !important;
+   margin-bottom: 30px !important; 
+   font-style: italic !important;
+}
+   
+.adequacy-explained-a {
+   font-size: 24px !important;
+   font-family: Poppins;
+   font-weight: normal;
+   text-align: center !important;
+   vertical-align: middle !important;    
+   padding: 0
+ }
+            
+.adequacy-dollars-title {
+   text-align: center !important;
+   font-size: 18px !important;
+  font-family: Poppins;
+  font-weight: normal;
+}
+.adequacy-dollars-amount {
+   text-align: center !important;
+   font-size: 30px !important;
+   font-family: Poppins;
+   font-weight:normal;
+   margin-bottom: 5px !important;
+}
+.gap-positive {
+   color: #20a3bc !important;
+   text-align: center !important;
+   font-size: 32px !important;
+   font-weight:;
+   margin-bottom: 5px !important;
+}        
+.gap-negative {
+   color: #C4384D !important;
+   text-align: center !important;
+   font-size: 32px !important;
+   font-weight:;
+   margin-bottom: 5px !important;
+}
+            
+/* ✅ Adjust button container */
+
 .stButton {
     display: flex !important;
     justify-content: center !important;
 }
+            
 .stButton > button {
     background-color: #ffffff !important;  
     color: #141554 !important;             
@@ -294,7 +304,7 @@ st.markdown("""
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
-/* ✅ FIXED: General Plotly chart styling (for all devices) */
+/* ✅ Adjusting Plotly chart styling (for all devices) */
 div[data-testid="stPlotlyChart"] {
     background-color: #ffffff !important;
     width: 100% !important;
@@ -307,6 +317,8 @@ div[data-testid="stPlotlyChart"] {
     width: 100% !important;
     height: auto !important;
 }
+
+/* ✅ Adjust expandable menu styling */
 div[data-testid="stExpander"] {
     border: 2px solid #141554 !important;
     border-radius: 8px !important;
@@ -353,7 +365,8 @@ div[data-testid="stExpanderDetails"] {
     margin: 0 !important;
 }
 
-/* ✅ Force text elements to be fully visible */
+/* ✅ Moore expandable adjustments: Force text elements to be fully visible */
+            
 div[data-testid="stExpanderDetails"] p,
 div[data-testid="stExpanderDetails"] span,
 div[data-testid="stExpanderDetails"] label,
@@ -390,6 +403,8 @@ div[data-testid="stExpanderDetails"] label,
     color: #141554 !important;
 }
 
+/* ✅ Adjusting select a district box styling */
+                        
 .stSelectbox {
     background-color: #ffffff !important;
     opacity: 1 !important;
@@ -413,6 +428,7 @@ div[data-testid="stExpanderDetails"] label,
 }
 
 /* ✅ Text widget fixes */
+            
 .stText {
     background-color: #ffffff !important;
     color: #141554 !important;
@@ -420,9 +436,11 @@ div[data-testid="stExpanderDetails"] label,
 }
             
                                     
-/* ✅ SIMPLIFIED Mobile-specific fixes */
+/* ✅ Mobile-specific styling */
+            
 @media (max-width: 768px) {
-    /* Ensure charts are visible on mobile */
+            
+    /* ✅ Ensure charts are visible on mobile */
     div[data-testid="stPlotlyChart"] {
         display: block !important;
         visibility: visible !important;
@@ -431,14 +449,14 @@ div[data-testid="stExpanderDetails"] label,
         min-height: 350px !important;
     }
     
-    /* Expander content on mobile */
+    /* ✅ Expander content on mobile */
     div[data-testid="stExpanderDetails"] {
         background-color: #ffffff !important;
         color: #141554 !important;
         padding: 15px !important;
     }
     
-    /* ✅ FIXED: Only target text elements, not ALL elements */
+    /* ✅ Only target text elements, not ALL elements */
     div[data-testid="stExpanderDetails"] p,
     div[data-testid="stExpanderDetails"] span,
     div[data-testid="stExpanderDetails"] div[data-testid="stMarkdownContainer"],
@@ -475,6 +493,7 @@ div[data-testid="stExpanderDetails"] label,
 
 # Add per pupil button to toggle between total and per pupil funding
 # Initialize session state for button toggle
+
 if 'show_per_pupil' not in st.session_state:
     st.session_state.show_per_pupil = False
 
@@ -650,7 +669,7 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
         if adequacy_gap >= 0:  # Positive gap (adequately staffed)
             st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
         else:  # Negative gap (understaffed)
-            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap):.0f} more {resource_type} in Illinois.")
+            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap):,.0f} more {resource_type} in Illinois.")
    else:  # Specific district selected
        if adequacy_gap_per_school >= 0:  # Positive gap (adequately staffed)
             st.text(f"According to the EBF formula, your school district is adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
