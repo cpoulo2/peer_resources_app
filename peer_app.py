@@ -1,14 +1,17 @@
+# PEER School district resource inequality app
+# Authors: Chris D. Poulos (cdpoulos@gmail.com), Erykah Nave (EMAIL)
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import numpy as np
 
 # Page config
-st.set_page_config(page_title='Explore your district\'s resource needs', layout='wide')
 
-# Load in app data
+st.set_page_config(page_title='🏫 IL school resource ≠ app', layout='wide')
 
-# Load data
+# Read in and cahce data set
+
 @st.cache_data
 def load_data():
     """Load the PEER app parquet file"""
@@ -22,7 +25,8 @@ def load_data():
         st.error(f"Error loading data: {e}")
         return None
 
-# Load the data
+# Load and cache data
+
 df = load_data()
 
 @st.cache_data
@@ -31,14 +35,16 @@ def process_filtered_data(district_name):
     df_filtered = df[df['District Name (IRC)'] == district_name]
     return df_filtered
 
+# Melt data into long format for charts and drop down menus.
+
 @st.cache_data  
 def calculate_funding_metrics(df_filtered):
     
-    # Adequacy and actuals melt
+    # EBF adequacy
     
     df_adequacy = pd.melt(
         df_filtered,
-        id_vars=["RCDTS","District Name (IRC)","Total ASE"],  # ✅ Total ASE is here
+        id_vars=["RCDTS","District Name (IRC)","Total ASE"],
         value_vars=[
             "Adequacy Target",
             "Adequacy Target Per Student",
@@ -58,9 +64,11 @@ def calculate_funding_metrics(df_filtered):
     df_adequacy["Resource"] = df_adequacy["Resource"].str.replace("Adequacy Target", "Total Resources (Dollar Amount)", regex=False)
     df_adequacy["Resource"] = df_adequacy["Resource"].str.replace("Adequate Target Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
     
+    # Actual resources 
+
     df_actual = pd.melt(
         df_filtered,
-        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        id_vars=["RCDTS", "Total ASE"],
         value_vars=[
             "Actual Resources",
             "Actual Core and Specialist Teachers Count (EIS)",
@@ -82,9 +90,11 @@ def calculate_funding_metrics(df_filtered):
     df_actual["Resource"] = df_actual["Resource"].str.replace("Resources", "Total Resources (Dollar Amount)", regex=False)
     df_actual["Resource"] = df_actual["Resource"].str.replace("Resources Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
     
+    # Adequacy gaps
+
     df_gaps = pd.melt(
         df_filtered,
-        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        id_vars=["RCDTS", "Total ASE"],
         value_vars=[
              "Adequacy Funding Gap",
             "Adequacy Funding Gap Per Student",
@@ -105,9 +115,11 @@ def calculate_funding_metrics(df_filtered):
     df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (EIS)", "", regex=False)
     df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (IRC)", "", regex=False)
     
+    # Adequacy gaps per school
+
     df_gaps_perschool = pd.melt(
         df_filtered,
-        id_vars=["RCDTS", "Total ASE"],  # ✅ ADD Total ASE here
+        id_vars=["RCDTS", "Total ASE"],
         value_vars=[
              "Adequacy Funding Gap Per School",
             "Core and Specialist Teachers Gap Per School",
@@ -124,27 +136,34 @@ def calculate_funding_metrics(df_filtered):
         )
     df_gaps_perschool["Resource"] = df_gaps_perschool["Resource"].str.replace(" Gap Per School", "", regex=False)
 
-    # Update merge keys to include Total ASE
+    # Merge adequacy and actuals
+
     df_merged = pd.merge(
         df_adequacy,
         df_actual,
-        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        on=["RCDTS", "Resource", "Total ASE"],
         how="left"
     )
+
+    # Merge gaps
 
     df_merged = pd.merge(
         df_merged,
         df_gaps,
-        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        on=["RCDTS", "Resource", "Total ASE"],
         how="left"
     )
+
+    # Merge gaps per school
 
     df_merged = pd.merge(
         df_merged,
         df_gaps_perschool,
-        on=["RCDTS", "Resource", "Total ASE"],  # ✅ ADD Total ASE to merge
+        on=["RCDTS", "Resource", "Total ASE"],
         how="left"
     )
+
+    # Demographics melt
 
     df_demographics = pd.melt(
     df_filtered,
@@ -158,9 +177,12 @@ def calculate_funding_metrics(df_filtered):
     value_name="Demographic Percentages"
     )
 
+    # Demographics column name formatting
+
     df_demographics["Demographic Group"] = df_demographics["Demographic Group"].str.replace(" (%)", "", regex=False)
 
     # Revenue melt
+
     df_revenue = pd.melt(
         df_filtered,
         id_vars=["RCDTS"],
@@ -173,18 +195,25 @@ def calculate_funding_metrics(df_filtered):
         value_name="Revenue Percentages"
         )
     
+    # Revenue column name formatting
+
     df_revenue["Revenue Source"] = df_revenue["Revenue Source"].str.replace(" (%)", "", regex=False)
+
+    # Resource filter formatting
 
     resource_filter = "Total Resources (Dollar Amount)"
     df_resource = df_merged[df_merged["Resource"] == resource_filter]
-    # Get the actual and adequate resources
+    
+    # Get the actual and adequate resources variables
+    
     actual_resources = df_resource["Actual"].iloc[0]
     adequate_resources = df_resource["Adequate resources"].iloc[0]
     ase = df_resource["Total ASE"].iloc[0]
     
     return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue
 
-# Move this to the top, after loading data
+# CSS styling for the app
+
 st.markdown("""
 <style>
 
@@ -319,6 +348,7 @@ div[data-testid="stPlotlyChart"] {
 }
 
 /* ✅ Adjust expandable menu styling */
+            
 div[data-testid="stExpander"] {
     border: 2px solid #141554 !important;
     border-radius: 8px !important;
@@ -335,9 +365,9 @@ div[data-testid="stExpander"] summary {
     text-align: center !important;
     padding: 15px !important;
     margin: 0 !important;
-    display: flex !important;           /* ✅ Use flexbox */
-    justify-content: center !important; /* ✅ Center content */
-    align-items: center !important;     /* ✅ Vertical center */
+    display: flex !important;           
+    justify-content: center !important; 
+    align-items: center !important;     
     text-align: center !important;
     width: 100% !important;
 }
@@ -364,8 +394,6 @@ div[data-testid="stExpanderDetails"] {
     padding: 20px !important;
     margin: 0 !important;
 }
-
-/* ✅ Moore expandable adjustments: Force text elements to be fully visible */
             
 div[data-testid="stExpanderDetails"] p,
 div[data-testid="stExpanderDetails"] span,
@@ -416,7 +444,7 @@ div[data-testid="stExpanderDetails"] label,
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
     font-size: 16px !important;
-    opacity: 1 !important;  /* ✅ Force full opacity */
+    opacity: 1 !important;
 }
 
 .stSelectbox > div > div {
@@ -424,7 +452,7 @@ div[data-testid="stExpanderDetails"] label,
     color: #141554 !important;
     border: 2px solid #8c8dac !important;
     border-radius: 6px !important;
-    opacity: 1 !important;  /* ✅ Force full opacity */
+    opacity: 1 !important;
 }
 
 /* ✅ Text widget fixes */
@@ -434,8 +462,7 @@ div[data-testid="stExpanderDetails"] label,
     color: #141554 !important;
     opacity: 1 !important;
 }
-            
-                                    
+                               
 /* ✅ Mobile-specific styling */
             
 @media (max-width: 768px) {
@@ -490,31 +517,36 @@ div[data-testid="stExpanderDetails"] label,
 """, unsafe_allow_html=True)
 
 
-
 # Add per pupil button to toggle between total and per pupil funding
 # Initialize session state for button toggle
 
 if 'show_per_pupil' not in st.session_state:
     st.session_state.show_per_pupil = False
 
+# Add PEER logo at top
+
 st.image("peer_logo.png", width=300, use_container_width='auto')
+
+# Header title
+
 st.markdown('<h1 class="header-title">Select a district to look at school resources</h1>', unsafe_allow_html=True)
 
-# Only show the sidebar if data loaded successfully
+# Filter menu for districts (default to statewide)
+
 if df is not None:
     
    # Get unique districts and set default to "Statewide"
-   districts = df['District Name (IRC)'].unique()
+
+   districts = df['District Name (IRC)'].unique() # This was a relic from when we used long data. It's superfluous now but it is functional.
    default_index = 0
    if "Statewide" in districts:
        default_index = list(districts).index("Statewide")
     
    a = st.selectbox('Choose a district:', districts, index=default_index, help= "Select your district using the drop down or typing in the name.")
 
-   # Use cached function instead of direct filtering
    df_filtered = process_filtered_data(a)
 
-# Adequacy level
+# Adequacy level text
 
 adequacy_level = df_filtered["Adequacy Level"].unique()[0]
 
@@ -525,23 +557,30 @@ elif adequacy_level <= 1:
 else:
     st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
 
+# Explanation of adequacy
+
 st.markdown('<h2 class="adequacy-explained">Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
+
+# Adequate funding numbers
 
 st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and Cents of Adequate Funding 🪙</h1>', unsafe_allow_html=True)
 
-# Adequacy target and gap 
+# Data processing and calculations for adequacy funding metrics
 
-# Create animated bar chart comparing actual vs adequate resources
 if 'df_filtered' in locals() and not df_filtered.empty:
+   
    # First filter by the value "Total Resources (Dollar Amount)"
 
    actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue = calculate_funding_metrics(df_filtered)
+   
    # Calculate per pupil values
+   
    actual_per_pupil = actual_resources / ase if ase > 0 else 0
    adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
    gap_per_pupil = actual_per_pupil - adequate_per_pupil
 
-   # Determine which values to display based on button state
+   # Determine which values to display based on button state (full or per pupil funding)
+
    if st.session_state.show_per_pupil:
       display_adequate = adequate_per_pupil
       display_actual = actual_per_pupil
@@ -555,96 +594,64 @@ if 'df_filtered' in locals() and not df_filtered.empty:
       currency_format = "${:,.0f}"
       chart_title_suffix = ""
 
-   # Update the metrics with dynamic values - Create 5 columns to add + signs
-   col1, plus1, col2, plus2, col3 = st.columns([3, 0.5, 3, 0.5, 3])
+   # Set up columns to display Current Funding minus Adequate = Funding Gap
+
+   col1, minus, col2, equal, col3 = st.columns([3, 0.5, 3, 0.5, 3])
+
+# Current funding
 
    with col1:
        title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
        st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
 
+# Minus sign
 
-   with plus1:
-       # Add some vertical spacing to align with the dollar amounts
+   with minus:
        st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
        st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
+
+# Adequate funding
 
    with col2:
        title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
        st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
 
+# Equal sign
 
-   with plus2:
-       # Add some vertical spacing to align with the dollar amounts
+   with equal:
        st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
        st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
 
-   # Col 3
+   # Funding gap
+
    with col3:
       title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
        
       # Determine CSS class based on gap value
+
       gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
        
       st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
       st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
 
-   # Center the button using columns (most reliable)
+   # Center the full/ per pupil button
+
    _, center_col, _ = st.columns([1, 1, 1])
    
    with center_col:
       button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
       if st.button(button_text, key="funding_toggle_button"):
           st.session_state.show_per_pupil = not st.session_state.show_per_pupil
-          st.rerun()
+          st.rerun()   
 
+# Expandable container for adequacy gaps in terms of positions per school
 
-   # Update the chart data
-   chart_data = pd.DataFrame({
-       'Category': ['Actual Resources', 'Adequate Resources'],
-       'Amount': [display_actual, display_adequate],
-       'Color': ['#FF6B6B', '#4CAF50']
-   })
-
-   # Create the animated bar chart with updated data
-   fig = px.bar(
-       chart_data, 
-       x='Category', 
-       y='Amount',
-       color='Category',
-       color_discrete_map={'Actual Resources': '#FF6B6B', 'Adequate Resources': '#4CAF50'},
-       labels={'Amount': f'Dollars ($){chart_title_suffix}', 'Category': ''},
-       text='Amount',
-       title=f"Funding Comparison{chart_title_suffix}"
-   )
-   # Format the chart (keep existing formatting code)
-   fig.update_traces(
-       texttemplate='$%{text:,.0f}',
-       textposition='outside',
-       hovertemplate=None,  # ✅ Remove hover labels
-       hoverinfo='skip'     # ✅ Disable hover entirely
-   )
-
-   fig.update_layout(
-       showlegend=False,
-       title_x=0.5,
-       title_font_size=20,
-       xaxis_title="",
-#       yaxis_title=f"Funding Amount ($){chart_title_suffix}",
-       yaxis=dict(tickformat='$,.0f'),
-       height=400,
-       transition_duration=500,
-       transition_easing="cubic-in-out"
-   )
-
-   #st.plotly_chart(fig, use_container_width=True)
-   
-
-# Create an expandable container to show adequacy gaps in terms of positions per school
 with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
    
    # Create a drop down menue that filters by resource types:
+
    resource_filter = st.selectbox("Select Resource Type", options=[
        "Core and Specialist Teachers",
        "Special Education Teachers",
@@ -676,6 +683,7 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
        else:  # Negative gap (understaffed)
             st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap_per_school):.2f} more {resource_type} per school in your district.")
  
+# Expandable container for revenue sources
 
 with st.expander("Revenue by source"):
     
@@ -690,16 +698,19 @@ with st.expander("Revenue by source"):
       text='Revenue Percentages'
    )
       # Format the chart
+
    fig_rev.update_traces(
+      
       # Format the text labels to show percentages
+
       texttemplate='%{text:.0%}',
       textposition='outside',
-      hovertemplate=None,  # ✅ Remove hover labels
-      hoverinfo='skip'     # ✅ Disable hover entirely
+      hovertemplate=None,
+      hoverinfo='skip'
    )
-   
 
-   # ✅ Calculate max value and set y-axis range
+   # Calculate the max value to set y-axis range
+
    max_revenue = df_revenue['Revenue Percentages'].max()
    y_rev_max = max_revenue * 1.1  # 10% higher than max value
 
@@ -722,12 +733,14 @@ with st.expander("Revenue by source"):
       yaxis=dict(
           tickformat='.0%',
           range=[0,y_rev_max],
-          tickfont=dict(color='#141554', size=12),  # ✅ Force y-axis text color
-          color='#141554'  # ✅ Force y-axis line color
+          tickfont=dict(color='#141554', size=12),
+          color='#141554'
       ),
    )
    fig_rev.update_yaxes(title_font_color='#141554')
    st.plotly_chart(fig_rev, use_container_width=True)
+
+# Expandable container for demographics
     
 with st.expander("Demographics"):
    
@@ -744,15 +757,17 @@ with st.expander("Demographics"):
    )
     
    # Format the chart
+
    fig_demo.update_traces(
        texttemplate='%{text:.0%}',
        textposition='outside',
-       textfont=dict(size=12, color='#141554',family='Poppins'),  # ✅ Force text color
-       hovertemplate=None,  # ✅ Remove hover labels
-       hoverinfo='skip'     # ✅ Disable hover entirely
+       textfont=dict(size=12, color='#141554',family='Poppins'),
+       hovertemplate=None,
+       hoverinfo='skip'
    )
    
-   # ✅ Calculate max value and set y-axis range
+   # Calculate max value and set y-axis range
+
    max_demographic = df_demographics['Demographic Percentages'].max()
    y_demo_max = max_demographic * 1.1  # 10% higher than max value
 
@@ -778,8 +793,8 @@ with st.expander("Demographics"):
       yaxis=dict(
           tickformat='.0%',
           range=[0,y_rev_max],
-          tickfont=dict(color='#141554', size=12),  # ✅ Force y-axis text color
-          color='#141554'  # ✅ Force y-axis line color
+          tickfont=dict(color='#141554', size=12),
+          color='#141554'
       )
    )
    fig_demo.update_yaxes(title_font_color='#141554')
