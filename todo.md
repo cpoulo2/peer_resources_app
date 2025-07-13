@@ -1,13 +1,9 @@
 # To do 
 
-# Administate
-
-- github folder {start}
-    - Clean {start}
-    - Update README {start}
+## Administate
 
 - Meeting on draft app to determine next steps {start} {c}
-    - Agenda {start}
+
     - develop walk through of app {start}
     - propose next steps - train erykah work with her to change/add. {start}
     - develop plan to update tableau {start}
@@ -17,23 +13,36 @@
     - Create plan data cleaning tutrial/walk through {start}
     - Create plan for web app walk through {start}
 
-# Data {c}
+## Data
 
 - Directory of Educational Entities {start} {c}
 
     - Solve: Legislative districts sometimes only include district office, not school (LOW PRIORITY) {start}
 
-# Web app 
+## Web app 
+ 
+# #
 
-- Annotations {start}
-    - Finish cleaning script annotations {start} {cm:2025-07-13} {duration:<1m}
-    - Finish web app annotations
 # Completed 
+
+## Administrative
+
+    - Agenda for peer app draft reveiw mtg {start} {cm:2025-07-13} {duration:<1m}
+
+- github folder {start} {cm:2025-07-13} {duration:<1m}
+    - Clean {start} {cm:2025-07-13} {duration:<1m}
+    - Update README {start} {cm:2025-07-13} {duration:<1m}
 
     - EBF {cm:2025-07-13}
         - Use ASE for per pupil calculations {cm:2025-07-02}
 
-# Web app
+## Data
+
+## Web app
+
+- Annotations {start} {cm:2025-07-13} {duration:<1m}
+    - Finish cleaning script annotations {start} {cm:2025-07-13} {duration:<1m}
+    - Finish web app annotations {cm:2025-07-13}
 
     - Build out skeleton {cm:2025-07-02}
 
