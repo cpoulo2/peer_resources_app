@@ -27,7 +27,7 @@
 
 ## Administrative
 
-    - Agenda for peer app draft reveiw mtg {start} {cm:2025-07-13} {duration:<1m}
+- Agenda for peer app draft reveiw mtg {start} {cm:2025-07-13} {duration:<1m}
 
 - github folder {start} {cm:2025-07-13} {duration:<1m}
     - Clean {start} {cm:2025-07-13} {duration:<1m}
