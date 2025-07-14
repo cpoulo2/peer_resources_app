@@ -1,5 +1,5 @@
 # PEER School district resource inequality app
-# Authors: Chris D. Poulos (cdpoulos@gmail.com), Erykah Nave (EMAIL)
+# Authors: Chris D. Poulos (cdpoulos@gmail.com), Erykah Nava (EMAIL)
 
 import streamlit as st
 import pandas as pd
