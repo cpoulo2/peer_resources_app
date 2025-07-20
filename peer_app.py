@@ -225,15 +225,22 @@ st.markdown("""
     background-color: #ffffff;
     color: #141554;
 }
+            
 /* Center select box text */            
 .stSelectbox > label {
     text-align: center !important;
     font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     display: block !important;
     width: 100% !important;
 }
 
+.stSelectbox > label > div > p {
+    text-align: center !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+}
             
 /* make the second use of "stElementContainer element-container st-emotion-cache-17lr0tt e1lln2w81" background color #8c8dac */
 div.stElementContainer:nth-child(5) {
