@@ -248,7 +248,45 @@ div.stElementContainer:nth-child(5) {
     border-radius: 12px !important;
     margin-bottom: 30px !important;
 }
-                    
+
+/* make the background of the adequacy numbers light purple grey */                        
+div.stHorizontalBlock:nth-child(8) {
+    background-color: rgba(140, 141, 172, 0.3) !important;
+    border-radius: 12px !important;
+    margin-bottom: 30px !important;
+}
+
+/* make backgorund of adequate funding number transparent transparent so that grey background shows */
+
+div.stColumn:nth-child(5) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+div.stColumn:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important
+    }
+div.stColumn:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
+    background-color: transparent !important;
+}
+
+div.st-emotion-cache-14zlo27:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important;
+}
+div.st-emotion-cache-13m9da0:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important;
+}
+div.st-emotion-cache-14zlo27:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important;
+}               
+
+div.st-emotion-cache-13m9da0:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
+    background-color: transparent !important;
+}
+div.st-emotion-cache-14zlo27:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    background-color: transparent !important;
+}
+                                             
 /* ✅ Specify style for the following classes */                        
 .adequacy-level .illinois-text {
     color: #C4384D !important;
