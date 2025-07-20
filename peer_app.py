@@ -246,6 +246,7 @@ st.markdown("""
 div.stElementContainer:nth-child(5) {
     background-color: rgba(140, 141, 172, 0.3) !important;
     border-radius: 12px !important;
+    margin-bottom: 30px !important;
 }
                     
 /* ✅ Specify style for the following classes */                        
@@ -333,7 +334,13 @@ div.stElementContainer:nth-child(5) {
    font-weight:;
    margin-bottom: 5px !important;
 }
-            
+/* Make adequacy explained box the light purple grey and rounded edges:
+div.stElementContainer:nth-child(7) > div:nth-child(1) > div:nth-child(1) {
+    background-color: rgba(140, 141, 172, 0.3) !important;
+    border-radius: 12px !important;
+    justify-content: center !important;
+}
+                                    
 /* ✅ Adjust button container */
 
 .stButton {
@@ -591,7 +598,6 @@ with center_col:
 if st.session_state.get('show_help', False):
     st.markdown("""
     <div class="adequacy-help-content">
-    <strong>💡 Adequate Funding Explained:</strong><br>
     Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.
     </div>
     """, unsafe_allow_html=True)
@@ -666,8 +672,10 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    # Funding gap
 
    with col3:
-      title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-       
+      if display_gap < 0:
+        title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+      else:
+        title_text = "Funding Surplus" + (" Per Pupil" if st.session_state.show_per_pupil else "")
       # Determine CSS class based on gap value
 
       gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
