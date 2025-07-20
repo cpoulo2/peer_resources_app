@@ -641,7 +641,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
 
    # Set up columns to display Current Funding minus Adequate = Funding Gap
 
-   col1, minus, col2, equal, col3 = st.columns([3, 0.5, 3, 0.5, 3])
+   col1, minus, col2, equal, col3 = st.columns([3, .4, 3, .4, 3])
 
 # Current funding'
 
