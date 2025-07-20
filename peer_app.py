@@ -226,6 +226,12 @@ st.markdown("""
     color: #141554;
 }
 
+/* make the second use of "stElementContainer element-container st-emotion-cache-17lr0tt e1lln2w81" background color #8c8dac */
+div.stElementContainer:nth-child(5) {
+    background-color: rgba(140, 141, 172, 0.3) !important;
+    border-radius: 12px !important;
+}
+
 /* ✅ Specify style for the following classes */                        
 .adequacy-level .illinois-text {
     color: #C4384D !important;
@@ -244,7 +250,7 @@ st.markdown("""
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
-                        
+                                        
 .header-title {
     font-size: 24px !important;
     font-family: Poppins;
@@ -551,15 +557,32 @@ if df is not None:
 adequacy_level = df_filtered["Adequacy Level"].unique()[0]
 
 if a == "Statewide":
-    st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True,help="Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.")
 elif adequacy_level <= 1:
-    st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{a}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{a}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True,help="Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.")
 else:
-    st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True,help="Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.")
+
+# ✅ Custom help box
+#st.info("💡 **Adequate Funding Explained:** Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.")
+
+# ✅ Custom help section
+_, center_col, _ = st.columns([1, 2, 1])
+with center_col:
+    if st.button("💡 Adequate Funding Explained", key="help_button"):
+        st.session_state.show_help = not st.session_state.get('show_help', False)
+
+if st.session_state.get('show_help', False):
+    st.markdown("""
+    <div class="adequacy-help-content">
+    <strong>💡 Adequate Funding Explained:</strong><br>
+    Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.
+    </div>
+    """, unsafe_allow_html=True)
 
 # Explanation of adequacy
 
-st.markdown('<h2 class="adequacy-explained">Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
+#st.markdown('<h2 class="adequacy-explained">Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
 
 # Adequate funding numbers
 
@@ -598,7 +621,7 @@ if 'df_filtered' in locals() and not df_filtered.empty:
 
    col1, minus, col2, equal, col3 = st.columns([3, 0.5, 3, 0.5, 3])
 
-# Current funding
+# Current funding'
 
    with col1:
        title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")

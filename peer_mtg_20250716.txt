@@ -1,0 +1,20 @@
+This is a first iteration of what we can use and iterate upon.
+
+Format
+
+Top lines first. No visualizations. Intuitive and straightforward information > visualizations.
+
+Top lines:
+
+Adequacy level
+
+Current - adequate = funding gap
+
+Drop downs to see other information. Idea - easy to pull up on your phone
+as a resident to see information about your district.
+
+Positions - dynamic.
+
+Formating and design - able to change; Erykah
+
+Next steps - train erykah
