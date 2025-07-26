@@ -18,3 +18,21 @@ Positions - dynamic.
 Formating and design - able to change; Erykah
 
 Next steps - train erykah
+
+Link - 
+
+-Wake up the app (set longer). (Need to traffic page once a day)
+-Add legislative view (Erykah and I will work on)
+-Frame around
+-Need logo
+-Break up sections (colors or boxes) - started need to figure out
+-Ribbon photos - 
+-dynamic text for funding gap - diniahws
+-Make sure graphs exclude missing values. 
+
+Substantive questions:
+
+-Statewide gap (sum of positive gap)
+-Explaining what numbers mean. 
+-Cite data sources
+-Add year at top

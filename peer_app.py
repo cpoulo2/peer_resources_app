@@ -248,44 +248,6 @@ div.stElementContainer:nth-child(5) {
     border-radius: 12px !important;
     margin-bottom: 30px !important;
 }
-
-/* make the background of the adequacy numbers light purple grey */                        
-div.stHorizontalBlock:nth-child(8) {
-    background-color: rgba(140, 141, 172, 0.3) !important;
-    border-radius: 12px !important;
-    margin-bottom: 30px !important;
-}
-
-/* make backgorund of adequate funding number transparent transparent so that grey background shows */
-
-div.stColumn:nth-child(5) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-
-div.stColumn:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important
-    }
-div.stColumn:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
-    background-color: transparent !important;
-}
-
-div.st-emotion-cache-14zlo27:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important;
-}
-div.st-emotion-cache-13m9da0:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important;
-}
-div.st-emotion-cache-14zlo27:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important;
-}               
-
-div.st-emotion-cache-13m9da0:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
-    background-color: transparent !important;
-}
-div.st-emotion-cache-14zlo27:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
-    background-color: transparent !important;
-}
                                              
 /* ✅ Specify style for the following classes */                        
 .adequacy-level .illinois-text {
@@ -578,7 +540,7 @@ div[data-testid="stExpanderDetails"] label,
         background-color: #ffffff !important;
         color: #141554 !important;
     }
- 
+
 }
 </style>
 """, unsafe_allow_html=True)
@@ -678,48 +640,48 @@ if 'df_filtered' in locals() and not df_filtered.empty:
       chart_title_suffix = ""
 
    # Set up columns to display Current Funding minus Adequate = Funding Gap
+   with st.container():
+        col1, minus, col2, equal, col3 = st.columns([3, .4, 3, .4, 3])
 
-   col1, minus, col2, equal, col3 = st.columns([3, .4, 3, .4, 3])
+    # Current funding'
 
-# Current funding'
+        with col1:
+            title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
+            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
 
-   with col1:
-       title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-       st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
+        # Minus sign
 
-# Minus sign
+        with minus:
+            st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
+            st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
 
-   with minus:
-       st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-       st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
+    # Adequate funding
 
-# Adequate funding
+        with col2:
+            title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
+            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
 
-   with col2:
-       title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-       st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-       st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
+        # Equal sign
 
-# Equal sign
+        with equal:
+            st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
+            st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
 
-   with equal:
-       st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-       st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
+    # Funding gap
 
-   # Funding gap
+        with col3:
+            if display_gap < 0:
+                title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+            else:
+                title_text = "Funding Surplus" + (" Per Pupil" if st.session_state.show_per_pupil else "")
+            # Determine CSS class based on gap value
 
-   with col3:
-      if display_gap < 0:
-        title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-      else:
-        title_text = "Funding Surplus" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-      # Determine CSS class based on gap value
+            gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
 
-      gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
-       
-      st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-      st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
+            st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
 
    # Center the full/ per pupil button
 
