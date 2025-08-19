@@ -2,9 +2,12 @@
 # Authors: Chris D. Poulos (cdpoulos@gmail.com), Erykah Nava (EMAIL)
 
 import streamlit as st
+from PIL import Image
 import pandas as pd
 import plotly.express as px
 import numpy as np
+from streamlit_extras.stylable_container import stylable_container
+
 
 # Page config
 
@@ -24,8 +27,6 @@ def load_data():
     except Exception as e:
         st.error(f"Error loading data: {e}")
         return None
-
-# Load and cache data
 
 df = load_data()
 
@@ -212,42 +213,101 @@ def calculate_funding_metrics(df_filtered):
     
     return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue
 
-# CSS styling for the app
+# HEADER
+
+# Adjusting logo to pop
+
+st.markdown("""
+<style>
+.st-emotion-cache-7czcpc {
+    background: rgba(255,255,255,0.3);
+    border-radius: 16px;
+    padding: 0px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Header container
+
+with stylable_container(
+    key="header_container",
+    css_styles="""
+        {
+            background-image: linear-gradient(rgba(182,183,209,0.15), rgba(182,183,209,0.15)), url('https://images.squarespace-cdn.com/content/v1/6205588be5859638b3fe122c/9d618979-ff41-429b-8ccb-a402f583056f/the+group.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 30px 40px;
+        }
+        .stImage img {
+            width: 120px !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 8px #000;
+        text-align: left !important;
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-start;
+        }
+    """,
+):
+    col1,col2 = st.columns([3,7])
+    with col1:
+        st.image("peer_logo.png")
+    with col2:
+        st.markdown('<span class="header-title">PEER School Funding Needs Lookup</span>', unsafe_allow_html=True)
+
+
+# Present adequacy level by district
+
+if df is not None:
+    
+# Get unique districts and set default to "Statewide"
+
+   districts = df['District Name (IRC)'].unique() # This was a relic from when we used long data. It's superfluous now since data is wide not long but it is functional.
+   default_index = 0
+   if "Statewide" in districts:
+       default_index = list(districts).index("Statewide")
+
+
+with stylable_container(
+    key="select_dist",
+    css_styles="""
+        {
+            background-color: None;
+            border-radius: 10px;
+            padding: 20px;
+            align-items: center;
+            text-align: center;
+        }
+
+    """,
+):
+    st.markdown("<h5>Select a district to view resource needs</h5>",unsafe_allow_html=True)
+
+selection = st.selectbox("", districts, index=default_index)
+df_filtered = process_filtered_data(selection)
+
+adequacy_level = df_filtered["Adequacy Level"].unique()[0]
+
+# Adequacy level and adequacy gaps CSS
 
 st.markdown("""
 <style>
 
 /* ✅ Download fonts, load font weights, enable font fallback */            
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Montserrat:wght@400;500&display=swap');
-
-/* ✅ Set global background and font color */                        
-.stApp {
-    background-color: #ffffff;
-    color: #141554;
-}
-            
-/* Center select box text */            
-.stSelectbox > label {
-    text-align: center !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 700 !important;
-    display: block !important;
-    width: 100% !important;
-}
-
-.stSelectbox > label > div > p {
-    text-align: center !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
-    margin: 0 !important;
-}
-            
-/* make the second use of "stElementContainer element-container st-emotion-cache-17lr0tt e1lln2w81" background color #8c8dac */
-div.stElementContainer:nth-child(5) {
-    background-color: rgba(140, 141, 172, 0.3) !important;
-    border-radius: 12px !important;
-    margin-bottom: 30px !important;
-}
                                              
 /* ✅ Specify style for the following classes */                        
 .adequacy-level .illinois-text {
@@ -334,281 +394,36 @@ div.stElementContainer:nth-child(5) {
    font-weight:;
    margin-bottom: 5px !important;
 }
-/* Make adequacy explained box the light purple grey and rounded edges:
-div.stElementContainer:nth-child(7) > div:nth-child(1) > div:nth-child(1) {
-    background-color: rgba(140, 141, 172, 0.3) !important;
-    border-radius: 12px !important;
-    justify-content: center !important;
-}
-                                    
-/* ✅ Adjust button container */
-
-.stButton {
-    display: flex !important;
-    justify-content: center !important;
-}
-            
-.stButton > button {
-    background-color: #ffffff !important;  
-    color: #141554 !important;             
-    border: 2px solid #141554 !important;  
-    border-radius: 8px !important;
-    padding: 12px 24px !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    margin-bottom: 20px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-}
-
-/* ✅ Adjusting Plotly chart styling (for all devices) */
-div[data-testid="stPlotlyChart"] {
-    background-color: #ffffff !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 400px !important;
-}
-
-.plotly {
-    background-color: #ffffff !important;
-    width: 100% !important;
-    height: auto !important;
-}
-
-/* ✅ Adjust expandable menu styling */
-            
-div[data-testid="stExpander"] {
-    border: 2px solid #141554 !important;
-    border-radius: 8px !important;
-    padding: 0 !important;
-    margin: 15px 0 !important;
-    overflow: hidden !important;  /* ✅ Prevents inner borders from showing */
-    background-color: #ffffff !important; /* ✅ Set background color */
-    color: #141554 !important; /* ✅ Set text color */
-}
-
-div[data-testid="stExpander"] summary {
-    background: #ffffff !important;
-    color: #141554 !important;    
-    text-align: center !important;
-    padding: 15px !important;
-    margin: 0 !important;
-    display: flex !important;           
-    justify-content: center !important; 
-    align-items: center !important;     
-    text-align: center !important;
-    width: 100% !important;
-}
-
-div[data-testid="stExpander"] summary p,
-div[data-testid="stExpander"] summary span,
-div[data-testid="stExpander"] summary div {
-    
-    background: transparent !important;
-    color: #141554 !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    text-align: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    flex: 1 !important;
-}
-
-div[data-testid="stExpanderDetails"] {
-    background-color: #ffffff !important;
-    color: #141554 !important;
-    padding: 20px !important;
-    margin: 0 !important;
-}
-            
-div[data-testid="stExpanderDetails"] p,
-div[data-testid="stExpanderDetails"] span,
-div[data-testid="stExpanderDetails"] label,
-div[data-testid="stExpanderDetails"] .stMarkdown,
-div[data-testid="stExpanderDetails"] .stText {
-    opacity: 1 !important;
-    color: #141554 !important;
-    background-color: #ffffff !important;
-    font-family: 'Poppins', sans-serif !important;
-}             
-            
-div[data-testid="stElementContainer"] {
-    background-color: #ffffff;
-    color: #141554;
-            
-}
-            
-div[data-testid="stElementContainer"] p,
-div[data-testid="stElementContainer"] span,
-div[data-testid="stElementContainer"] div,
-div[data-testid="stElementContainer"] label,
-div[data-testid="stExpanderDetails"] p,
-div[data-testid="stExpanderDetails"] span,
-div[data-testid="stExpanderDetails"] div,
-div[data-testid="stExpanderDetails"] label,
-.stSelectbox p,
-.stSelectbox span,
-.stSelectbox div,
-.stSelectbox input,
-.stText p,
-.stText span,
-.stMarkdown p,
-.stMarkdown span {
-    color: #141554 !important;
-}
-
-/* ✅ Adjusting select a district box styling */
-                        
-.stSelectbox {
-    background-color: #ffffff !important;
-    opacity: 1 !important;
-}
-
-.stSelectbox > label {
-    background-color: #ffffff !important;
-    color: #141554 !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    opacity: 1 !important;
-}
-
-.stSelectbox > div > div {
-    background-color: #ffffff !important;
-    color: #141554 !important;
-    border: 2px solid #8c8dac !important;
-    border-radius: 6px !important;
-    opacity: 1 !important;
-}
-
-/* ✅ Text widget fixes */
-            
-.stText {
-    background-color: #ffffff !important;
-    color: #141554 !important;
-    opacity: 1 !important;
-}
                                
-/* ✅ Mobile-specific styling */
-            
-@media (max-width: 768px) {
-            
-    /* ✅ Ensure charts are visible on mobile */
-    div[data-testid="stPlotlyChart"] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 100% !important;
-        min-height: 350px !important;
-    }
-    
-    /* ✅ Expander content on mobile */
-    div[data-testid="stExpanderDetails"] {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-        padding: 15px !important;
-    }
-    
-    /* ✅ Only target text elements, not ALL elements */
-    div[data-testid="stExpanderDetails"] p,
-    div[data-testid="stExpanderDetails"] span,
-    div[data-testid="stExpanderDetails"] div[data-testid="stMarkdownContainer"],
-    div[data-testid="stExpanderDetails"] label {
-        opacity: 1 !important;
-        color: #141554 !important;
-        background-color: #ffffff !important;
-    }
-    
-    /* ✅ Selectbox mobile fixes - specific targeting */
-    .stSelectbox > label {
-        color: #141554 !important;
-        font-weight: 600 !important;
-        background-color: #ffffff !important;
-    }
-    
-    .stSelectbox > div > div {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-        border: 2px solid #141554 !important;
-    }
-    
-    /* ✅ Fix selectbox dropdown options */
-    .stSelectbox [data-baseweb="select"] {
-        background-color: #ffffff !important;
-        color: #141554 !important;
-    }
-
-}
 </style>
 """, unsafe_allow_html=True)
 
-
-# Add per pupil button to toggle between total and per pupil funding
-# Initialize session state for button toggle
-
-if 'show_per_pupil' not in st.session_state:
-    st.session_state.show_per_pupil = False
-
-# Add PEER logo at top
-
-st.image("peer_logo.png", width=300, use_container_width='auto')
-
-# Header title
-
-st.markdown('<h1 class="header-title">Select a district to look at school resources</h1>', unsafe_allow_html=True)
-
-# Filter menu for districts (default to statewide)
-
-if df is not None:
-    
-   # Get unique districts and set default to "Statewide"
-
-   districts = df['District Name (IRC)'].unique() # This was a relic from when we used long data. It's superfluous now but it is functional.
-   default_index = 0
-   if "Statewide" in districts:
-       default_index = list(districts).index("Statewide")
-    
-   a = st.selectbox('Choose a district:', districts, index=default_index, help= "Select your district using the drop down or typing in the name.")
-
-   df_filtered = process_filtered_data(a)
-
-# Adequacy level text
-
-adequacy_level = df_filtered["Adequacy Level"].unique()[0]
-
-if a == "Statewide":
-    st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-elif adequacy_level <= 1:
-    st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{a}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-else:
-    st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{a}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-
-# ✅ Custom help box
-#st.info("💡 **Adequate Funding Explained:** Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.")
-
-# ✅ Custom help section
-_, center_col, _ = st.columns([1, 2, 1])
-with center_col:
+with stylable_container(
+    key="adequacy_level_container",
+    css_styles="""
+        {
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+            align-items: center;
+            text-align: center;
+        }
+    """,
+):
+    if selection == "Statewide":
+        st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    elif adequacy_level <= 1:
+        st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{selection}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{selection}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
     if st.button("💡 Adequate Funding Explained", key="help_button"):
         st.session_state.show_help = not st.session_state.get('show_help', False)
-
-if st.session_state.get('show_help', False):
-    st.markdown("""
+    if st.session_state.get('show_help', False):
+        st.markdown("""
     <div class="adequacy-help-content">
     Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.
     </div>
     """, unsafe_allow_html=True)
-
-# Explanation of adequacy
-
-#st.markdown('<h2 class="adequacy-explained">Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois\' K-12 Evidence-Based Funding Formula.</h2>',unsafe_allow_html=True)
-
-# Adequate funding numbers
-
-st.markdown('<h1 class="adequacy-explained-a">💰 The Dollars and Cents of Adequate Funding 🪙</h1>', unsafe_allow_html=True)
 
 # Data processing and calculations for adequacy funding metrics
 
@@ -625,6 +440,8 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    gap_per_pupil = actual_per_pupil - adequate_per_pupil
 
    # Determine which values to display based on button state (full or per pupil funding)
+   if 'show_per_pupil' not in st.session_state:
+    st.session_state.show_per_pupil = False
 
    if st.session_state.show_per_pupil:
       display_adequate = adequate_per_pupil
@@ -638,66 +455,121 @@ if 'df_filtered' in locals() and not df_filtered.empty:
       display_gap = actual_resources - adequate_resources
       currency_format = "${:,.0f}"
       chart_title_suffix = ""
+    
 
-   # Set up columns to display Current Funding minus Adequate = Funding Gap
-   with st.container():
-        col1, minus, col2, equal, col3 = st.columns([3, .4, 3, .4, 3])
-
-    # Current funding'
-
-        with col1:
-            title_text = "Current Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
-
-        # Minus sign
-
-        with minus:
-            st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-            st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">-</h2>', unsafe_allow_html=True)
-
-    # Adequate funding
-
-        with col2:
-            title_text = "Adequate Funding" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
-            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
-
-        # Equal sign
-
-        with equal:
-            st.markdown('<div style="height: 25px;"></div>', unsafe_allow_html=True)  # Space for title
-            st.markdown('<h2 style="text-align: center; color: #C4384D; font-size: 56px; font-weight: bold;">=</h2>', unsafe_allow_html=True)
-
-    # Funding gap
-
-        with col3:
-            if display_gap < 0:
-                title_text = "Funding Gap" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-            else:
-                title_text = "Funding Surplus" + (" Per Pupil" if st.session_state.show_per_pupil else "")
-            # Determine CSS class based on gap value
-
-            gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
-
-            st.markdown(f'<h3 class="adequacy-dollars-title">{title_text}</h3>', unsafe_allow_html=True)
+with stylable_container(
+    key="adequacy_dollars",
+    css_styles="""
+        {
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .st-emotion-cache-159b5ki {
+        align-items: flex-end !important;  /* For flex containers */
+        text-align: right !important;      /* For text content */
+        }
+            h4,h3,h2,h1,p {
+                text-align: center !important;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+    """,
+):
+    if st.session_state.show_per_pupil:
+        title_text = "💰 The Dollars and Cents of Adequate Funding Per Pupil 🪙"
+    else:
+        title_text = "💰 The Dollars and Cents of Adequate Funding 🪙"
+    st.markdown(f'<h2 class="adequacy-explained-a">{title_text}</h2>', unsafe_allow_html=True)
+    st.markdown("---")
+    with stylable_container(
+        key="school_funding_needs",
+        css_styles="""
+            {
+                background-color: ghostwhite;
+                border-radius: 10px;
+                padding: 20px 0 10px 0;
+                margin-bottom: 16px;
+            }
+        """,
+    ):
+        st.subheader('School Funding Needs:')
+        st.markdown("---")
+        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
+    with stylable_container(
+        key="school_funding_resources",
+        css_styles="""
+            {
+                background-color: ghostwhite;
+                border-radius: 10px;
+                padding: 20px 0 10px 0;
+                margin-bottom: 16px;
+            }
+        """,
+    ):
+        st.subheader('School Funding Resources:')
+        st.markdown('---')
+        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
+    with stylable_container(
+        key="school_funding_gap",
+        css_styles="""
+            {
+                background-color: ghostwhite;
+                border-radius: 10px;
+                padding: 20px 0 10px 0;
+                margin-bottom: 16px;
+            }
+        """,
+    ):
+    
+        gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
+        if display_gap < 0:
+            st.subheader('School Funding Gap:')
+            st.markdown("---")
             st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+        else:
+            st.subheader('School Funding Surplus:')
+            st.markdown("---")
+            st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+    
+    button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
+    if st.button(button_text, key="funding_toggle_button"):
+        st.session_state.show_per_pupil = not st.session_state.show_per_pupil
+        st.rerun() 
 
-   # Center the full/ per pupil button
+# Expander CSS
 
-   _, center_col, _ = st.columns([1, 1, 1])
-   
-   with center_col:
-      button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
-      if st.button(button_text, key="funding_toggle_button"):
-          st.session_state.show_per_pupil = not st.session_state.show_per_pupil
-          st.rerun()   
+st.markdown("""
+<style>
+/* Center container text */
 
-# Expandable container for adequacy gaps in terms of positions per school
+summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
+summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+            
+summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
+summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+            
+</style>
+""", unsafe_allow_html=True)
+
 
 with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
    
-   # Create a drop down menue that filters by resource types:
+    # Create a drop down menue that filters by resource types:
 
    resource_filter = st.selectbox("Select Resource Type", options=[
        "Core and Specialist Teachers",
@@ -719,7 +591,7 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
    adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
    adequacy_gap = df_resource["Gaps"].iloc[0] if not df_resource.empty else 0
    resource_type = resource_filter.lower()
-   if a == "Statewide":
+   if selection == "Statewide":
         if adequacy_gap >= 0:  # Positive gap (adequately staffed)
             st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
         else:  # Negative gap (understaffed)
@@ -729,7 +601,7 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
             st.text(f"According to the EBF formula, your school district is adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
        else:  # Negative gap (understaffed)
             st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap_per_school):.2f} more {resource_type} per school in your district.")
- 
+
 # Expandable container for revenue sources
 
 with st.expander("Revenue by source"):
@@ -847,7 +719,6 @@ with st.expander("Demographics"):
    fig_demo.update_yaxes(title_font_color='#141554')
    
    st.plotly_chart(fig_demo, use_container_width=True)
-
 
 
 
