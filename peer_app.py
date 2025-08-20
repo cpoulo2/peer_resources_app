@@ -263,13 +263,13 @@ with stylable_container(
     display: flex !important;
     align-items: center !important;   /* vertical centering */
     justify-content: center !important; /* horizontal centering */
-    height: 100%; /* or a fixed height if needed */
+    height: 50%; /* or a fixed height if needed */
 }
 
 .stImage img {
     display: block;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 50%;
     height: auto;
 }
         .header-title {
