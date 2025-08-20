@@ -259,13 +259,19 @@ with stylable_container(
             align-items: center !important;
             justify-content: center !important;
         }
-        .stImage img {
-            width: 120px !important;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin: auto !important;
-            display: block !important;
-        }
+        .stImage {
+    display: flex !important;
+    align-items: center !important;   /* vertical centering */
+    justify-content: center !important; /* horizontal centering */
+    height: 100%; /* or a fixed height if needed */
+}
+
+.stImage img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
         .header-title {
     font-size: 2.5rem;
     font-weight: bold;
