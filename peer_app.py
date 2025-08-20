@@ -272,6 +272,7 @@ with stylable_container(
     width: 120px !important;   /* Set your desired width */
     height: auto !important;   /* Maintain aspect ratio */
     max-width: 100% !important;
+    justify-content: center !important;
 }
         .header-title {
     font-size: 2.5rem;
