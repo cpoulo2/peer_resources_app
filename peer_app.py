@@ -240,9 +240,24 @@ with stylable_container(
             margin-bottom: 1.5rem;
             min-height: 220px;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 40px;
             padding: 30px 40px;
+        }
+        /* Center the horizontal block */
+        .stHorizontalBlock {
+            justify-content: center !important;
+            align-items: center !important;
+            display: flex !important;
+        }
+        /* Center content in each column */
+        .stColumn {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         .stImage img {
             width: 120px !important;
@@ -252,16 +267,18 @@ with stylable_container(
             display: block !important;
         }
         .header-title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: white;
-        text-shadow: 1px 1px 8px #000;
-        text-align: left !important;
-        display: block;
-        width: 100%;
-        margin-left: 0;
-        justify-content: flex-start;
-        }
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 8px #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    text-align: center !important;
+}
     """,
 ):
     col1,col2 = st.columns([3,7])
