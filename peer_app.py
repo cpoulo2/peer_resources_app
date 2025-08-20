@@ -246,6 +246,19 @@ with stylable_container(
             gap: 40px;
             padding: 30px 40px;
         }
+        /* Center the horizontal block */
+        .stHorizontalBlock {
+            justify-content: center !important;
+            align-items: center !important;
+            display: flex !important;
+        }
+        /* Center content in each column */
+        .stColumn {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
         .stImage {
     display: flex !important;
     align-items: center !important;   /* vertical centering */
