@@ -269,8 +269,9 @@ with stylable_container(
 .stImage img {
     display: block;
     margin: 0 auto;
-    max-width: 50%;
-    height: auto;
+    width: 120px !important;   /* Set your desired width */
+    height: auto !important;   /* Maintain aspect ratio */
+    max-width: 100% !important;
 }
         .header-title {
     font-size: 2.5rem;
