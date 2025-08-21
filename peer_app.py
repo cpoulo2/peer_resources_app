@@ -491,13 +491,12 @@ with stylable_container(
             background-color: #e0e7ff;
             border-radius: 10px;
             padding: 20px;
+            justify-content: center;
         }
         .st-emotion-cache-159b5ki {
         align-items: flex-end !important;  /* For flex containers */
         text-align: center !important;      /* For text content */
         }
-        stElementContainer element-container st-key-funding_toggle_button st-emotion-cache-zh2fnc e52wr8w0 {
-        justify-content: center;
         }
             h4,h3,h2,h1,p {
                 text-align: center !important;
