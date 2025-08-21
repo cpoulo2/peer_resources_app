@@ -214,7 +214,7 @@ def calculate_funding_metrics(df_filtered):
     return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue
 
 # HEADER
-
+st.header("TEST")
 # Adjusting logo to pop
 
 st.markdown("""
