@@ -491,7 +491,13 @@ with stylable_container(
             background-color: #e0e7ff;
             border-radius: 10px;
             padding: 20px;
+
         }
+        .st-emotion-cache-1n6tfoc {
+        align-items: flex-end !important;  /* For flex containers */
+        text-align: center !important;      /* For text content */
+        }
+
         .st-emotion-cache-159b5ki {
         align-items: flex-end !important;  /* For flex containers */
         text-align: center !important;      /* For text content */
