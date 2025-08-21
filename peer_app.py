@@ -491,7 +491,6 @@ with stylable_container(
             background-color: #e0e7ff;
             border-radius: 10px;
             padding: 20px;
-            justify-content: center;
         }
         .st-emotion-cache-159b5ki {
         align-items: flex-end !important;  /* For flex containers */
