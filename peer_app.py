@@ -598,7 +598,7 @@ summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     text-align: center !important;
     width: 100%;
 }
-}
+
 .st-emotion-cache-1an99fx etvjjhi0 {
     display: flex !important;
     justify-content: center !important;
