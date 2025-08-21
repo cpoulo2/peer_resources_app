@@ -496,7 +496,6 @@ with stylable_container(
         align-items: flex-end !important;  /* For flex containers */
         text-align: center !important;      /* For text content */
         }
-        }
             h4,h3,h2,h1,p {
                 text-align: center !important;
                 width: 100%;
@@ -518,6 +517,7 @@ with stylable_container(
                 border-radius: 10px;
                 padding: 20px 0 10px 0;
                 margin-bottom: 16px;
+                text-align: center;
                 
             }
         """,
