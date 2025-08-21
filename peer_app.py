@@ -494,13 +494,11 @@ with stylable_container(
         }
         .st-emotion-cache-159b5ki {
         align-items: flex-end !important;  /* For flex containers */
-        text-align: right !important;      /* For text content */
+        text-align: center !important;      /* For text content */
         }
             h4,h3,h2,h1,p {
                 text-align: center !important;
                 width: 100%;
-                margin-left: auto;
-                margin-right: auto;
                 display: block;
             }
     """,
@@ -519,6 +517,7 @@ with stylable_container(
                 border-radius: 10px;
                 padding: 20px 0 10px 0;
                 margin-bottom: 16px;
+                
             }
         """,
     ):
@@ -567,11 +566,9 @@ with stylable_container(
         st.rerun() 
 
 # Expander CSS
-
 st.markdown("""
 <style>
 /* Center container text */
-
 summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
 summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     width: 100% !important;
@@ -580,18 +577,22 @@ summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     align-items: center !important;
     text-align: center !important;
 }
-            
-summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
-summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
-    width: 100% !important;
+.st-emotion-cache-y4bq5x {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
+    width: 100%;
 }
-            
+}
+.st-emotion-cache-1an99fx etvjjhi0 {
+    text-align: center !important;
+    width: 100%;
+    margin: 0 auto;
+}
 </style>
 """, unsafe_allow_html=True)
+
 
 
 with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
