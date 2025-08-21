@@ -576,6 +576,13 @@ with stylable_container(
 st.markdown("""
 <style>
 /* Center container text */
+.stElementContainer element-container st-emotion-cache-zh2fnc e52wr8w0 {
+display: flex !important;
+justify-content: center !important;
+align-items: center !important;
+text-align: center !important;
+width: 100%;            
+}
 summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
 summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     width: 100% !important;
