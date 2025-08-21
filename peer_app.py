@@ -494,12 +494,12 @@ with stylable_container(
 
         }
         .st-emotion-cache-1n6tfoc {
-        align-items: flex-end !important;  /* For flex containers */
+        align-items: center !important;  /* For flex containers */
         text-align: center !important;      /* For text content */
         }
 
         .st-emotion-cache-159b5ki {
-        align-items: flex-end !important;  /* For flex containers */
+        align-items: center !important;  /* For flex containers */
         text-align: center !important;      /* For text content */
         }
             h4,h3,h2,h1,p {
