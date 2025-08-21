@@ -618,6 +618,20 @@ summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     align-items: center !important;
     text-align: center !important;
     }
+.st-emotion-cache-wfksaw {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-width: 1rem;
+  flex-flow: column;
+  flex: 1 1 0%;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  justify-content: center;
+}
 </style>
 """, unsafe_allow_html=True)
 
