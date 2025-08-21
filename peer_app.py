@@ -606,6 +606,13 @@ summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
     text-align: center !important;
     width: 100%;
 }
+            
+.st-emotion-cache-1an99fx {
+    text-align: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    display: block !important;
+}            
 .stVerticalBlock st-emotion-cache-wfksaw e52wr8w2 {
     justify-content: center !important;
     align-items: center !important;
