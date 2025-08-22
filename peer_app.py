@@ -411,6 +411,7 @@ st.markdown("""
    color: #20a3bc !important;
    text-align: center !important;
    font-size: 32px !important;
+   font-family: Poppins;         
    font-weight:;
    margin-bottom: 5px !important;
 }        
@@ -418,6 +419,7 @@ st.markdown("""
    color: #C4384D !important;
    text-align: center !important;
    font-size: 32px !important;
+   font-family: Poppins;
    font-weight:;
    margin-bottom: 5px !important;
 }
