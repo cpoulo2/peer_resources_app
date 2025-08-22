@@ -3,8 +3,6 @@ base="light"
 backgroundColor="ghostWhite"
 secondaryBackgroundColor="lavender"
 codeBackgroundColor="powderBlue"
-font = "sans-serif"
-headingFont = "sans-serif"
 
 [theme.sidebar]
 backgroundColor="ghostWhite"
