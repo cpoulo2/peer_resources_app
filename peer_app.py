@@ -436,6 +436,7 @@ with stylable_container(
             padding: 20px;
             align-items: center;
             text-align: center;
+            font-family: Poppins;
         }
     """,
 ):
@@ -493,6 +494,7 @@ with stylable_container(
             background-color: #e0e7ff;
             border-radius: 10px;
             padding: 20px;
+            font-family: Poppins;
 
         }
         .st-emotion-cache-1n6tfoc {
