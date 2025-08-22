@@ -518,7 +518,7 @@ with stylable_container(
         title_text = "💰 The Dollars and Cents of Adequate Funding Per Pupil 🪙"
     else:
         title_text = "💰 The Dollars and Cents of Adequate Funding 🪙"
-    st.markdown(f'<h2 class="adequacy-explained-a">{title_text}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h3 class="adequacy-explained-a">{title_text}</h3>', unsafe_allow_html=True)
     st.markdown("---")
     with stylable_container(
         key="school_funding_needs",
