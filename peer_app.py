@@ -510,6 +510,7 @@ with stylable_container(
                 text-align: center !important;
                 width: 100%;
                 display: block;
+                font-family: Poppins;
             }
     """,
 ):
