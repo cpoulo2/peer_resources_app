@@ -528,6 +528,8 @@ with stylable_container(
                 padding: 20px 0 10px 0;
                 margin-bottom: 16px;
                 text-align: center;
+                font-family: Poppins;
+                
                 
             }
         """,
