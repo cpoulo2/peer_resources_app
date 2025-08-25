@@ -300,12 +300,12 @@ with stylable_container(
 
 if df is not None:
     
-# Get unique districts and set default to "Statewide"
+# Get unique districts and set default to "State of Illinois"
 
    districts = df['District Name (IRC)'].unique() # This was a relic from when we used long data. It's superfluous now since data is wide not long but it is functional.
    default_index = 0
-   if "Statewide" in districts:
-       default_index = list(districts).index("Statewide")
+   if "State of Illinois" in districts:
+       default_index = list(districts).index("State of Illinois")
 
 
 with stylable_container(
@@ -440,7 +440,7 @@ with stylable_container(
         }
     """,
 ):
-    if selection == "Statewide":
+    if selection == "State of Illinois":
         st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
     elif adequacy_level <= 1:
         st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{selection}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
@@ -668,7 +668,7 @@ with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍�
    adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
    adequacy_gap = df_resource["Gaps"].iloc[0] if not df_resource.empty else 0
    resource_type = resource_filter.lower()
-   if selection == "Statewide":
+   if selection == "State of Illinois":
         if adequacy_gap >= 0:  # Positive gap (adequately staffed)
             st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
         else:  # Negative gap (understaffed)
