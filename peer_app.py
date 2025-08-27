@@ -234,8 +234,6 @@ st.markdown("""
 
 # Header container
 
-
-
 with stylable_container(
     key="header_container",
     css_styles="""
@@ -302,6 +300,7 @@ with stylable_container(
     with col2:
         st.markdown('<span class="header-title">PEER School Funding Needs Lookup</span>', unsafe_allow_html=True)
 
+tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
 
 # Present adequacy level by district
 
@@ -314,24 +313,24 @@ if df is not None:
    if "State of Illinois" in districts:
        default_index = list(districts).index("State of Illinois")
 
+with tab1:
+    with stylable_container(
+        key="select_dist",
+        css_styles="""
+            {
+                background-color: None;
+                border-radius: 10px;
+                padding: 20px;
+                align-items: center;
+                text-align: center;
+            }
 
-with stylable_container(
-    key="select_dist",
-    css_styles="""
-        {
-            background-color: None;
-            border-radius: 10px;
-            padding: 20px;
-            align-items: center;
-            text-align: center;
-        }
+        """,
+    ):
+        st.markdown("<h5>Select a district to view resource needs</h5>",unsafe_allow_html=True)
 
-    """,
-):
-    st.markdown("<h5>Select a district to view resource needs</h5>",unsafe_allow_html=True)
-
-selection = st.selectbox("", districts, index=default_index)
-df_filtered = process_filtered_data(selection)
+    selection = st.selectbox("", districts, index=default_index)
+    df_filtered = process_filtered_data(selection)
 
 adequacy_level = df_filtered["Adequacy Level"].unique()[0]
 
@@ -434,381 +433,401 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-with stylable_container(
-    key="adequacy_level_container",
-    css_styles="""
-        {
-            background-color: #e0e7ff;
-            border-radius: 10px;
-            padding: 20px;
-            align-items: center;
-            text-align: center;
-            font-family: Poppins;
-        }
-    """,
-):
-    if selection == "State of Illinois":
-        st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-    elif adequacy_level <= 1:
-        st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{selection}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-    else:
-        st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{selection}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
-    if st.button("💡 Adequate Funding Explained", key="help_button"):
-        st.session_state.show_help = not st.session_state.get('show_help', False)
-    if st.session_state.get('show_help', False):
-        st.markdown("""
-    <div class="adequacy-help-content">
-    Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.
-    </div>
-    """, unsafe_allow_html=True)
 
-# Data processing and calculations for adequacy funding metrics
-
-if 'df_filtered' in locals() and not df_filtered.empty:
-   
-   # First filter by the value "Total Resources (Dollar Amount)"
-
-   actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue, illinois_negative_gap_sum, illinois_negative_gap_sum_perschool = calculate_funding_metrics(df_filtered)
-   
-   # Calculate per pupil values
-   
-   actual_per_pupil = actual_resources / ase if ase > 0 else 0
-   adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
-   if selection == "State of Illinois":
-      gap_per_pupil = illinois_negative_gap_sum / ase if ase > 0 else 0
-   else:
-      gap_per_pupil = actual_per_pupil - adequate_per_pupil
-
-   # Determine which values to display based on button state (full or per pupil funding)
-   if 'show_per_pupil' not in st.session_state:
-    st.session_state.show_per_pupil = False
-
-   if st.session_state.show_per_pupil:
-      display_adequate = adequate_per_pupil
-      display_actual = actual_per_pupil
-      display_gap = gap_per_pupil
-      currency_format = "${:,.0f}"
-      chart_title_suffix = " (Per Pupil)"
-   else:
-      display_adequate = adequate_resources
-      display_actual = actual_resources
-      if selection == "State of Illinois":
-          display_gap =  illinois_negative_gap_sum
-      else:
-        display_gap = actual_resources - adequate_resources
-      currency_format = "${:,.0f}"
-      chart_title_suffix = ""
-    
-
-with stylable_container(
-    key="adequacy_dollars",
-    css_styles="""
-        {
-            background-color: #e0e7ff;
-            border-radius: 10px;
-            padding: 20px;
-            font-family: Poppins;
-
-        }
-        .st-emotion-cache-1n6tfoc {
-        align-items: center !important;  /* For flex containers */
-        text-align: center !important;      /* For text content */
-        }
-
-        .st-emotion-cache-159b5ki {
-        align-items: center !important;  /* For flex containers */
-        text-align: center !important;      /* For text content */
-        }
-            h4,h3,h2,h1,p {
-                text-align: center !important;
-                width: 100%;
-                display: block;
-                font-family: Poppins;
-            }
-    """,
-):
-    if st.session_state.show_per_pupil:
-        title_text = "💰 The Dollars and Cents of Adequate Funding Per Pupil 🪙"
-    else:
-        title_text = "💰 The Dollars and Cents of Adequate Funding 🪙"
-    st.markdown(f'<h3 class="adequacy-explained-a">{title_text}</h3>', unsafe_allow_html=True)
-    st.markdown("---")
+with tab1:
     with stylable_container(
-        key="school_funding_needs",
+        key="adequacy_level_container",
         css_styles="""
             {
-                background-color: ghostwhite;
+                background-color: #e0e7ff;
                 border-radius: 10px;
-                padding: 20px 0 10px 0;
-                margin-bottom: 16px;
+                padding: 20px;
+                align-items: center;
                 text-align: center;
                 font-family: Poppins;
-                
-                
             }
         """,
     ):
-        st.subheader('School Funding Needs:')
-        st.markdown("---")
-        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
-    with stylable_container(
-        key="school_funding_resources",
-        css_styles="""
-            {
-                background-color: ghostwhite;
-                border-radius: 10px;
-                padding: 20px 0 10px 0;
-                margin-bottom: 16px;
-            }
-        """,
-    ):
-        st.subheader('School Funding Resources:')
-        st.markdown('---')
-        st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
-    with stylable_container(
-        key="school_funding_gap",
-        css_styles="""
-            {
-                background-color: ghostwhite;
-                border-radius: 10px;
-                padding: 20px 0 10px 0;
-                margin-bottom: 16px;
-            }
-        """,
-    ):
-    
-        gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
-        if display_gap < 0:
-            st.subheader('School Funding Gap:')
-            st.markdown("---")
-            st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+        if selection == "State of Illinois":
+            st.markdown(f'<h2 class="adequacy-level"><span class="illinois-text">Illinois school districts</span> have <span class="illinois-text">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+        elif adequacy_level <= 1:
+            st.markdown(f'<h2 class="adequacy-level"><span class="district-negative">{selection}</span> has <span class="district-negative">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
         else:
-            st.subheader('School Funding Surplus:')
+            st.markdown(f'<h2 class="adequacy-level"><span class="district-positive">{selection}</span> has <span class="district-positive">{adequacy_level * 100:.0f}%</span> of the state and local funding needed to be adequately funded.</h2>', unsafe_allow_html=True)
+        if st.button("💡 Adequate Funding Explained", key="help_button"):
+            st.session_state.show_help = not st.session_state.get('show_help', False)
+        if st.session_state.get('show_help', False):
+            st.markdown("""
+        <div class="adequacy-help-content">
+        Adequate funding refers to the total cost of resources necessary to educate students (for example, teachers, support staff, computer equipment, and professional development to improve teaching). This number is calculated by Illinois' K-12 Evidence-Based Funding Formula.
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Data processing and calculations for adequacy funding metrics
+
+    if 'df_filtered' in locals() and not df_filtered.empty:
+    
+    # First filter by the value "Total Resources (Dollar Amount)"
+
+        actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue, illinois_negative_gap_sum, illinois_negative_gap_sum_perschool = calculate_funding_metrics(df_filtered)
+    
+    # Calculate per pupil values
+    
+    actual_per_pupil = actual_resources / ase if ase > 0 else 0
+    adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
+    if selection == "State of Illinois":
+        gap_per_pupil = illinois_negative_gap_sum / ase if ase > 0 else 0
+    else:
+        gap_per_pupil = actual_per_pupil - adequate_per_pupil
+
+    # Determine which values to display based on button state (full or per pupil funding)
+    if 'show_per_pupil' not in st.session_state:
+        st.session_state.show_per_pupil = False
+
+    if st.session_state.show_per_pupil:
+        display_adequate = adequate_per_pupil
+        display_actual = actual_per_pupil
+        display_gap = gap_per_pupil
+        currency_format = "${:,.0f}"
+        chart_title_suffix = " (Per Pupil)"
+    else:
+        display_adequate = adequate_resources
+        display_actual = actual_resources
+        if selection == "State of Illinois":
+            display_gap =  illinois_negative_gap_sum
+        else:
+            display_gap = actual_resources - adequate_resources
+        currency_format = "${:,.0f}"
+        chart_title_suffix = ""
+        
+
+    with stylable_container(
+        key="adequacy_dollars",
+        css_styles="""
+            {
+                background-color: #e0e7ff;
+                border-radius: 10px;
+                padding: 20px;
+                font-family: Poppins;
+
+            }
+            .st-emotion-cache-1n6tfoc {
+            align-items: center !important;  /* For flex containers */
+            text-align: center !important;      /* For text content */
+            }
+
+            .st-emotion-cache-159b5ki {
+            align-items: center !important;  /* For flex containers */
+            text-align: center !important;      /* For text content */
+            }
+                h4,h3,h2,h1,p {
+                    text-align: center !important;
+                    width: 100%;
+                    display: block;
+                    font-family: Poppins;
+                }
+        """,
+    ):
+        if st.session_state.show_per_pupil:
+            title_text = "💰 The Dollars and Cents of Adequate Funding Per Pupil 🪙"
+        else:
+            title_text = "💰 The Dollars and Cents of Adequate Funding 🪙"
+        st.markdown(f'<h3 class="adequacy-explained-a">{title_text}</h3>', unsafe_allow_html=True)
+        st.markdown("---")
+        with stylable_container(
+            key="school_funding_needs",
+            css_styles="""
+                {
+                    background-color: ghostwhite;
+                    border-radius: 10px;
+                    padding: 20px 0 10px 0;
+                    margin-bottom: 16px;
+                    text-align: center;
+                    font-family: Poppins;
+                    
+                    
+                }
+            """,
+        ):
+            st.subheader('School Funding Needs:')
             st.markdown("---")
-            st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
-    
-    button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
-    if st.button(button_text, key="funding_toggle_button"):
-        st.session_state.show_per_pupil = not st.session_state.show_per_pupil
-        st.rerun() 
+            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
+        with stylable_container(
+            key="school_funding_resources",
+            css_styles="""
+                {
+                    background-color: ghostwhite;
+                    border-radius: 10px;
+                    padding: 20px 0 10px 0;
+                    margin-bottom: 16px;
+                }
+            """,
+        ):
+            st.subheader('School Funding Resources:')
+            st.markdown('---')
+            st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
+        with stylable_container(
+            key="school_funding_gap",
+            css_styles="""
+                {
+                    background-color: ghostwhite;
+                    border-radius: 10px;
+                    padding: 20px 0 10px 0;
+                    margin-bottom: 16px;
+                }
+            """,
+        ):
+        
+            gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
+            if display_gap < 0:
+                st.subheader('School Funding Gap:')
+                st.markdown("---")
+                st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+            else:
+                st.subheader('School Funding Surplus:')
+                st.markdown("---")
+                st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+        
+        button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
+        if st.button(button_text, key="funding_toggle_button"):
+            st.session_state.show_per_pupil = not st.session_state.show_per_pupil
+            st.rerun() 
 
-# Expander CSS
-st.markdown("""
-<style>
-/* Center container text */
-.stElementContainer element-container st-emotion-cache-zh2fnc e52wr8w0 {
-display: flex !important;
-justify-content: center !important;
-align-items: center !important;
-text-align: center !important;
-width: 100%;            
-}
-summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
-summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
-    width: 100% !important;
+    # Expander CSS
+    st.markdown("""
+    <style>
+    /* Center container text */
+    .stElementContainer element-container st-emotion-cache-zh2fnc e52wr8w0 {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
-}
-.st-emotion-cache-y4bq5x {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    width: 100%;
-}
-
-.st-emotion-cache-1an99fx etvjjhi0 {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    width: 100%;
-}
-            
-.st-emotion-cache-1an99fx {
-    text-align: center !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    display: block !important;
-}            
-.stVerticalBlock st-emotion-cache-wfksaw e52wr8w2 {
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
+    width: 100%;            
     }
-.st-emotion-cache-wfksaw {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  min-width: 1rem;
-  flex-flow: column;
-  flex: 1 1 0%;
-  -moz-box-align: center;
-  align-items: center;
-  -moz-box-pack: center;
-  justify-content: center;
-}
-</style>
-""", unsafe_allow_html=True)
+    summary.st-emotion-cache-1rgl4kv.etg4nir3 > span,
+    summary.st-emotion-cache-1s2g4bx.etg4nir3 > span {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .st-emotion-cache-y4bq5x {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        width: 100%;
+    }
+
+    .st-emotion-cache-1an99fx etvjjhi0 {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        width: 100%;
+    }
+                
+    .st-emotion-cache-1an99fx {
+        text-align: center !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }            
+    .stVerticalBlock st-emotion-cache-wfksaw e52wr8w2 {
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        }
+    .st-emotion-cache-wfksaw {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-width: 1rem;
+    flex-flow: column;
+    flex: 1 1 0%;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 
 
-with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
-   
-    # Create a drop down menue that filters by resource types:
-
-   resource_filter = st.selectbox("Select Resource Type", options=[
-       "Core and Specialist Teachers",
-       "Special Education Teachers",
-       "Counselors",
-       "Nurses",
-       "Psychologists",
-       "Principals",
-       "Assistant Principals",
-       "EL Teachers"
-   ])   
-   
-   # Filter the dataframe based on the selected resource type
-
-   df_resource = df_merged[df_merged["Resource"] == resource_filter]
-
-   # Get the adequacy gap per school for the selected resource type
-
-   adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
-   adequacy_gap = df_resource["Gaps"].iloc[0] if not df_resource.empty else 0
-   resource_type = resource_filter.lower()
-   if selection == "State of Illinois":
-        if adequacy_gap >= 0:  # Positive gap (adequately staffed)
-            st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
-        else:  # Negative gap (understaffed)
-            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap):,.0f} more {resource_type} in Illinois.")
-   else:  # Specific district selected
-       if adequacy_gap_per_school >= 0:  # Positive gap (adequately staffed)
-            st.text(f"According to the EBF formula, your school district is adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
-       else:  # Negative gap (understaffed)
-            st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap_per_school):.2f} more {resource_type} per school in your district.")
-
-# Expandable container for revenue sources
-
-with st.expander("Revenue by source"):
+    with st.expander("👩‍🏫 From Dollars to Desks: Adequate Staffing 👩‍⚕️", expanded=False):
     
-    # Create a bar chart for revenue sources
-   fig_rev = px.bar(
-      df_revenue, 
-      x='Revenue Source', 
-      y='Revenue Percentages',
-      color='Revenue Source',
-      color_discrete_sequence=px.colors.qualitative.Pastel,
-      labels={'Revenue Percentages': 'Percent of Total Revenue (%)', 'Revenue Source': ''},
-      text='Revenue Percentages'
-   )
-      # Format the chart
+        # Create a drop down menue that filters by resource types:
 
-   fig_rev.update_traces(
-      
-      # Format the text labels to show percentages
-
-      texttemplate='%{text:.0%}',
-      textposition='outside',
-      hovertemplate=None,
-      hoverinfo='skip'
-   )
-
-   # Calculate the max value to set y-axis range
-
-   max_revenue = df_revenue['Revenue Percentages'].max()
-   y_rev_max = max_revenue * 1.1  # 10% higher than max value
-
-   fig_rev.update_layout(
-      title="",
-      showlegend=False,
-      xaxis_title="",
-      yaxis_title="Percent of Total Revenue (%)",
-      height=400,
-      margin=dict(t=80),
-      transition_duration=500,
-      transition_easing="cubic-in-out",
-      plot_bgcolor='white',
-      paper_bgcolor='white',
-      font=dict(color='#141554'),
-      xaxis=dict(
-          tickfont=dict(color='#141554', size=12),
-          color='#141554'
-      ),
-      yaxis=dict(
-          tickformat='.0%',
-          range=[0,y_rev_max],
-          tickfont=dict(color='#141554', size=12),
-          color='#141554'
-      ),
-   )
-   fig_rev.update_yaxes(title_font_color='#141554')
-   st.plotly_chart(fig_rev, use_container_width=True)
-
-# Expandable container for demographics
+        resource_filter = st.selectbox("Select Resource Type", options=[
+            "Core and Specialist Teachers",
+            "Special Education Teachers",
+            "Counselors",
+            "Nurses",
+            "Psychologists",
+            "Principals",
+            "Assistant Principals",
+            "EL Teachers"
+        ])   
     
-with st.expander("Demographics"):
-   
-   # Create a bar chart for demographics
-   fig_demo = px.bar(
-       df_demographics, 
-       x='Demographic Group', 
-       y='Demographic Percentages',
-       color='Demographic Group',
-       color_discrete_sequence=px.colors.qualitative.Pastel,
-       labels={'Demographic Percentages': 'Percentage of Students (%)', 'Demographic Group': ''},
-       text='Demographic Percentages',
-       title="Student Demographics"
-   )
+        # Filter the dataframe based on the selected resource type
+
+        df_resource = df_merged[df_merged["Resource"] == resource_filter]
+
+        # Get the adequacy gap per school for the selected resource type
+
+        adequacy_gap_per_school = df_resource["Gaps Per School"].iloc[0] if not df_resource.empty else 0
+        adequacy_gap = df_resource["Gaps"].iloc[0] if not df_resource.empty else 0
+        resource_type = resource_filter.lower()
+        if selection == "State of Illinois":
+                if adequacy_gap >= 0:  # Positive gap (adequately staffed)
+                    st.text(f"According to the EBF formula, Illinois schools are adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
+                else:  # Negative gap (understaffed)
+                    st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap):,.0f} more {resource_type} in Illinois.")
+        else:  # Specific district selected
+            if adequacy_gap_per_school >= 0:  # Positive gap (adequately staffed)
+                    st.text(f"According to the EBF formula, your school district is adequately staffed with {resource_type}, but this may not reflect the on the ground needs at your school.")
+            else:  # Negative gap (understaffed)
+                    st.text(f"A fully funded EBF formula could mean {abs(adequacy_gap_per_school):.2f} more {resource_type} per school in your district.")
+
+    # Expandable container for revenue sources
+
+    with st.expander("Revenue by source"):
+        
+        # Create a bar chart for revenue sources
+        fig_rev = px.bar(
+        df_revenue, 
+        x='Revenue Source', 
+        y='Revenue Percentages',
+        color='Revenue Source',
+        color_discrete_sequence=px.colors.qualitative.Pastel,
+        labels={'Revenue Percentages': 'Percent of Total Revenue (%)', 'Revenue Source': ''},
+        text='Revenue Percentages'
+    )
+        # Format the chart
+
+        fig_rev.update_traces(
+            
+            # Format the text labels to show percentages
+
+            texttemplate='%{text:.0%}',
+            textposition='outside',
+            hovertemplate=None,
+            hoverinfo='skip'
+        )
+
+        # Calculate the max value to set y-axis range
+
+        max_revenue = df_revenue['Revenue Percentages'].max()
+        y_rev_max = max_revenue * 1.1  # 10% higher than max value
+
+        fig_rev.update_layout(
+            title="",
+            showlegend=False,
+            xaxis_title="",
+            yaxis_title="Percent of Total Revenue (%)",
+            height=400,
+            margin=dict(t=80),
+            transition_duration=500,
+            transition_easing="cubic-in-out",
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#141554'),
+            xaxis=dict(
+                tickfont=dict(color='#141554', size=12),
+                color='#141554'
+            ),
+            yaxis=dict(
+                tickformat='.0%',
+                range=[0,y_rev_max],
+                tickfont=dict(color='#141554', size=12),
+                color='#141554'
+            ),
+        )
+        fig_rev.update_yaxes(title_font_color='#141554')
+        st.plotly_chart(fig_rev, use_container_width=True)
+
+    # Expandable container for demographics
+        
+    with st.expander("Demographics"):
     
-   # Format the chart
+    # Create a bar chart for demographics
+        fig_demo = px.bar(
+            df_demographics, 
+            x='Demographic Group', 
+            y='Demographic Percentages',
+            color='Demographic Group',
+            color_discrete_sequence=px.colors.qualitative.Pastel,
+            labels={'Demographic Percentages': 'Percentage of Students (%)', 'Demographic Group': ''},
+            text='Demographic Percentages',
+            title="Student Demographics"
+        )
+            
+        # Format the chart
 
-   fig_demo.update_traces(
-       texttemplate='%{text:.0%}',
-       textposition='outside',
-       textfont=dict(size=12, color='#141554',family='Poppins'),
-       hovertemplate=None,
-       hoverinfo='skip'
-   )
-   
-   # Calculate max value and set y-axis range
+        fig_demo.update_traces(
+            texttemplate='%{text:.0%}',
+            textposition='outside',
+            textfont=dict(size=12, color='#141554',family='Poppins'),
+            hovertemplate=None,
+            hoverinfo='skip'
+        )
+        
+        # Calculate max value and set y-axis range
 
-   max_demographic = df_demographics['Demographic Percentages'].max()
-   y_demo_max = max_demographic * 1.1  # 10% higher than max value
+        max_demographic = df_demographics['Demographic Percentages'].max()
+        y_demo_max = max_demographic * 1.1  # 10% higher than max value
 
-   fig_demo.update_layout(
-       showlegend=False,
-       title="",
-       title_x=0.5,
-       title_font_size=20,
-       xaxis_title="",
-       yaxis_title="Percentage of Students (%)",
-  
-       margin=dict(t=80),
-       height=500,
-       transition_duration=1000,
-       transition_easing="cubic-in-out",
-       plot_bgcolor='white',
-       paper_bgcolor='white',
-       font=dict(color='#141554'),
-       xaxis=dict(
-          tickfont=dict(color='#141554', size=12),
-          color='#141554'
-      ),
-      yaxis=dict(
-          tickformat='.0%',
-          range=[0,y_rev_max],
-          tickfont=dict(color='#141554', size=12),
-          color='#141554'
-      )
-   )
-   fig_demo.update_yaxes(title_font_color='#141554')
-   
-   st.plotly_chart(fig_demo, use_container_width=True)
+        fig_demo.update_layout(
+            showlegend=False,
+            title="",
+            title_x=0.5,
+            title_font_size=20,
+            xaxis_title="",
+            yaxis_title="Percentage of Students (%)",
+        
+            margin=dict(t=80),
+            height=500,
+            transition_duration=1000,
+            transition_easing="cubic-in-out",
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#141554'),
+            xaxis=dict(
+                tickfont=dict(color='#141554', size=12),
+                color='#141554'
+            ),
+            yaxis=dict(
+                tickformat='.0%',
+                range=[0,y_rev_max],
+                tickfont=dict(color='#141554', size=12),
+                color='#141554'
+            )
+        )
+        fig_demo.update_yaxes(title_font_color='#141554')
+        
+        st.plotly_chart(fig_demo, use_container_width=True)
 
+with tab3:
+    st.header("About the PEER Resource Lookup Tool")
+    st.subheader("About the Tool")
+    st.markdown("""The PEER Resource Lookup Tool aims to do 3 things:
 
+- **Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois their school districts.
+- **Advocate:** Provide information by legislative district to pressure our political leaders to fund education.
+- **Organize:** Join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
+""",unsafe_allow_html=True)
+    st.subheader("About the Data")
+    st.markdown("""Our data comes from the Illinois State Board of Education. Evidence-Based Funding adequacy numbers are for fiscal year 2025""",unsafe_allow_html=True)
+    st.subheader("About PEER IL")
+    st.markdown("""
+The Partnership for Equity and Education Rights Illinois is a statewide advocacy network dedicated to driving increased investment in our children. We strive to ensure our kids have the resources and opportunities they need to succeed in public schools and beyond.
 
+PEER Illinois is bringing together students, parents, school community members and leaders, lawyers, tax and budget experts, advocates, and organizers to build a fair, fully-funded public education for all students and a brighter future for Illinois.
+                
+[Sign up to get involved!](https://www.peerillinois.org/contact)
+                                 
+""",unsafe_allow_html=True)
