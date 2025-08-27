@@ -11,9 +11,8 @@ from streamlit_extras.stylable_container import stylable_container
 
 # Page config
 
-st.set_page_config(page_title='🏫 IL school resource ≠ app', layout='wide')
+st.set_page_config(page_title='🏫 IL school resource ≠ app', layout='centered')
 
-st.header("TEST")
 # Read in and cahce data set
 
 @st.cache_data
@@ -116,7 +115,9 @@ def calculate_funding_metrics(df_filtered):
     df_gaps["Resource"] = df_gaps["Resource"].str.replace("Adequacy Funding Gap Per Student", "Total Resources Per Student (Dollar Amount)", regex=False)
     df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (EIS)", "", regex=False)
     df_gaps["Resource"] = df_gaps["Resource"].str.replace(" Gap (IRC)", "", regex=False)
-    
+
+    illinois_negative_gap_sum = df_gaps["Gaps"].min()   
+
     # Adequacy gaps per school
 
     df_gaps_perschool = pd.melt(
@@ -137,6 +138,9 @@ def calculate_funding_metrics(df_filtered):
         value_name="Gaps Per School"
         )
     df_gaps_perschool["Resource"] = df_gaps_perschool["Resource"].str.replace(" Gap Per School", "", regex=False)
+
+
+    illinois_negative_gap_sum_perschool = df_gaps["Gaps"].min()     
 
     # Merge adequacy and actuals
 
@@ -212,7 +216,7 @@ def calculate_funding_metrics(df_filtered):
     adequate_resources = df_resource["Adequate resources"].iloc[0]
     ase = df_resource["Total ASE"].iloc[0]
     
-    return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue
+    return actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue, illinois_negative_gap_sum, illinois_negative_gap_sum_perschool 
 
 # HEADER
 
@@ -229,6 +233,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Header container
+
+
 
 with stylable_container(
     key="header_container",
@@ -462,13 +468,16 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    
    # First filter by the value "Total Resources (Dollar Amount)"
 
-   actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue = calculate_funding_metrics(df_filtered)
+   actual_resources, adequate_resources, ase, df_merged, df_demographics, df_revenue, illinois_negative_gap_sum, illinois_negative_gap_sum_perschool = calculate_funding_metrics(df_filtered)
    
    # Calculate per pupil values
    
    actual_per_pupil = actual_resources / ase if ase > 0 else 0
    adequate_per_pupil = adequate_resources / ase if ase > 0 else 0
-   gap_per_pupil = actual_per_pupil - adequate_per_pupil
+   if selection == "State of Illinois":
+      gap_per_pupil = illinois_negative_gap_sum / ase if ase > 0 else 0
+   else:
+      gap_per_pupil = actual_per_pupil - adequate_per_pupil
 
    # Determine which values to display based on button state (full or per pupil funding)
    if 'show_per_pupil' not in st.session_state:
@@ -483,7 +492,10 @@ if 'df_filtered' in locals() and not df_filtered.empty:
    else:
       display_adequate = adequate_resources
       display_actual = actual_resources
-      display_gap = actual_resources - adequate_resources
+      if selection == "State of Illinois":
+          display_gap =  illinois_negative_gap_sum
+      else:
+        display_gap = actual_resources - adequate_resources
       currency_format = "${:,.0f}"
       chart_title_suffix = ""
     
