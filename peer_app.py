@@ -298,7 +298,7 @@ with stylable_container(
     with col1:
         st.image("peer_logo.png")
     with col2:
-        st.markdown('<span class="header-title">PEER School Funding Needs Lookup</span>', unsafe_allow_html=True)
+        st.markdown('<span class="header-title">PEER Resource Lookup Tool</span>', unsafe_allow_html=True)
 
 tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
 
@@ -811,17 +811,20 @@ with tab1:
         
         st.plotly_chart(fig_demo, use_container_width=True)
 
+with tab2:
+    st.header("Things will go here.")
+
 with tab3:
     st.header("About the PEER Resource Lookup Tool")
     st.subheader("About the Tool")
-    st.markdown("""The PEER Resource Lookup Tool aims to do 3 things:
+    st.markdown("""The PEER resource lookup tool aims to do 3 things:
 
-- **Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois their school districts.
+- **Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois and their school districts.
 - **Advocate:** Provide information by legislative district to pressure our political leaders to fund education.
-- **Organize:** Join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
+- **Organize:** Get people to join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
 """,unsafe_allow_html=True)
     st.subheader("About the Data")
-    st.markdown("""Our data comes from the Illinois State Board of Education. Evidence-Based Funding adequacy numbers are for fiscal year 2025""",unsafe_allow_html=True)
+    st.markdown("""All data comes from the Illinois State Board of Education. Evidence-Based Funding adequacy numbers are for fiscal year 2025.""",unsafe_allow_html=True)
     st.subheader("About PEER IL")
     st.markdown("""
 The Partnership for Equity and Education Rights Illinois is a statewide advocacy network dedicated to driving increased investment in our children. We strive to ensure our kids have the resources and opportunities they need to succeed in public schools and beyond.
