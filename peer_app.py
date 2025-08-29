@@ -17,16 +17,17 @@ st.set_page_config(page_title='🏫 IL school resource ≠ app', layout='centere
 
 @st.cache_data
 def load_data():
-    """Load the PEER app parquet file"""
+    """Load the PEER app parquet file and legislative district coverage CSV"""
     try:
         df = pd.read_parquet(r"app_data_wide.parquet")
-        return df
+        df_leg = pd.read_csv(r"leg_dist_coverage.csv")
+        return df, df_leg
     except FileNotFoundError:
         st.error("Data file not found. Please ensure the parquet file is in the correct location.")
-        return None
+        return None, None
     except Exception as e:
         st.error(f"Error loading data: {e}")
-        return None
+        return None, None
 
 df = load_data()
 
@@ -303,6 +304,8 @@ with stylable_container(
 tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
 
 # Present adequacy level by district
+
+df,df_leg=load_data()
 
 if df is not None:
     
@@ -812,7 +815,199 @@ with tab1:
         st.plotly_chart(fig_demo, use_container_width=True)
 
 with tab2:
-    st.header("Things will go here.")
+    st.subheader("Legislative View - Illinois School District Funding Needs")
+    
+    # Filter options
+    filter_type = st.radio(
+        "Filter by:",
+        ["Chamber & District", "Legislator Name"]
+    )
+    df,df_leg = load_data()
+    
+    if filter_type == "Chamber & District":
+        # Chamber selection
+        chambers = sorted(df_leg['Chamber'].unique())
+        selected_chamber = st.selectbox("Select ILGA Chamber:", chambers)
+        
+        # District selection (filtered by chamber)
+        available_districts = sorted(df_leg[df_leg['Chamber'] == selected_chamber]['District Number'].unique())
+        selected_district = st.selectbox("Select by District:", available_districts)
+        
+        # Filter data
+        filtered_df = df_leg[(df_leg['Chamber'] == selected_chamber) & (df_leg['District Number'] == selected_district)]
+        
+        # Display selection
+        st.subheader(f"📊 {filtered_df['Legislator Name'].values[0]} ({selected_chamber} District {selected_district})")
+
+        df = filtered_df.merge(df,on="RCDTS",how="left")
+
+    elif filter_type == "Legislator Name":  # Filter by Legislator
+        # Legislator selection
+        legislators = sorted(df_leg['Legislator Name'].dropna().unique())
+        selected_legislator = st.selectbox("Select by Legislator:", legislators)
+        
+        # Filter data
+        filtered_df = df_leg[df_leg['Legislator Name'] == selected_legislator]
+        
+        # Display selection
+        legislator_info = filtered_df.iloc[0]
+        st.subheader(f"📊 {selected_legislator} ({legislator_info['Chamber']} District {legislator_info['District Number']})")
+
+        df = filtered_df.merge(df,on="RCDTS",how="left")    
+    
+    df_schools = df[['School District','Total Students','Share of Students']]
+
+    st.subheader("School Districts Covered and Share of Students")
+
+    st.dataframe(
+        df_schools.style.format({
+        "Total Students": "{:,.0f}",
+        "Share of Students": "{:.0%}"
+        }).set_properties(**{'text-align': 'center'}), hide_index=True)
+    
+    st.subheader("Adequacy Funding Gaps and Levels")
+
+    df_adequacy_stats = df[['School District','Adequacy Funding Gap',
+                            'Adequacy Funding Gap Per Student',
+                            'Adequacy Level']]
+
+    st.dataframe(
+        df_adequacy_stats.style.format({
+        "Adequacy Funding Gap": "${:,.0f}",
+        "Adequacy Funding Gap Per Student": "${:,.0f}",
+        "Adequacy Level": "{:.0%}" 
+        }).set_properties(**{'text-align': 'center'}), hide_index=True)
+    
+    st.subheader("Adequacy Funding Gaps by Position")
+
+    df_adequacy_pos = df[['School District','Core and Specialist Teachers Gap (EIS)',
+                          'Special Education Teachers Gap (EIS)', 
+                          'Counselors Gap (IRC)',
+                          'Nurses Gap (IRC)', 
+                          'Psychologists Gap (IRC)', 
+                          'Principals Gap (EIS)',
+                          'Assistant Principals Gap (EIS)', 
+                          'EL Teachers Gap (EIS)']]
+
+    df_adequacy_pos.columns = ['School District',
+                               'Core and Specialist Teachers',
+                               'Special Education Teachers', 
+                               'Counselors',
+                               'Nurses', 
+                               'Psychologists', 
+                               'Principals',
+                               'Assistant Principals', 
+                               'EL Teachers']
+
+    st.dataframe(
+        df_adequacy_pos.style.format({
+        'Core and Specialist Teachers': "{:,.0f}",
+        'Special Education Teachers': "{:,.0f}",
+        'Counselors': "{:,.0f}",
+        'Nurses': "{:,.0f}",
+        'Psychologists': "{:,.0f}",
+        'Principals': "{:,.0f}",
+        'Assistant Principals': "{:,.0f}",
+        'EL Teachers': "{:,.0f}", 
+        }).set_properties(**{'text-align': 'center'}), hide_index=True)
+
+    # st.subheader("Adequacy Funding Gaps by Position (Per School)")
+
+    # df_adequacy_pos_per_school = df[['School District',
+    #                       'Core and Specialist Teachers Gap Per School',
+    #                       'Special Education Teachers Gap Per School',
+    #                       'Counselors Gap Per School', 
+    #                       'Nurses Gap Per School',
+    #                       'Psychologists Gap Per School', 
+    #                       'Principals Gap Per School',
+    #                       'Assistant Principals Gap Per School', 
+    #                       'EL Teachers Gap Per School']]
+
+    # df_adequacy_pos_per_school.columns = ['School District',
+    #                            'Core and Specialist Teachers',
+    #                            'Special Education Teachers', 
+    #                            'Counselors',
+    #                            'Nurses', 
+    #                            'Psychologists', 
+    #                            'Principals',
+    #                            'Assistant Principals', 
+    #                            'EL Teachers']
+
+    # st.dataframe(
+    #     df_adequacy_pos_per_school.style.format({
+    #     'Core and Specialist Teachers': "{:,.0f}",
+    #     'Special Education Teachers': "{:,.0f}",
+    #     'Counselors': "{:,.0f}",
+    #     'Nurses': "{:,.0f}",
+    #     'Psychologists': "{:,.0f}",
+    #     'Principals': "{:,.0f}",
+    #     'Assistant Principals': "{:,.0f}",
+    #     'EL Teachers': "{:,.0f}", 
+    #     }).set_properties(**{'text-align': 'center'}), hide_index=True)
+
+    st.subheader("Demographics")
+
+    df_demo = df[['School District',
+                  'White (%)',
+                  'Black (%)',
+                  'Latine (%)',
+                  'Asian (%)',
+                  'Native Hawaiian or Other Pacific Islander (%)',
+                  'American Indian or Alaska Native (%)',
+                  'IEP (%)',
+                  'EL (%)',
+                  'Low Income (%)']]
+
+    df_demo.columns = ['School District',
+                  'White',
+                  'Black',
+                  'Latine',
+                  'Asian',
+                  'Native Hawaiian or Other Pacific Islander',
+                  'American Indian or Alaska Native',
+                  'IEP',
+                  'EL',
+                  'Low Income']
+
+    st.dataframe(
+        df_demo.style.format({
+            'White':"{:.1%}",
+            'Black':"{:.1%}",
+            'Latine':"{:.1%}",
+            'Asian':"{:.1%}",
+            'Native Hawaiian or Other Pacific Islander':"{:.1%}",
+            'American Indian or Alaska Native':"{:.1%}",
+            'IEP':"{:.1%}",
+            'EL':"{:.1%}",
+            'Low Income':"{:.1%}"
+            }).set_properties(**{'text-align': 'center'}), hide_index=True)
+
+    st.subheader("Revenue Sources")
+
+    df_rev = df[['School District',
+                  'Local Property Taxes (%)', 
+                  'Other Local Funding (%)',
+                  'Evidence-Based Funding (%)', 
+                  'Other State Funding (%)',
+                  'Federal Funding (%)']]
+
+    df_rev.columns = ['School District',
+                  'Local Property Taxes', 
+                  'Other Local Funding',
+                  'Evidence-Based Funding', 
+                  'Other State Funding',
+                  'Federal Funding']
+    
+
+    st.dataframe(
+        df_rev.style.format({
+            'Local Property Taxes':"{:.1%}",
+            'Other Local Funding':"{:.1%}",
+            'Evidence-Based Funding':"{:.1%}",
+            'Other State Funding':"{:.1%}",
+            'Federal Funding':"{:.1%}"
+            }).set_properties(**{'text-align': 'center'}), hide_index=True)
+
 
 with tab3:
     st.header("About the PEER Resource Lookup Tool")
