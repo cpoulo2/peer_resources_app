@@ -307,7 +307,7 @@ tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
 
 df,df_leg=load_data()
 
-if df is not None:
+if df is not None and df_leg is not None:
     
 # Get unique districts and set default to "State of Illinois"
 
