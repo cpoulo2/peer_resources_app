@@ -29,7 +29,7 @@ def load_data():
         st.error(f"Error loading data: {e}")
         return None, None
 
-df = load_data()
+df,df_leg = load_data()
 
 @st.cache_data
 def process_filtered_data(district_name):
@@ -304,8 +304,6 @@ with stylable_container(
 tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
 
 # Present adequacy level by district
-
-df,df_leg=load_data()
 
 if df is not None and df_leg is not None:
     
@@ -822,7 +820,6 @@ with tab2:
         "Filter by:",
         ["Chamber & District", "Legislator Name"]
     )
-    df,df_leg = load_data()
     
     if filter_type == "Chamber & District":
         # Chamber selection
