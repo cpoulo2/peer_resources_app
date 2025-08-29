@@ -559,7 +559,7 @@ with tab1:
                 {
                     background-color: ghostwhite;
                     border-radius: 10px;
-                    padding: 20px 0 10px 0;
+                    padding: 0 0 0 0 !important;
                     margin-bottom: 16px;
                 }
             """,
