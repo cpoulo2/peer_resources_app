@@ -300,9 +300,7 @@ with stylable_container(
         st.image("peer_logo.png")
     with col2:
         st.markdown('<span class="header-title">PEER - Illinois District Funding Tool</span>', unsafe_allow_html=True) # Erykah - Header title. 
-
-st.sidebar.subheader("Blahblah")
-
+        
 tab0, tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) 
 
 with tab0:
