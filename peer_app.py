@@ -499,7 +499,8 @@ with tab1:
         display_adequate = adequate_resources
         display_actual = actual_resources
         if selection == "State of Illinois":
-            display_gap =  illinois_negative_gap_sum
+            display_gap =  -5679275708 
+
         else:
             display_gap = actual_resources - adequate_resources
         currency_format = "${:,.0f}"
@@ -596,7 +597,7 @@ with tab1:
         button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
         if st.button(button_text, key="funding_toggle_button"):
             st.session_state.show_per_pupil = not st.session_state.show_per_pupil
-            st.rerun() 
+            st.rerun()
 
     # Expander CSS
     st.markdown("""
@@ -754,6 +755,8 @@ with tab1:
         )
         fig_rev.update_yaxes(title_font_color='#141554')
         st.plotly_chart(fig_rev, use_container_width=True)
+
+        st.write("Add context here") # Erykah - Revenue by source context
 
     # Expandable container for demographics
         
