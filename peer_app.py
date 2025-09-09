@@ -301,7 +301,11 @@ with stylable_container(
     with col2:
         st.markdown('<span class="header-title">PEER - Illinois District Funding Tool</span>', unsafe_allow_html=True) # Erykah - Header title. 
 
-tab1,tab2,tab3 = st.tabs(["District Resource Needs","Legislative View","About"])
+tab0, tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) 
+
+with tab0:
+    st.header("Erykah Words Will Go Here")
+    st.subheader("And here") 
 
 # Present adequacy level by district
 
@@ -1007,7 +1011,7 @@ with tab2:
 
 
 with tab3:
-    st.header("About the PEER Resource Lookup Tool")
+    st.header("About the PEER Resource Lookup Tool") 
     st.subheader("About the Tool")
     st.markdown("""The PEER resource lookup tool aims to do 3 things:
 
