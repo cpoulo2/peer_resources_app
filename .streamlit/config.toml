@@ -1,6 +1,6 @@
 [theme]
 base="light"
-backgroundColor="ghostWhite"
+backgroundColor="red"
 secondaryBackgroundColor="lavender"
 codeBackgroundColor="powderBlue"
 
