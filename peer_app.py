@@ -586,7 +586,7 @@ with tab1:
         
             gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
             if display_gap < 0:
-                st.subheader('School Funding Gap:')
+                st.subheader('School Funding Gap:',help="TEST")
                 st.markdown("---")
                 st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
             else:
