@@ -1,8 +1,10 @@
-Process of editing and parts of app to change
+Editing process and map of parts of app to change
 
-1. PROCESS OF EDITING
+1. EDITING PROCESS
 
-1. a. Always begin with the command in terminal:
+1.a. Git pull
+
+Always begin with the command in terminal:
 
 "git pull"
 
@@ -12,9 +14,13 @@ Think of github like google docs but where you can
 only see changes to your folder if you pull it from the 
 main github repo.
 
-1.b. Always end your edits with:
+1.b. Git add, git commit and git push
 
-1.b.1 "git add ." this adds all changes that you made to be staged to be uploaded. 
+Always end your editing session with:
+
+1.b.1 "git add ." 
+
+this adds all changes that you made to be staged to be uploaded. 
 The "." just means all files. If you did "git add peer_app.py" it would staged
 changes to the peer_app.py only.
 
@@ -26,7 +32,7 @@ Git commit adds a little note about the changes. You can be broad. For ex.
 
 1.b.3. "git push" this pushes all the changes to the github repo online.
 
-2. PARTS OF THE APP TO Changes
+2. PARTS OF THE APP TO CHANGE
 
 For ease in navigating the app, By all part of the app you will change 
 I added "# Erykah change here" So all you have to do is command F 

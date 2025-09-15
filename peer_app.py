@@ -301,11 +301,21 @@ with stylable_container(
     with col2:
         st.markdown('<span class="header-title">PEER - Illinois District Funding Tool</span>', unsafe_allow_html=True) # Erykah - Header title. 
         
-tab0,tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) 
+tab0,tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) # Erykah - Change tab names
 
 with tab0:
     st.header("Erykah Words Will Go Here")
     st.subheader("And here") 
+    # OR USE MARKDOWN
+    st.markdown("""WORDS:
+- Words
+- Are 
+- Neat when **bolded**
+- And also *italicized*.
+                
+Some times words can even be <b><mark style='color: red'>COLORS!!</b></mark>
+                
+                """,unsafe_allow_html=True)
 
 # Present adequacy level by district
 
