@@ -304,16 +304,18 @@ with stylable_container(
 tab0,tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) # Erykah - Change tab names
 
 with tab0:
-    st.header("Erykah Words Will Go Here")
-    st.subheader("And here") 
+    st.header("Erykah! This is a header text")
+    st.subheader("And this is a subheader text") 
     # OR USE MARKDOWN
-    st.markdown("""WORDS:
+    st.markdown("""This is text using markdown where we can add bullet points and stylized design, like word color:
 - Words
 - Are 
 - Neat when **bolded**
 - And also *italicized*.
                 
 Some times words can even be <b><span style='color: red'>COLORS!!</b></span>
+                
+Every space is a new line.
                 
                 """,unsafe_allow_html=True)
 

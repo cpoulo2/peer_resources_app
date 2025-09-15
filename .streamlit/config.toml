@@ -2,7 +2,8 @@
 base="light"
 backgroundColor="ghostWhite"
 secondaryBackgroundColor="lavender"
-codeBackgroundColor="powderBlue"
+textColor = "red"
+font
 
 [theme.sidebar]
 backgroundColor="ghostWhite"
