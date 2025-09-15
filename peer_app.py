@@ -313,7 +313,7 @@ with tab0:
 - Neat when **bolded**
 - And also *italicized*.
                 
-Some times words can even be <b><mark style='color: red'>COLORS!!</b></mark>
+Some times words can even be <b><span style='color: red'>COLORS!!</b></span>
                 
                 """,unsafe_allow_html=True)
 
