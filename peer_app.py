@@ -226,8 +226,8 @@ def calculate_funding_metrics(df_filtered):
 st.markdown("""
 <style>
 .st-emotion-cache-7czcpc {
-    background: rgba(255,255,255,0.3);
-    border-radius: 16px;
+    background: rgba(255,255,255,.1);
+    border-radius: 16px;        
     padding: 0px;
 }
 </style>
@@ -301,7 +301,7 @@ with stylable_container(
     with col2:
         st.markdown('<span class="header-title">PEER - Illinois District Funding Tool</span>', unsafe_allow_html=True) # Erykah - Header title. 
         
-tab0, tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) 
+tab0,tab1,tab2,tab3 = st.tabs(["Landing Page","District Resource Needs","Legislative View","About"]) 
 
 with tab0:
     st.header("Erykah Words Will Go Here")

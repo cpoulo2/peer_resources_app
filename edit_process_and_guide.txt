@@ -1,0 +1,49 @@
+Process of editing and parts of app to change
+
+1. PROCESS OF EDITING
+
+1. a. Always begin with the command in terminal:
+
+"git pull"
+
+This will pull any changes that were added.
+
+Think of github like google docs but where you can 
+only see changes to your folder if you pull it from the 
+main github repo.
+
+1.b. Always end your edits with:
+
+1.b.1 "git add ." this adds all changes that you made to be staged to be uploaded. 
+The "." just means all files. If you did "git add peer_app.py" it would staged
+changes to the peer_app.py only.
+
+1.b.2. "git commit -m "ADD LANGUAGE HERE""
+
+Git commit adds a little note about the changes. You can be broad. For ex.
+
+"git commit -m "Changes to color of adequacy level container""
+
+1.b.3. "git push" this pushes all the changes to the github repo online.
+
+2. PARTS OF THE APP TO Changes
+
+For ease in navigating the app, By all part of the app you will change 
+I added "# Erykah change here" So all you have to do is command F 
+(to open the finder) that specific language.
+
+LOGO - Lines 227 - 234
+
+This edits the container of the logo itself. 
+The ".st-emotion-cahce-7czcpc" targets the logo.
+
+Part you might adjust -
+
+"background: rgba(255,255,255,.1);"
+
+This changes the (red, blue, green, alpha). 255,255,255 sets it to white
+and alpha is how transparent the background is. 0 is fully transparent, 1 is fully opaque.
+
+HEADER CONTAINER - Lines 
+ 
+
