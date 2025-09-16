@@ -30,26 +30,61 @@ Git commit adds a little note about the changes. You can be broad. For ex.
 
 "git commit -m "Changes to color of adequacy level container""
 
-1.b.3. "git push" this pushes all the changes to the github repo online.
+1.b.3. "git push" 
 
-2. PARTS OF THE APP TO CHANGE
+This pushes all the changes to the github repo online.
 
-For ease in navigating the app, By all part of the app you will change 
-I added "# Erykah change here" So all you have to do is command F 
-(to open the finder) that specific language.
+2. CONFIG file
 
-LOGO - Lines 227 - 234
+In the .streamlit folder. You will add changes as if it's
+a text file and save when you are done.
 
-This edits the container of the logo itself. 
-The ".st-emotion-cahce-7czcpc" targets the logo.
+[theme]
+base="light" keep this as is.
+backgroundColor="ghostWhite" This changes the background color (unless CSS code in the peer_app.py specifies a different color). It can be a hex code too. for example "#FF0000" would set it as red.
+secondaryBackgroundColor="lavender" This changes colors of secondary elements (again unless CSS code specifies otherwise). Right now it only changes the color of dropdown menus.
 
-Part you might adjust -
+3. MAP OF PARTS OF THE APP TO CHANGE
 
-"background: rgba(255,255,255,.1);"
+Right now, stick with text edits and color edits.
+Search for "# OTHER WORDS" to find the section.
 
-This changes the (red, blue, green, alpha). 255,255,255 sets it to white
-and alpha is how transparent the background is. 0 is fully transparent, 1 is fully opaque.
+The map will go in order of the code.
 
-HEADER CONTAINER - Lines 
- 
+3.b. Change title wording - 
 
+line 302 - # Erykah - Header title.
+
+3.c. Change tab names - 
+
+line 304 - # Erykah - Change tab names.
+
+3.d. Language for "Landing page" tab -
+
+lines 306 - 318.
+
+3.e. Changing color of dynamic text for adequacy level
+
+Right now Illinois text is set to red. Other districts are set to red if it's negative and a blue teal if positive.
+
+Change color for each of these to get a different color text.
+
+This sets the color when illinois is selected.
+
+.adequacy-level .illinois-text {
+    color: #C4384D !important;
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.adequacy-level .district-negative {
+    color: #C4384D !important;
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+            
+.adequacy-level .district-positive {
+    color: #20a3bc !important;
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif !important;
+}

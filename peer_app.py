@@ -517,6 +517,8 @@ with tab1:
             display_gap = actual_resources - adequate_resources
         currency_format = "${:,.0f}"
         chart_title_suffix = ""
+
+    
         
 
     with stylable_container(
@@ -567,8 +569,7 @@ with tab1:
                 }
             """,
         ):
-            st.subheader('School Funding Needs:')
-            st.markdown("---")
+            st.subheader('School Funding Needs:',help="School funding needs are the costs of education.")
             st.markdown(f'<h2 class="adequacy-dollars-amount">${display_adequate:,.0f}</h2>', unsafe_allow_html=True)
         with stylable_container(
             key="school_funding_resources",
@@ -581,8 +582,7 @@ with tab1:
                 }
             """,
         ):
-            st.subheader('School Funding Resources:')
-            st.markdown('---')
+            st.subheader('School Funding Resources:',help="School funding resources are the actual resources.")
             st.markdown(f'<h2 class="adequacy-dollars-amount">${display_actual:,.0f}</h2>', unsafe_allow_html=True)
         with stylable_container(
             key="school_funding_gap",
@@ -597,13 +597,14 @@ with tab1:
         ):
         
             gap_class = "gap-positive" if display_gap > 0 else "gap-negative"
-            if display_gap < 0:
+            if display_gap < 0 and selection == "State of Illinois":
+                st.subheader('School Funding Gap:',help="ISBE calculates the EBF funding gap for Illinois words words words words. NOTE: The State of Illinois calculates the gap as the sum off all gaps so it will not equal the needs minus resources.")
+                st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
+            elif display_gap < 0:
                 st.subheader('School Funding Gap:',help="ISBE calculates the EBF funding gap for Illinois words words words words")
-                st.markdown("---")
                 st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
             else:
-                st.subheader('School Funding Surplus:')
-                st.markdown("---")
+                st.subheader('School Funding Surplus:',help="ISBE calculates the EBF funding gap for Illinois words words words words")
                 st.markdown(f'<h2 class="{gap_class}">${display_gap:,.0f}</h2>', unsafe_allow_html=True)
         
         button_text = "🏫 View Total Funding" if st.session_state.show_per_pupil else "👩‍🎓 View Per Pupil Funding"
