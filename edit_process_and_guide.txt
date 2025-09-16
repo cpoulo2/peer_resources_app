@@ -77,14 +77,58 @@ This sets the color when illinois is selected.
     font-family: 'Poppins', sans-serif !important;
 }
 
+The following sets the color when districts are select.
+
+If the district is below adequate.
+
 .adequacy-level .district-negative {
     color: #C4384D !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
             
+if the district is above adequate.
+
 .adequacy-level .district-positive {
     color: #20a3bc !important;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif !important;
 }
+
+3.f. Change color of dynamic text for adequate gaps
+
+Sets the color for positive gaps.
+
+.gap-positive {
+   color: #20a3bc !important;
+   text-align: center !important;
+   font-size: 32px !important;
+   font-family: Poppins;         
+   font-weight:;
+   margin-bottom: 5px !important;
+}        
+
+And this for negative gaps.
+
+.gap-negative {
+   color: #C4384D !important;
+   text-align: center !important;
+   font-size: 32px !important;
+   font-family: Poppins;
+   font-weight:;
+   margin-bottom: 5px !important;
+}
+
+3.g Set color for adequacy level container
+
+line 459 - right now it's set to #e0e7ff
+
+3.h Set color for adequacy funding and gap container
+
+line 526 - right now it's set to #e0e7ff
+
+3.i change color of school funding needs container, school funding resources, school funding gap
+
+lines 559 577, and 591
+
+
