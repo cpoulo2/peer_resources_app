@@ -714,7 +714,7 @@ with tab1:
 
     # Expandable container for revenue sources
 
-    with st.expander("Revenue by source"):
+    with st.expander("💰 Revenue by source 💰"):
         
         # Create a bar chart for revenue sources
         fig_rev = px.bar(
@@ -769,11 +769,16 @@ with tab1:
         fig_rev.update_yaxes(title_font_color='#141554')
         st.plotly_chart(fig_rev, use_container_width=True)
 
-        st.write("Add context here") # Erykah - Revenue by source context
+        st.markdown("""
+**Other local funding** comes from a variety of sources like fees for tuition, transportation, or textbooks.
+
+**Other state funding** comes from grants specifically for special education, transportation, bilingual education, and career and technical education.
+                    """,unsafe_allow_html=True) # Erykah - Revenue by source context
+
 
     # Expandable container for demographics
         
-    with st.expander("Demographics"):
+    with st.expander("🧑🏿‍🎓 Demographics 👩🏻‍🎓"):
     
     # Create a bar chart for demographics
         fig_demo = px.bar(
