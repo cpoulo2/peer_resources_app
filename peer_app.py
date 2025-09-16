@@ -714,7 +714,7 @@ with tab1:
 
     # Expandable container for revenue sources
 
-    with st.expander("💰 Revenue by source 💰"):
+    with st.expander("💰 Revenue by Source 💰"):
         
         # Create a bar chart for revenue sources
         fig_rev = px.bar(
