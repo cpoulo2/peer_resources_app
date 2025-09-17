@@ -34,7 +34,7 @@ Git commit adds a little note about the changes. You can be broad. For ex.
 
 This pushes all the changes to the github repo online.
 
-2. CONFIG file
+2. CONFIG FILE
 
 In the .streamlit folder. You will add changes as if it's
 a text file and save when you are done.
@@ -130,5 +130,17 @@ line 526 - right now it's set to #e0e7ff
 3.i change color of school funding needs container, school funding resources, school funding gap
 
 lines 559 577, and 591
+
+3.j Change wording in "help" hover menue
+
+Lines 572, 585, 601, 604, 607
+
+3.k Change Revenue context text
+
+lines 772-776
+
+3.l Change about page text
+
+Lines 1034 - 1053
 
 

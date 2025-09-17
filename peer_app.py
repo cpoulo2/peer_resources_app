@@ -313,9 +313,15 @@ with tab0:
 - Neat when **bolded**
 - And also *italicized*.
                 
-Some times words can even be <b><span style='color: red'>COLORS!!</b></span>
+Words can even be in <b><span style='color: red'>COLOR!!</b></span>
                 
 Every space is a new line.
+                
+## You can also use markdown to substitude for st.header()
+                
+### And st.subheader()
+                
+#### And smaller text
                 
                 """,unsafe_allow_html=True)
 
@@ -1034,20 +1040,38 @@ with tab2:
 with tab3:
     st.header("About the PEER Resource Lookup Tool") 
     st.subheader("About the Tool")
-    st.markdown("""The PEER resource lookup tool aims to do 3 things:
+    st.markdown("""The PEER - Illinois District Funding Tool aims to do 3 things:
 
-- **Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois and their school districts.
-- **Advocate:** Provide information by legislative district to pressure our political leaders to fund education.
-- **Organize:** Get people to join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
+**Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois and their school districts.
+
+**Advocate:** Provide information by legislative district to pressure our political leaders to fund education.
+
+**Organize:** Get people to join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
 """,unsafe_allow_html=True)
-    st.subheader("About the Data")
-    st.markdown("""All data comes from the Illinois State Board of Education. Evidence-Based Funding adequacy numbers are for fiscal year 2025.""",unsafe_allow_html=True)
+    
     st.subheader("About PEER IL")
     st.markdown("""
 The Partnership for Equity and Education Rights Illinois is a statewide advocacy network dedicated to driving increased investment in our children. We strive to ensure our kids have the resources and opportunities they need to succeed in public schools and beyond.
 
 PEER Illinois is bringing together students, parents, school community members and leaders, lawyers, tax and budget experts, advocates, and organizers to build a fair, fully-funded public education for all students and a brighter future for Illinois.
                 
-[Sign up to get involved!](https://www.peerillinois.org/contact)
+[Sign up to get involved!](https://www.peerillinois.org/contact)""",unsafe_allow_html=True)
+
+    st.subheader("About the Data")
+    st.markdown("""All data comes from the Illinois State Board of Education and represents the most recent information available.  
+
+[**Evidence-Based Funding (EBF) Distribution Calculation, Fiscal Year 2026**](https://www.isbe.net/ebfdist):  
+Used to calculate EBF adequacy targets (both funding amounts and positions) (referred to as *school funding needs* in the **District Resource Needs** tab) and district resources (referred to as *school funding resources* in the same tab).  
+
+[**Illinois Report Card, School Year 2024**](https://www.isbe.net/Pages/Illinois-State-Report-Card-Data.aspx):  
+Used to calculate district revenue sources, demographics, and actual position counts.  
+
+[**Educator Employment Information, 2024**](https://www.isbe.net/Pages/Educator-Employment-Information.aspx):  
+Used to calculate actual position counts not available in the Illinois Report Card.  
+
+[**Directory of Educational Entities (retrieved 9/16/2025)**](https://www.isbe.net/pages/data-analysis-directories.aspx):  
+Used to calculate students in legislative districts as a percentage of their respective school districts.  
+
+**Note:** For dollar-amount adequacy gaps (referred to as the *school funding gap* in the **District Resource Needs** tab), we use the EBF Distribution Calculation. For adequate position gaps, we subtract the actual positions (from the Illinois Report Card and Educator Employment Information) from the adequate staffing levels provided in the EBF Distribution Calculation.                                               
+                """,unsafe_allow_html=True)
                                  
-""",unsafe_allow_html=True)
