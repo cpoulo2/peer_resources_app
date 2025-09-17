@@ -1058,18 +1058,14 @@ PEER Illinois is bringing together students, parents, school community members a
     st.subheader("About the Data")
     st.markdown("""All data comes from the Illinois State Board of Education and represents the most recent information available.  
 
-[**Evidence-Based Funding (EBF) Distribution Calculation, Fiscal Year 2026**](https://www.isbe.net/ebfdist):  
+- [**Evidence-Based Funding (EBF) Distribution Calculation, Fiscal Year 2026**](https://www.isbe.net/ebfdist):  
 Used to calculate EBF adequacy targets (both funding amounts and positions) (referred to as *school funding needs* in the **District Resource Needs** tab) and district resources (referred to as *school funding resources* in the same tab).  
-
-[**Illinois Report Card, School Year 2024**](https://www.isbe.net/Pages/Illinois-State-Report-Card-Data.aspx):  
+- [**Illinois Report Card, School Year 2024**](https://www.isbe.net/Pages/Illinois-State-Report-Card-Data.aspx):  
 Used to calculate district revenue sources, demographics, and actual position counts.  
-
-[**Educator Employment Information, 2024**](https://www.isbe.net/Pages/Educator-Employment-Information.aspx):  
+- [**Educator Employment Information, 2024**](https://www.isbe.net/Pages/Educator-Employment-Information.aspx):  
 Used to calculate actual position counts not available in the Illinois Report Card.  
-
-[**Directory of Educational Entities (retrieved 9/16/2025)**](https://www.isbe.net/pages/data-analysis-directories.aspx):  
+- [**Directory of Educational Entities (retrieved 9/16/2025)**](https://www.isbe.net/pages/data-analysis-directories.aspx):  
 Used to calculate students in legislative districts as a percentage of their respective school districts.  
-
 **Note:** For dollar-amount adequacy gaps (referred to as the *school funding gap* in the **District Resource Needs** tab), we use the EBF Distribution Calculation. For adequate position gaps, we subtract the actual positions (from the Illinois Report Card and Educator Employment Information) from the adequate staffing levels provided in the EBF Distribution Calculation.                                               
                 """,unsafe_allow_html=True)
                                  
