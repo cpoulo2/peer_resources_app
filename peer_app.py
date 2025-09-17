@@ -1066,6 +1066,7 @@ Used to calculate district revenue sources, demographics, and actual position co
 Used to calculate actual position counts not available in the Illinois Report Card.  
 - [**Directory of Educational Entities (retrieved 9/16/2025)**](https://www.isbe.net/pages/data-analysis-directories.aspx):  
 Used to calculate students in legislative districts as a percentage of their respective school districts.  
-**Note:** For dollar-amount adequacy gaps (referred to as the *school funding gap* in the **District Resource Needs** tab), we use the EBF Distribution Calculation. For adequate position gaps, we subtract the actual positions (from the Illinois Report Card and Educator Employment Information) from the adequate staffing levels provided in the EBF Distribution Calculation.                                               
+
+                **Note:** For dollar-amount adequacy gaps (referred to as the *school funding gap* in the **District Resource Needs** tab), we use the EBF Distribution Calculation. For adequate position gaps, we subtract the actual positions (from the Illinois Report Card and Educator Employment Information) from the adequate staffing levels provided in the EBF Distribution Calculation.                                               
                 """,unsafe_allow_html=True)
                                  
