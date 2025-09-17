@@ -1043,9 +1043,7 @@ with tab3:
     st.markdown("""The PEER - Illinois District Funding Tool aims to do 3 things:
 
 - **Educate:** Provide those directly affected by K-12 resource inequality with easily accessible facts about resource inequality in the State of Illinois and their school districts.
-
 - **Advocate:** Provide information by legislative district to pressure our political leaders to fund education.
-
 - **Organize:** Get people to join PEER IL in the fight for fully resourced schools (learn more about PEER IL and sign up below).
 """,unsafe_allow_html=True)
     
